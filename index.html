@@ -11,18 +11,12 @@
 <style>
 :root{
 --black:#0a0a0a;
---dark:#111;
 --purple:#8a2be2;
 --glow:#b266ff;
 --white:#fff;
 }
 
-/* Reset & Body */
-*{margin:0;padding:0;box-sizing:border-box;font-family:'Poppins',sans-serif;}
-body{background:var(--black);color:white;overflow-x:hidden;position:relative;}
-
-/* Matrix Background */
-canvas#matrix{position:fixed;top:0;left:0;width:100%;height:100%;z-index:-1;}
+body{margin:0;padding:0;font-family:'Poppins',sans-serif;background:var(--black);color:white;overflow-x:hidden;}
 
 /* Navbar */
 nav{display:flex;justify-content:space-between;align-items:center;padding:20px 8%;background:rgba(0,0,0,0.8);backdrop-filter:blur(10px);position:fixed;width:100%;z-index:1000;}
@@ -32,6 +26,7 @@ nav a{color:white;text-decoration:none;transition:.3s;}
 nav a:hover{color:var(--purple);}
 #cartIcon{position:relative;cursor:pointer;color:white;}
 #cartCount{position:absolute;top:-10px;right:-10px;background:red;color:white;width:20px;height:20px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:bold;}
+
 /* Hero */
 .hero{height:100vh;display:flex;justify-content:center;align-items:center;flex-direction:column;text-align:center;padding-top:60px;}
 .hero h1{font-family:'Orbitron';font-size:55px;color:var(--glow);animation:glow 2s infinite alternate;}
@@ -44,25 +39,11 @@ nav a:hover{color:var(--purple);}
 section{padding:100px 8%;}
 .section-title{font-family:'Orbitron';color:var(--purple);text-align:center;margin-bottom:60px;font-size:36px;}
 
-/* Product Grid */
+/* Grid */
 .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:30px;}
-.card{
-  background:#121212;
-  padding:20px;
-  border-radius:10px;
-  transition:.4s;
-  border:1px solid #222;
-  position: relative;
-  overflow:hidden;
-  z-index:10;
-}
+.card{background:#121212;padding:20px;border-radius:10px;border:1px solid #222;position:relative;overflow:hidden;transition:.4s;}
 .card:hover{transform:translateY(-10px);box-shadow:0 0 25px var(--purple);}
-.card::after{content:"";position:absolute;top:0;left:0;width:100%;height:100%;background:linear-gradient(120deg, rgba(138,43,226,0.2), rgba(178,102,255,0.2));opacity:0;transition:.5s;border-radius:10px;}
-.card:hover::after{opacity:1;}
 .image{height:180px;background:#1e1e1e;border-radius:8px;margin-bottom:15px;}
-.card .btn{position: relative; z-index: 20; margin-top:10px;}
-
-/* Price & Quantity */
 .price{margin-top:10px;font-weight:bold;color:var(--purple);}
 .qty{margin-top:5px;width:60px;padding:5px;border-radius:5px;border:none;background:#1e1e1e;color:white;}
 
@@ -73,14 +54,6 @@ section{padding:100px 8%;}
 /* Fade Animations */
 .fade{opacity:0;transform:translateY(30px);transition:1s;}
 .fade.show{opacity:1;transform:translateY(0);}
-
-/* Glitch Effect for headings */
-.glitch{position:relative;color:white;font-size:55px;font-family:'Orbitron';}
-.glitch::before,.glitch::after{content:attr(data-text);position:absolute;left:0;}
-.glitch::before{animation:glitchTop 2s infinite;clip:rect(0,900px,0,0);}
-.glitch::after{animation:glitchBottom 2s infinite;clip:rect(0,900px,0,0);}
-@keyframes glitchTop{0%{transform:translate(0);}20%{transform:translate(-5px,-5px);}40%{transform:translate(5px,5px);}60%{transform:translate(-5px,5px);}80%{transform:translate(5px,-5px);}100%{transform:translate(0);}}
-@keyframes glitchBottom{0%{transform:translate(0);}20%{transform:translate(5px,5px);}40%{transform:translate(-5px,-5px);}60%{transform:translate(5px,-5px);}80%{transform:translate(-5px,5px);}100%{transform:translate(0);}}
 
 footer{text-align:center;padding:30px;background:#111;opacity:0.9;}
 .disclaimer{color:#aaa;text-align:center;margin-top:40px;font-size:14px;}
@@ -115,15 +88,14 @@ footer{text-align:center;padding:30px;background:#111;opacity:0.9;}
 </div>
 
 <div class="grid" id="productList">
+<!-- Products will be added here -->
 </div>
 
 <p class="disclaimer">All products are sold for educational purposes only.</p>
-
 <div class="contact-info">
 <span>Contact: 01288833842</span>
 <span>Email: Cyber.tech7799@gmail.com</span>
 </div>
-
 </section>
 
 <footer>
@@ -131,7 +103,7 @@ footer{text-align:center;padding:30px;background:#111;opacity:0.9;}
 </footer>
 
 <script>
-// Products
+// Products data
 const products=[
 {name:"Tool 1",desc:"Description of tool 1",price:600},
 {name:"Tool 2",desc:"Description of tool 2",price:250},
@@ -145,17 +117,18 @@ const products=[
 {name:"Tool 10",desc:"Description of tool 10",price:650},
 ];
 
-// Add product cards
 const grid=document.getElementById("productList");
 products.forEach((p,i)=>{
   const card=document.createElement("div");
   card.className="card fade";
-  card.innerHTML=`<div class="image"></div>
-  <h3>${p.name}</h3>
-  <p>${p.desc}</p>
-  <div class="price">Price: ${p.price} EGP</div>
-  <input class="qty" type="number" min="1" value="1" id="qty${i}">
-  <a class="btn addBtn" href="#" onclick="addToCart(${i})">Add to Cart</a>`;
+  card.innerHTML=`
+    <div class="image"></div>
+    <h3>${p.name}</h3>
+    <p>${p.desc}</p>
+    <div class="price">Price: ${p.price} EGP</div>
+    <input class="qty" type="number" min="1" value="1" id="qty${i}">
+    <a class="btn" href="#" onclick="addToCart(${i})">Add to Cart</a>
+  `;
   grid.appendChild(card);
 });
 
@@ -177,12 +150,9 @@ document.getElementById("search").addEventListener("keyup",function(){
   });
 });
 
-// Cart logic
+// Cart
 let cart=[];
-function updateCartCount(){
-  document.getElementById("cartCount").textContent=cart.length;
-}
-
+function updateCartCount(){document.getElementById("cartCount").textContent=cart.length;}
 function addToCart(index){
   const qty=parseInt(document.getElementById("qty"+index).value);
   const product=products[index];
@@ -191,9 +161,9 @@ function addToCart(index){
   updateCartCount();
 }
 
-// Click on cart to send WhatsApp
+// Click cart to send WhatsApp
 document.getElementById("cartIcon").addEventListener("click",()=>{
-  if(cart.length===0) return alert("Cart is empty!");
+  if(cart.length===0){alert("Cart is empty!"); return;}
   let msg="Order Summary:\n";
   let total=0;
   cart.forEach(item=>{
@@ -205,7 +175,7 @@ document.getElementById("cartIcon").addEventListener("click",()=>{
   window.open(url,"_blank");
 });
 
-// Typing + Matrix
+// Matrix effect
 const canvas=document.getElementById("matrix");
 const ctx=canvas.getContext("2d");
 canvas.width=window.innerWidth;
@@ -216,20 +186,19 @@ let columns=canvas.width/fontSize;
 let drops=[];
 for(let x=0;x<columns;x++)drops[x]=1;
 function draw(){
-ctx.fillStyle="rgba(0,0,0,0.05)";
-ctx.fillRect(0,0,canvas.width,canvas.height);
-ctx.fillStyle="#8a2be2";
-ctx.font=fontSize+"px monospace";
-for(let i=0;i<drops.length;i++){
-let text=letters[Math.floor(Math.random()*letters.length)];
-ctx.fillText(text,i*fontSize,drops[i]*fontSize);
-if(drops[i]*fontSize>canvas.height&&Math.random()>0.975)drops[i]=0;
-drops[i]++;
-}
-requestAnimationFrame(draw);
+  ctx.fillStyle="rgba(0,0,0,0.05)";
+  ctx.fillRect(0,0,canvas.width,canvas.height);
+  ctx.fillStyle="#8a2be2";
+  ctx.font=fontSize+"px monospace";
+  for(let i=0;i<drops.length;i++){
+    let text=letters[Math.floor(Math.random()*letters.length)];
+    ctx.fillText(text,i*fontSize,drops[i]*fontSize);
+    if(drops[i]*fontSize>canvas.height && Math.random()>0.975) drops[i]=0;
+    drops[i]++;
+  }
+  requestAnimationFrame(draw);
 }
 draw();
 </script>
-
 </body>
 </html>
