@@ -5,17 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Cyber Tech Store | Security Tools</title>
 
-<!-- Fonts -->
 <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Poppins:wght@300;400;500&display=swap" rel="stylesheet">
-
-<!-- Google Analytics -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
-<script>
-window.dataLayer = window.dataLayer || [];
-function gtag(){dataLayer.push(arguments);}
-gtag('js', new Date());
-gtag('config', 'G-XXXXXXXXXX');
-</script>
 
 <style>
 :root{
@@ -25,79 +15,51 @@ gtag('config', 'G-XXXXXXXXXX');
 --glow:#b266ff;
 --white:#fff;
 }
-
-/* Reset & Body */
 *{margin:0;padding:0;box-sizing:border-box;font-family:'Poppins',sans-serif;}
 body{background:var(--black);color:white;overflow-x:hidden;position:relative;}
-
-/* Matrix Background */
 canvas#matrix{position:fixed;top:0;left:0;width:100%;height:100%;z-index:-1;}
-
-/* Navbar */
 nav{display:flex;justify-content:space-between;align-items:center;padding:20px 8%;background:rgba(0,0,0,0.8);backdrop-filter:blur(10px);position:fixed;width:100%;z-index:1000;}
 .logo{font-family:'Orbitron';color:var(--purple);font-size:22px;}
 nav ul{display:flex;gap:25px;list-style:none;}
 nav a{color:white;text-decoration:none;transition:.3s;}
 nav a:hover{color:var(--purple);}
-
-/* Hero */
 .hero{height:100vh;display:flex;justify-content:center;align-items:center;flex-direction:column;text-align:center;padding-top:60px;}
 .hero h1{font-family:'Orbitron';font-size:55px;color:var(--glow);animation:glow 2s infinite alternate;}
 @keyframes glow{from{text-shadow:0 0 10px var(--purple);}to{text-shadow:0 0 30px var(--glow);}}
 .hero p{margin-top:20px;max-width:600px;opacity:0.8;font-size:18px;}
-.btn{margin-top:30px;padding:12px 28px;background:var(--purple);border:none;border-radius:6px;color:white;cursor:pointer;transition:.3s;text-decoration:none;display:inline-block;}
+.btn{margin-top:10px;padding:10px 20px;background:var(--purple);border:none;border-radius:6px;color:white;cursor:pointer;transition:.3s;text-decoration:none;display:inline-block;}
 .btn:hover{background:var(--glow);transform:scale(1.05);}
-
-/* Sections */
 section{padding:100px 8%;}
 .section-title{font-family:'Orbitron';color:var(--purple);text-align:center;margin-bottom:60px;font-size:36px;}
-
-/* Product Grid */
 .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:30px;}
-.card{
-  background:#121212;
-  padding:20px;
-  border-radius:10px;
-  transition:.4s;
-  border:1px solid #222;
-  position: relative;
-  overflow:hidden;
-  z-index:10;
-}
+.card{background:#121212;padding:20px;border-radius:10px;transition:.4s;border:1px solid #222;position: relative;overflow:hidden;z-index:10;}
 .card:hover{transform:translateY(-10px);box-shadow:0 0 25px var(--purple);}
 .card::after{content:"";position:absolute;top:0;left:0;width:100%;height:100%;background:linear-gradient(120deg, rgba(138,43,226,0.2), rgba(178,102,255,0.2));opacity:0;transition:.5s;border-radius:10px;}
 .card:hover::after{opacity:1;}
 .image{height:180px;background:#1e1e1e;border-radius:8px;margin-bottom:15px;}
-.card .btn{position: relative; z-index: 20; margin-top:10px;}
-
-/* Price & Quantity */
 .price{margin-top:10px;font-weight:bold;color:var(--purple);}
 .qty{margin-top:5px;width:60px;padding:5px;border-radius:5px;border:none;background:#1e1e1e;color:white;}
-
-/* Filter */
-.filter{text-align:center;margin-bottom:40px;}
-.filter input{padding:10px;width:250px;border:none;border-radius:6px;background:#1e1e1e;color:white;}
-
-/* Fade Animations */
 .fade{opacity:0;transform:translateY(30px);transition:1s;}
 .fade.show{opacity:1;transform:translateY(0);}
-
-/* Glitch Effect for headings */
 .glitch{position:relative;color:white;font-size:55px;font-family:'Orbitron';}
 .glitch::before,.glitch::after{content:attr(data-text);position:absolute;left:0;}
 .glitch::before{animation:glitchTop 2s infinite;clip:rect(0,900px,0,0);}
 .glitch::after{animation:glitchBottom 2s infinite;clip:rect(0,900px,0,0);}
 @keyframes glitchTop{0%{transform:translate(0);}20%{transform:translate(-5px,-5px);}40%{transform:translate(5px,5px);}60%{transform:translate(-5px,5px);}80%{transform:translate(5px,-5px);}100%{transform:translate(0);}}
 @keyframes glitchBottom{0%{transform:translate(0);}20%{transform:translate(5px,5px);}40%{transform:translate(-5px,-5px);}60%{transform:translate(5px,-5px);}80%{transform:translate(-5px,5px);}100%{transform:translate(0);}}
-
 footer{text-align:center;padding:30px;background:#111;opacity:0.9;}
 .disclaimer{color:#aaa;text-align:center;margin-top:40px;font-size:14px;}
 .contact-info{display:flex;flex-direction:column;align-items:center;margin-top:20px;font-size:16px;}
 .contact-info span{margin:5px 0;}
+/* Cart */
+#cart{position:fixed;right:20px;top:100px;background:#111;border:1px solid #222;padding:20px;border-radius:10px;width:300px;max-height:80vh;overflow-y:auto;z-index:999;}
+#cart h3{color:var(--purple);margin-bottom:10px;}
+.cart-item{display:flex;justify-content:space-between;margin-bottom:10px;}
+.cart-item span{color:white;}
+#checkout{margin-top:10px;width:100%;display:block;}
 </style>
 </head>
 <body>
-
 <canvas id="matrix"></canvas>
 
 <nav>
@@ -116,14 +78,25 @@ footer{text-align:center;padding:30px;background:#111;opacity:0.9;}
 
 <section id="products">
 <h2 class="section-title">Our Tools</h2>
-
 <div class="filter">
 <input type="text" id="search" placeholder="Search tool...">
 </div>
+<div class="grid" id="productList"></div>
 
-<div class="grid" id="productList">
+<p class="disclaimer">All products are sold for educational purposes only.</p>
+<div class="contact-info">
+<span>Contact: 01288833842</span>
+<span>Email: Cyber.tech7799@gmail.com</span>
+</div>
+</section>
 
-<!-- 10 Product Cards -->
+<!-- Cart -->
+<div id="cart">
+<h3>Shopping Cart</h3>
+<div id="cartItems"></div>
+<button id="checkout" class="btn">Send Order via WhatsApp</button>
+</div>
+
 <script>
 const products=[
 {name:"Tool 1",desc:"Description of tool 1",price:600},
@@ -137,7 +110,12 @@ const products=[
 {name:"Tool 9",desc:"Description of tool 9",price:550},
 {name:"Tool 10",desc:"Description of tool 10",price:650},
 ];
+
 const grid=document.getElementById("productList");
+const cartItemsDiv=document.getElementById("cartItems");
+let cart=[];
+
+// Render products
 products.forEach((p,i)=>{
   const card=document.createElement("div");
   card.className="card fade";
@@ -149,22 +127,41 @@ products.forEach((p,i)=>{
   <a class="btn" href="#" onclick="addToCart(${i})">Add to Cart</a>`;
   grid.appendChild(card);
 });
-</script>
 
-<p class="disclaimer">All products are sold for educational purposes only.</p>
+// Cart functions
+function addToCart(index){
+  const qty=parseInt(document.getElementById("qty"+index).value);
+  if(qty<1) return;
+  const product=products[index];
+  let found=cart.find(item=>item.name===product.name);
+  if(found){found.qty=qty;}else{cart.push({name:product.name,qty:qty,price:product.price});}
+  renderCart();
+}
 
-<div class="contact-info">
-<span>Contact: 01288833842</span>
-<span>Email: Cyber.tech7799@gmail.com</span>
-</div>
+function renderCart(){
+  cartItemsDiv.innerHTML="";
+  cart.forEach((item,i)=>{
+    const div=document.createElement("div");
+    div.className="cart-item";
+    div.innerHTML=`<span>${item.name} x${item.qty}</span><span>${item.price*item.qty} EGP</span>`;
+    cartItemsDiv.appendChild(div);
+  });
+}
 
-</section>
+// Checkout
+document.getElementById("checkout").addEventListener("click",()=>{
+  if(cart.length===0) return alert("Cart is empty");
+  let msg="Order Summary:\n";
+  let total=0;
+  cart.forEach(item=>{
+    msg+=`${item.name} x${item.qty} = ${item.price*item.qty} EGP\n`;
+    total+=item.price*item.qty;
+  });
+  msg+="-----------------\nTotal: "+total+" EGP";
+  const url="https://wa.me/201288833842?text="+encodeURIComponent(msg);
+  window.open(url,"_blank");
+});
 
-<footer>
-©️ 2026 Cyber Tech Store | All Rights Reserved
-</footer>
-
-<script>
 // Typing + Matrix
 const canvas=document.getElementById("matrix");
 const ctx=canvas.getContext("2d");
@@ -206,29 +203,6 @@ document.querySelectorAll(".card").forEach(card=>{
 card.style.display=card.innerText.toLowerCase().includes(value)?"block":"none";
 });
 });
-
-// Cart logic
-let cart=[];
-function addToCart(index){
-  const qty=document.getElementById("qty"+index).value;
-  const product=products[index];
-  let found=cart.find(item=>item.name===product.name);
-  if(found){found.qty=parseInt(qty);}else{cart.push({name:product.name,qty:parseInt(qty),price:product.price});}
-  sendCart();
-}
-function sendCart(){
-  if(cart.length===0) return;
-  let msg="Order Summary:\n";
-  let total=0;
-  cart.forEach(item=>{
-    msg+=`${item.name} x${item.qty} = ${item.price*item.qty} EGP\n`;
-    total+=item.price*item.qty;
-  });
-  msg+="-----------------\nTotal: "+total+" EGP";
-  const url="https://wa.me/201288833842?text="+encodeURIComponent(msg);
-  window.open(url,"_blank");
-}
 </script>
-
 </body>
 </html>
