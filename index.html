@@ -4,9 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Cyber Tech Store | Security Tools</title>
-
 <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Poppins:wght@300;400;500&display=swap" rel="stylesheet">
-
 <style>
 :root{
 --black:#0a0a0a;
@@ -107,9 +105,10 @@ const products=[
 const grid=document.getElementById("productList");
 const cartItemsDiv=document.getElementById("cartItems");
 const totalDiv=document.getElementById("total");
+const sendBtn=document.getElementById("sendOrder");
 let cart=[];
 
-// Create Product Cards
+// Create Product Cards and bind Add to Cart
 products.forEach((p,i)=>{
   const card=document.createElement("div");
   card.className="card fade";
@@ -117,20 +116,22 @@ products.forEach((p,i)=>{
   <h3>${p.name}</h3>
   <p>${p.desc}</p>
   <div class="price">Price: ${p.price} EGP</div>
-  <input class="qty" type="number" min="1" value="1">
-  <button class="btn addBtn">Add to Cart</button>`;
+  <input class="qty" type="number" min="1" value="1" data-index="${i}">
+  <button class="btn addBtn" data-index="${i}">Add to Cart</button>`;
   grid.appendChild(card);
 });
 
-// Add Event Listeners to Buttons
-document.querySelectorAll(".addBtn").forEach((btn,i)=>{
-  btn.addEventListener("click",()=>{
-    const qty=parseInt(btn.previousElementSibling.value);
-    const product=products[i];
+// Event Delegation for dynamic buttons
+grid.addEventListener("click", e=>{
+  if(e.target.classList.contains("addBtn")){
+    const index=parseInt(e.target.getAttribute("data-index"));
+    const qtyInput=document.querySelector(`.qty[data-index='${index}']`);
+    const qty=parseInt(qtyInput.value);
+    const product=products[index];
     let found=cart.find(item=>item.name===product.name);
-    if(found){found.qty=qty;}else{cart.push({name:product.name,qty:qty,price:product.price});}
+    if(found){found.qty=qty;} else {cart.push({name:product.name,qty:qty,price:product.price});}
     renderCart();
-  });
+  }
 });
 
 function renderCart(){
@@ -147,7 +148,7 @@ function renderCart(){
   totalDiv.innerText="Total: "+total+" EGP";
 }
 
-document.getElementById("sendOrder").addEventListener("click",()=>{
+sendBtn.addEventListener("click", ()=>{
   if(cart.length===0){alert("Cart is empty"); return;}
   let msg="Order Summary:\n";
   let total=0;
@@ -156,16 +157,15 @@ document.getElementById("sendOrder").addEventListener("click",()=>{
     total+=item.price*item.qty;
   });
   msg+="-----------------\nTotal: "+total+" EGP";
-  const url="https://wa.me/201288833842?text="+encodeURIComponent(msg);
-  window.open(url,"_blank");
+  window.open("https://wa.me/201288833842?text="+encodeURIComponent(msg), "_blank");
 });
 
 // Search filter
 document.getElementById("search").addEventListener("keyup",function(){
-let value=this.value.toLowerCase();
-document.querySelectorAll(".card").forEach(card=>{
-card.style.display=card.innerText.toLowerCase().includes(value)?"block":"none";
-});
+  let value=this.value.toLowerCase();
+  document.querySelectorAll(".card").forEach(card=>{
+    card.style.display=card.innerText.toLowerCase().includes(value)?"block":"none";
+  });
 });
 </script>
 
