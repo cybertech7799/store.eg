@@ -91,6 +91,7 @@ footer{text-align:center;padding:30px;background:#111;opacity:0.9;}
 <div class="grid" id="productList"></div>
 
 <p class="disclaimer">All products are sold for educational purposes only.</p>
+
 <div class="contact-info">
 <span>Contact: 01288833842</span>
 <span>Email: Cyber.tech7799@gmail.com</span>
@@ -174,7 +175,7 @@ document.getElementById("search").addEventListener("keyup",function(){
   });
 });
 
-// Cart
+// Cart logic
 let cart=[];
 function updateCartCount(){document.getElementById("cartCount").textContent=cart.length;}
 function addToCart(index){
