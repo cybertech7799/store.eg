@@ -4,54 +4,132 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Cyber Tech Store | Security Tools</title>
+
+<!-- Fonts -->
 <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Poppins:wght@300;400;500&display=swap" rel="stylesheet">
+
 <style>
 :root{
 --black:#0a0a0a;
+--dark:#111;
 --purple:#8a2be2;
 --glow:#b266ff;
 --white:#fff;
 }
+
+/* Reset & Body */
 *{margin:0;padding:0;box-sizing:border-box;font-family:'Poppins',sans-serif;}
-body{background:var(--black);color:white;overflow-x:hidden;}
+body{background:var(--black);color:white;overflow-x:hidden;position:relative;}
+
+/* Matrix Background */
+canvas#matrix{position:fixed;top:0;left:0;width:100%;height:100%;z-index:-1;}
+
+/* Navbar */
 nav{display:flex;justify-content:space-between;align-items:center;padding:20px 8%;background:rgba(0,0,0,0.8);backdrop-filter:blur(10px);position:fixed;width:100%;z-index:1000;}
 .logo{font-family:'Orbitron';color:var(--purple);font-size:22px;}
-nav ul{display:flex;gap:25px;list-style:none;}
+nav ul{display:flex;gap:25px;list-style:none;align-items:center;}
 nav a{color:white;text-decoration:none;transition:.3s;}
 nav a:hover{color:var(--purple);}
-.hero{height:90vh;display:flex;justify-content:center;align-items:center;flex-direction:column;text-align:center;padding-top:60px;}
+
+/* Cart Icon */
+#cartIcon{position:relative;cursor:pointer;color:white;font-weight:bold;}
+#cartCount{
+  position:absolute;
+  top:-8px; right:-12px;
+  background:var(--purple);
+  width:20px;height:20px;
+  border-radius:50%;
+  display:flex;justify-content:center;align-items:center;
+  font-size:12px;
+  font-weight:bold;
+}
+
+/* Hero */
+.hero{height:100vh;display:flex;justify-content:center;align-items:center;flex-direction:column;text-align:center;padding-top:60px;}
 .hero h1{font-family:'Orbitron';font-size:55px;color:var(--glow);animation:glow 2s infinite alternate;}
 @keyframes glow{from{text-shadow:0 0 10px var(--purple);}to{text-shadow:0 0 30px var(--glow);}}
 .hero p{margin-top:20px;max-width:600px;opacity:0.8;font-size:18px;}
-.btn{margin-top:10px;padding:12px 28px;background:var(--purple);border:none;border-radius:6px;color:white;cursor:pointer;transition:.3s;text-decoration:none;display:inline-block;}
+.btn{margin-top:30px;padding:12px 28px;background:var(--purple);border:none;border-radius:6px;color:white;cursor:pointer;transition:.3s;text-decoration:none;display:inline-block;}
 .btn:hover{background:var(--glow);transform:scale(1.05);}
+
+/* Sections */
 section{padding:100px 8%;}
 .section-title{font-family:'Orbitron';color:var(--purple);text-align:center;margin-bottom:60px;font-size:36px;}
+
+/* Product Grid */
 .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:30px;}
-.card{background:#121212;padding:20px;border-radius:10px;transition:.4s;border:1px solid #222;position:relative;overflow:hidden;z-index:10;}
+.card{
+  background:#121212;
+  padding:20px;
+  border-radius:10px;
+  transition:.4s;
+  border:1px solid #222;
+  position: relative;
+  overflow:hidden;
+  z-index:10;
+}
 .card:hover{transform:translateY(-10px);box-shadow:0 0 25px var(--purple);}
+.card::after{content:"";position:absolute;top:0;left:0;width:100%;height:100%;background:linear-gradient(120deg, rgba(138,43,226,0.2), rgba(178,102,255,0.2));opacity:0;transition:.5s;border-radius:10px;}
+.card:hover::after{opacity:1;}
 .image{height:180px;background:#1e1e1e;border-radius:8px;margin-bottom:15px;}
+
+/* Price & Quantity */
 .price{margin-top:10px;font-weight:bold;color:var(--purple);}
 .qty{margin-top:5px;width:60px;padding:5px;border-radius:5px;border:none;background:#1e1e1e;color:white;}
-#cart{background:#111;padding:20px;margin-top:40px;border-radius:10px;}
-#cart h3{color:var(--purple);margin-bottom:20px;}
-.cart-item{display:flex;justify-content:space-between;margin-bottom:10px;}
-#total{margin-top:15px;font-weight:bold;color:var(--glow);}
-#sendOrder{margin-top:20px;display:block;width:100%;text-align:center;}
+
+/* Filter */
 .filter{text-align:center;margin-bottom:40px;}
 .filter input{padding:10px;width:250px;border:none;border-radius:6px;background:#1e1e1e;color:white;}
-.contact-info{text-align:center;margin-top:40px;font-size:16px;}
-.contact-info span{display:block;margin:5px 0;}
-.disclaimer{text-align:center;color:#aaa;margin-top:20px;font-size:14px;}
+
+/* Fade Animations */
+.fade{opacity:0;transform:translateY(30px);transition:1s;}
+.fade.show{opacity:1;transform:translateY(0);}
+
+/* Glitch Effect for headings */
+.glitch{position:relative;color:white;font-size:55px;font-family:'Orbitron';}
+.glitch::before,.glitch::after{content:attr(data-text);position:absolute;left:0;}
+.glitch::before{animation:glitchTop 2s infinite;clip:rect(0,900px,0,0);}
+.glitch::after{animation:glitchBottom 2s infinite;clip:rect(0,900px,0,0);}
+@keyframes glitchTop{0%{transform:translate(0);}20%{transform:translate(-5px,-5px);}40%{transform:translate(5px,5px);}60%{transform:translate(-5px,5px);}80%{transform:translate(5px,-5px);}100%{transform:translate(0);}}
+@keyframes glitchBottom{0%{transform:translate(0);}20%{transform:translate(5px,5px);}40%{transform:translate(-5px,-5px);}60%{transform:translate(5px,-5px);}80%{transform:translate(-5px,5px);}100%{transform:translate(0);}}
+
+/* Toast Notification */
+#toast{
+  position:fixed;bottom:30px;right:30px;background:linear-gradient(90deg,#8a2be2,#b266ff);
+  padding:12px 20px;border-radius:8px;color:white;font-weight:bold;opacity:0;
+  pointer-events:none;transition:opacity 0.5s;
+  z-index:10000;
+}
+#toast.show{opacity:1;}
+
+/* Cart Animation */
+@keyframes shake{
+  0%{transform:translateX(0);}
+  20%{transform:translateX(-5px);}
+  40%{transform:translateX(5px);}
+  60%{transform:translateX(-5px);}
+  80%{transform:translateX(5px);}
+  100%{transform:translateX(0);}
+}
+
+/* Button hover */
+.addBtn:hover{transform:scale(1.05);background:linear-gradient(90deg,#8a2be2,#b266ff);}
+footer{text-align:center;padding:30px;background:#111;opacity:0.9;}
+.disclaimer{color:#aaa;text-align:center;margin-top:40px;font-size:14px;}
+.contact-info{display:flex;flex-direction:column;align-items:center;margin-top:20px;font-size:16px;}
+.contact-info span{margin:5px 0;}
 </style>
 </head>
 <body>
+
+<canvas id="matrix"></canvas>
 
 <nav>
 <div class="logo">CYBER TECH</div>
 <ul>
 <li><a href="#">Home</a></li>
 <li><a href="#products">Products</a></li>
+<li id="cartIcon">Cart <span id="cartCount">0</span></li>
 </ul>
 </nav>
 
@@ -63,18 +141,12 @@ section{padding:100px 8%;}
 
 <section id="products">
 <h2 class="section-title">Our Tools</h2>
+
 <div class="filter">
 <input type="text" id="search" placeholder="Search tool...">
 </div>
 
 <div class="grid" id="productList"></div>
-
-<div id="cart">
-<h3>Your Cart</h3>
-<div id="cartItems">No items yet</div>
-<div id="total">Total: 0 EGP</div>
-<a href="#" class="btn" id="sendOrder">Send Order via WhatsApp</a>
-</div>
 
 <p class="disclaimer">All products are sold for educational purposes only.</p>
 
@@ -82,33 +154,61 @@ section{padding:100px 8%;}
 <span>Contact: 01288833842</span>
 <span>Email: Cyber.tech7799@gmail.com</span>
 </div>
-
 </section>
 
-<footer>©️ 2026 Cyber Tech Store | All Rights Reserved</footer>
+<div id="toast">Added to cart!</div>
+
+<footer>
+©️ 2026 Cyber Tech Store | All Rights Reserved
+</footer>
 
 <script>
-// Products Array
-const products=[
-{name:"Tool 1",desc:"Description 1",price:600},
-{name:"Tool 2",desc:"Description 2",price:250},
-{name:"Tool 3",desc:"Description 3",price:400},
-{name:"Tool 4",desc:"Description 4",price:350},
-{name:"Tool 5",desc:"Description 5",price:500},
-{name:"Tool 6",desc:"Description 6",price:700},
-{name:"Tool 7",desc:"Description 7",price:300},
-{name:"Tool 8",desc:"Description 8",price:450},
-{name:"Tool 9",desc:"Description 9",price:550},
-{name:"Tool 10",desc:"Description 10",price:650}
-];
+// Matrix
+const canvas=document.getElementById("matrix");
+const ctx=canvas.getContext("2d");
+canvas.width=window.innerWidth;
+canvas.height=window.innerHeight;
+let letters="01".split("");
+let fontSize=14;
+let columns=canvas.width/fontSize;
+let drops=[];
+for(let x=0;x<columns;x++)drops[x]=1;
+function draw(){
+ctx.fillStyle="rgba(0,0,0,0.05)";
+ctx.fillRect(0,0,canvas.width,canvas.height);
+ctx.fillStyle="#8a2be2";
+ctx.font=fontSize+"px monospace";
+for(let i=0;i<drops.length;i++){
+let text=letters[Math.floor(Math.random()*letters.length)];
+ctx.fillText(text,i*fontSize,drops[i]*fontSize);
+if(drops[i]*fontSize>canvas.height&&Math.random()>0.975)drops[i]=0;
+drops[i]++;
+}
+requestAnimationFrame(draw);
+}
+draw();
 
-const grid=document.getElementById("productList");
-const cartItemsDiv=document.getElementById("cartItems");
-const totalDiv=document.getElementById("total");
-const sendBtn=document.getElementById("sendOrder");
+// Fade on scroll
+document.querySelectorAll(".fade").forEach(el=>{
+  window.addEventListener("scroll",()=>{const top=el.getBoundingClientRect().top;if(top<window.innerHeight-100) el.classList.add("show");});
+});
+
+// Products
+const products=[
+{name:"Tool 1",desc:"Description of tool 1",price:600},
+{name:"Tool 2",desc:"Description of tool 2",price:250},
+{name:"Tool 3",desc:"Description of tool 3",price:400},
+{name:"Tool 4",desc:"Description of tool 4",price:350},
+{name:"Tool 5",desc:"Description of tool 5",price:500},
+{name:"Tool 6",desc:"Description of tool 6",price:700},
+{name:"Tool 7",desc:"Description of tool 7",price:300},
+{name:"Tool 8",desc:"Description of tool 8",price:450},
+{name:"Tool 9",desc:"Description of tool 9",price:550},
+{name:"Tool 10",desc:"Description of tool 10",price:650},
+];
 let cart=[];
 
-// Create Product Cards and bind Add to Cart
+const grid=document.getElementById("productList");
 products.forEach((p,i)=>{
   const card=document.createElement("div");
   card.className="card fade";
@@ -116,40 +216,42 @@ products.forEach((p,i)=>{
   <h3>${p.name}</h3>
   <p>${p.desc}</p>
   <div class="price">Price: ${p.price} EGP</div>
-  <input class="qty" type="number" min="1" value="1" data-index="${i}">
-  <button class="btn addBtn" data-index="${i}">Add to Cart</button>`;
+  <input class="qty" type="number" min="1" value="1" id="qty${i}">
+  <a class="btn addBtn" href="#" onclick="addToCart(${i})">Add to Cart</a>`;
   grid.appendChild(card);
 });
 
-// Event Delegation for dynamic buttons
-grid.addEventListener("click", e=>{
-  if(e.target.classList.contains("addBtn")){
-    const index=parseInt(e.target.getAttribute("data-index"));
-    const qtyInput=document.querySelector(`.qty[data-index='${index}']`);
-    const qty=parseInt(qtyInput.value);
-    const product=products[index];
-    let found=cart.find(item=>item.name===product.name);
-    if(found){found.qty=qty;} else {cart.push({name:product.name,qty:qty,price:product.price});}
-    renderCart();
-  }
-});
+// Toast
+const toast=document.getElementById("toast");
 
-function renderCart(){
-  cartItemsDiv.innerHTML="";
-  if(cart.length===0){cartItemsDiv.innerText="No items yet"; totalDiv.innerText="Total: 0 EGP"; return;}
-  let total=0;
-  cart.forEach(item=>{
-    const div=document.createElement("div");
-    div.className="cart-item";
-    div.innerHTML=`<span>${item.name} x ${item.qty}</span><span>${item.price*item.qty} EGP</span>`;
-    cartItemsDiv.appendChild(div);
-    total+=item.price*item.qty;
-  });
-  totalDiv.innerText="Total: "+total+" EGP";
+function addToCart(i){
+  const qty=parseInt(document.getElementById("qty"+i).value);
+  const prod=products[i];
+  const existing=cart.find(item=>item.name===prod.name);
+  if(existing){existing.qty=qty;}else{cart.push({name:prod.name,price:prod.price,qty:qty});}
+
+  // Update cart counter
+  document.getElementById("cartCount").innerText=cart.reduce((a,b)=>a+b.qty,0);
+
+  // Show toast & shake
+  toast.innerText=`${prod.name} x${qty} added to cart!`;
+  toast.classList.add("show");
+  const cartIcon=document.getElementById("cartIcon");
+  cartIcon.style.animation="shake 0.5s";
+  setTimeout(()=>{toast.classList.remove("show");cartIcon.style.animation="";},800);
 }
 
-sendBtn.addEventListener("click", ()=>{
-  if(cart.length===0){alert("Cart is empty"); return;}
+// Search filter
+document.getElementById("search").addEventListener("keyup",function(){
+  const val=this.value.toLowerCase();
+  document.querySelectorAll(".card").forEach((card,i)=>{
+    card.style.display=products[i].name.toLowerCase().includes(val)||products[i].desc.toLowerCase().includes(val)?"block":"none";
+  });
+});
+
+// Cart click sends WhatsApp message
+document.getElementById("cartIcon").addEventListener("click",()=>{
+  if(cart.length===0){toast.innerText="Cart is empty!";toast.classList.add("show");setTimeout(()=>{toast.classList.remove("show");},1500);return;}
   let msg="Order Summary:\n";
   let total=0;
   cart.forEach(item=>{
@@ -157,17 +259,9 @@ sendBtn.addEventListener("click", ()=>{
     total+=item.price*item.qty;
   });
   msg+="-----------------\nTotal: "+total+" EGP";
-  window.open("https://wa.me/201288833842?text="+encodeURIComponent(msg), "_blank");
-});
-
-// Search filter
-document.getElementById("search").addEventListener("keyup",function(){
-  let value=this.value.toLowerCase();
-  document.querySelectorAll(".card").forEach(card=>{
-    card.style.display=card.innerText.toLowerCase().includes(value)?"block":"none";
-  });
+  const url="https://wa.me/201288833842?text="+encodeURIComponent(msg);
+  window.open(url,"_blank");
 });
 </script>
-
 </body>
 </html>
