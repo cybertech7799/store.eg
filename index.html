@@ -5,7 +5,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Cyber Tech Store | Security Tools</title>
 
-<!-- Fonts -->
 <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Poppins:wght@300;400;500&display=swap" rel="stylesheet">
 
 <style>
@@ -15,65 +14,40 @@
 --glow:#b266ff;
 --white:#fff;
 }
-
 *{margin:0;padding:0;box-sizing:border-box;font-family:'Poppins',sans-serif;}
-body{background:var(--black);color:white;overflow-x:hidden;position:relative;}
-canvas#matrix{position:fixed;top:0;left:0;width:100%;height:100%;z-index:-1;}
-
-/* Navbar */
+body{background:var(--black);color:white;overflow-x:hidden;}
 nav{display:flex;justify-content:space-between;align-items:center;padding:20px 8%;background:rgba(0,0,0,0.8);backdrop-filter:blur(10px);position:fixed;width:100%;z-index:1000;}
 .logo{font-family:'Orbitron';color:var(--purple);font-size:22px;}
 nav ul{display:flex;gap:25px;list-style:none;}
 nav a{color:white;text-decoration:none;transition:.3s;}
 nav a:hover{color:var(--purple);}
-
-/* Hero */
 .hero{height:90vh;display:flex;justify-content:center;align-items:center;flex-direction:column;text-align:center;padding-top:60px;}
 .hero h1{font-family:'Orbitron';font-size:55px;color:var(--glow);animation:glow 2s infinite alternate;}
 @keyframes glow{from{text-shadow:0 0 10px var(--purple);}to{text-shadow:0 0 30px var(--glow);}}
 .hero p{margin-top:20px;max-width:600px;opacity:0.8;font-size:18px;}
-.btn{margin-top:15px;padding:12px 28px;background:var(--purple);border:none;border-radius:6px;color:white;cursor:pointer;transition:.3s;text-decoration:none;display:inline-block;}
+.btn{margin-top:10px;padding:12px 28px;background:var(--purple);border:none;border-radius:6px;color:white;cursor:pointer;transition:.3s;text-decoration:none;display:inline-block;}
 .btn:hover{background:var(--glow);transform:scale(1.05);}
-
-/* Sections */
 section{padding:100px 8%;}
 .section-title{font-family:'Orbitron';color:var(--purple);text-align:center;margin-bottom:60px;font-size:36px;}
-
-/* Product Grid */
 .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:30px;}
 .card{background:#121212;padding:20px;border-radius:10px;transition:.4s;border:1px solid #222;position:relative;overflow:hidden;z-index:10;}
 .card:hover{transform:translateY(-10px);box-shadow:0 0 25px var(--purple);}
-.card::after{content:"";position:absolute;top:0;left:0;width:100%;height:100%;background:linear-gradient(120deg, rgba(138,43,226,0.2), rgba(178,102,255,0.2));opacity:0;transition:.5s;border-radius:10px;}
-.card:hover::after{opacity:1;}
 .image{height:180px;background:#1e1e1e;border-radius:8px;margin-bottom:15px;}
 .price{margin-top:10px;font-weight:bold;color:var(--purple);}
 .qty{margin-top:5px;width:60px;padding:5px;border-radius:5px;border:none;background:#1e1e1e;color:white;}
-
-/* Cart */
 #cart{background:#111;padding:20px;margin-top:40px;border-radius:10px;}
 #cart h3{color:var(--purple);margin-bottom:20px;}
 .cart-item{display:flex;justify-content:space-between;margin-bottom:10px;}
-.cart-item span{display:block;}
 #total{margin-top:15px;font-weight:bold;color:var(--glow);}
 #sendOrder{margin-top:20px;display:block;width:100%;text-align:center;}
-
-/* Filter */
 .filter{text-align:center;margin-bottom:40px;}
 .filter input{padding:10px;width:250px;border:none;border-radius:6px;background:#1e1e1e;color:white;}
-
-/* Fade Animations */
-.fade{opacity:0;transform:translateY(30px);transition:1s;}
-.fade.show{opacity:1;transform:translateY(0);}
-
-/* Contact */
 .contact-info{text-align:center;margin-top:40px;font-size:16px;}
 .contact-info span{display:block;margin:5px 0;}
 .disclaimer{text-align:center;color:#aaa;margin-top:20px;font-size:14px;}
 </style>
 </head>
 <body>
-
-<canvas id="matrix"></canvas>
 
 <nav>
 <div class="logo">CYBER TECH</div>
@@ -99,7 +73,7 @@ section{padding:100px 8%;}
 
 <div id="cart">
 <h3>Your Cart</h3>
-<div id="cartItems"></div>
+<div id="cartItems">No items yet</div>
 <div id="total">Total: 0 EGP</div>
 <a href="#" class="btn" id="sendOrder">Send Order via WhatsApp</a>
 </div>
@@ -116,24 +90,6 @@ section{padding:100px 8%;}
 <footer>©️ 2026 Cyber Tech Store | All Rights Reserved</footer>
 
 <script>
-// Matrix background
-const canvas=document.getElementById("matrix");
-const ctx=canvas.getContext("2d");
-canvas.width=window.innerWidth;
-canvas.height=window.innerHeight;
-let letters="01".split("");let fontSize=14;
-let columns=canvas.width/fontSize;let drops=[];for(let x=0;x<columns;x++)drops[x]=1;
-function draw(){
-ctx.fillStyle="rgba(0,0,0,0.05)";ctx.fillRect(0,0,canvas.width,canvas.height);
-ctx.fillStyle="#8a2be2";ctx.font=fontSize+"px monospace";
-for(let i=0;i<drops.length;i++){
-let text=letters[Math.floor(Math.random()*letters.length)];
-ctx.fillText(text,i*fontSize,drops[i]*fontSize);
-if(drops[i]*fontSize>canvas.height&&Math.random()>0.975)drops[i]=0;
-drops[i]++;
-}requestAnimationFrame(draw);}
-draw();
-
 // Products
 const products=[
 {name:"Tool 1",desc:"Description 1",price:600},
@@ -175,6 +131,7 @@ function addToCart(index){
 
 function renderCart(){
   cartItemsDiv.innerHTML="";
+  if(cart.length===0){cartItemsDiv.innerText="No items yet"; totalDiv.innerText="Total: 0 EGP"; return;}
   let total=0;
   cart.forEach(item=>{
     const div=document.createElement("div");
@@ -197,14 +154,6 @@ document.getElementById("sendOrder").addEventListener("click",()=>{
   msg+="-----------------\nTotal: "+total+" EGP";
   const url="https://wa.me/201288833842?text="+encodeURIComponent(msg);
   window.open(url,"_blank");
-});
-
-// Fade on scroll
-const faders=document.querySelectorAll(".fade");
-window.addEventListener("scroll",()=>{
-faders.forEach(el=>{
-if(el.getBoundingClientRect().top<window.innerHeight-100) el.classList.add("show");
-});
 });
 
 // Search filter
