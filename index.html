@@ -90,7 +90,7 @@ section{padding:100px 8%;}
 <footer>©️ 2026 Cyber Tech Store | All Rights Reserved</footer>
 
 <script>
-// Products
+// Products Array
 const products=[
 {name:"Tool 1",desc:"Description 1",price:600},
 {name:"Tool 2",desc:"Description 2",price:250},
@@ -109,6 +109,7 @@ const cartItemsDiv=document.getElementById("cartItems");
 const totalDiv=document.getElementById("total");
 let cart=[];
 
+// Create Product Cards
 products.forEach((p,i)=>{
   const card=document.createElement("div");
   card.className="card fade";
@@ -116,18 +117,21 @@ products.forEach((p,i)=>{
   <h3>${p.name}</h3>
   <p>${p.desc}</p>
   <div class="price">Price: ${p.price} EGP</div>
-  <input class="qty" type="number" min="1" value="1" id="qty${i}">
-  <a class="btn" href="#" onclick="addToCart(${i})">Add to Cart</a>`;
+  <input class="qty" type="number" min="1" value="1">
+  <button class="btn addBtn">Add to Cart</button>`;
   grid.appendChild(card);
 });
 
-function addToCart(index){
-  const qty=parseInt(document.getElementById("qty"+index).value);
-  const product=products[index];
-  let found=cart.find(item=>item.name===product.name);
-  if(found){found.qty=qty;}else{cart.push({name:product.name,qty:qty,price:product.price});}
-  renderCart();
-}
+// Add Event Listeners to Buttons
+document.querySelectorAll(".addBtn").forEach((btn,i)=>{
+  btn.addEventListener("click",()=>{
+    const qty=parseInt(btn.previousElementSibling.value);
+    const product=products[i];
+    let found=cart.find(item=>item.name===product.name);
+    if(found){found.qty=qty;}else{cart.push({name:product.name,qty:qty,price:product.price});}
+    renderCart();
+  });
+});
 
 function renderCart(){
   cartItemsDiv.innerHTML="";
@@ -148,7 +152,7 @@ document.getElementById("sendOrder").addEventListener("click",()=>{
   let msg="Order Summary:\n";
   let total=0;
   cart.forEach(item=>{
-    msg+=`${item.name} x ${item.qty} = ${item.price*item.qty} EGP\n`;
+    msg+=`${item.name} x${item.qty} = ${item.price*item.qty} EGP\n`;
     total+=item.price*item.qty;
   });
   msg+="-----------------\nTotal: "+total+" EGP";
@@ -164,5 +168,6 @@ card.style.display=card.innerText.toLowerCase().includes(value)?"block":"none";
 });
 });
 </script>
+
 </body>
 </html>
