@@ -5,7 +5,17 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Cyber Tech Store | Security Tools</title>
 
+<!-- Fonts -->
 <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Poppins:wght@300;400;500&display=swap" rel="stylesheet">
+
+<!-- Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+<script>
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'G-XXXXXXXXXX'); // حط هنا كود تتبعك
+</script>
 
 <style>
 :root{
@@ -16,163 +26,72 @@
 --white:#fff;
 }
 
+/* Reset & Body */
 *{margin:0;padding:0;box-sizing:border-box;font-family:'Poppins',sans-serif;}
 body{background:var(--black);color:white;overflow-x:hidden;position:relative;}
 
+/* Matrix Background */
 canvas#matrix{
 position:fixed;
 top:0;left:0;width:100%;height:100%;z-index:-1;
 }
 
-/* NAV */
-nav{
-display:flex;justify-content:space-between;align-items:center;
-padding:20px 8%;background:rgba(0,0,0,0.8);
-backdrop-filter:blur(10px);
-position:fixed;width:100%;z-index:1000;
-}
-
+/* Navbar */
+nav{display:flex;justify-content:space-between;align-items:center;padding:20px 8%;background:rgba(0,0,0,0.8);backdrop-filter:blur(10px);position:fixed;width:100%;z-index:1000;}
 .logo{font-family:'Orbitron';color:var(--purple);font-size:22px;}
-
 nav ul{display:flex;gap:25px;list-style:none;}
 nav a{color:white;text-decoration:none;transition:.3s;}
 nav a:hover{color:var(--purple);}
 
-.cart-icon{
-cursor:pointer;
-font-size:20px;
-position:relative;
-}
+/* Hero */
+.hero{height:100vh;display:flex;justify-content:center;align-items:center;flex-direction:column;text-align:center;padding-top:60px;}
+.hero h1{font-family:'Orbitron';font-size:55px;color:var(--glow);animation:glow 2s infinite alternate;}
+@keyframes glow{from{text-shadow:0 0 10px var(--purple);}to{text-shadow:0 0 30px var(--glow);}}
+.hero p{margin-top:20px;max-width:600px;opacity:0.8;font-size:18px;}
+.btn{margin-top:30px;padding:12px 28px;background:var(--purple);border:none;border-radius:6px;color:white;cursor:pointer;transition:.3s;text-decoration:none;display:inline-block;}
+.btn:hover{background:var(--glow);transform:scale(1.05);}
 
-#cartCount{
-background:var(--purple);
-padding:2px 7px;
-border-radius:50%;
-font-size:12px;
-position:absolute;
-top:-8px;
-right:-12px;
-}
-
-/* HERO */
-.hero{
-height:100vh;
-display:flex;justify-content:center;align-items:center;
-flex-direction:column;text-align:center;padding-top:60px;
-}
-
-.hero h1{
-font-family:'Orbitron';
-font-size:55px;
-color:var(--glow);
-animation:glow 2s infinite alternate;
-}
-
-@keyframes glow{
-from{text-shadow:0 0 10px var(--purple);}
-to{text-shadow:0 0 30px var(--glow);}
-}
-
-.btn{
-margin-top:15px;
-padding:10px 22px;
-background:var(--purple);
-border:none;border-radius:6px;
-color:white;cursor:pointer;
-transition:.3s;
-}
-
-.btn:hover{
-background:var(--glow);
-transform:scale(1.05);
-}
-
+/* Sections */
 section{padding:100px 8%;}
-.section-title{
-font-family:'Orbitron';
-color:var(--purple);
-text-align:center;
-margin-bottom:60px;
-font-size:36px;
-}
+.section-title{font-family:'Orbitron';color:var(--purple);text-align:center;margin-bottom:60px;font-size:36px;}
 
-.grid{
-display:grid;
-grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
-gap:30px;
-}
-
+/* Product Grid */
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:30px;}
 .card{
-background:#121212;
-padding:20px;
-border-radius:10px;
-transition:.4s;
-border:1px solid #222;
-position:relative;
+  background:#121212;
+  padding:20px;
+  border-radius:10px;
+  transition:.4s;
+  border:1px solid #222;
+  position: relative;
+  overflow:hidden;
+  z-index:10;
 }
+.card:hover{transform:translateY(-10px);box-shadow:0 0 25px var(--purple);}
+.card::after{content:"";position:absolute;top:0;left:0;width:100%;height:100%;background:linear-gradient(120deg, rgba(138,43,226,0.2), rgba(178,102,255,0.2));opacity:0;transition:.5s;border-radius:10px;}
+.card:hover::after{opacity:1;}
+.image{height:180px;background:#1e1e1e;border-radius:8px;margin-bottom:15px;}
+.card .btn{position: relative; z-index: 20;}
 
-.card:hover{
-transform:translateY(-10px);
-box-shadow:0 0 25px var(--purple);
-}
+/* Filter */
+.filter{text-align:center;margin-bottom:40px;}
+.filter input{padding:10px;width:250px;border:none;border-radius:6px;background:#1e1e1e;color:white;}
 
-.image{
-height:180px;
-background:#1e1e1e;
-border-radius:8px;
-margin-bottom:15px;
-}
+/* Fade Animations */
+.fade{opacity:0;transform:translateY(30px);transition:1s;}
+.fade.show{opacity:1;transform:translateY(0);}
 
-.price{
-font-size:18px;
-color:var(--glow);
-margin:10px 0;
-font-weight:bold;
-}
+/* Glitch Effect for headings */
+.glitch{position:relative;color:white;font-size:55px;font-family:'Orbitron';}
+.glitch::before,.glitch::after{content:attr(data-text);position:absolute;left:0;}
+.glitch::before{animation:glitchTop 2s infinite;clip:rect(0,900px,0,0);}
+.glitch::after{animation:glitchBottom 2s infinite;clip:rect(0,900px,0,0);}
+@keyframes glitchTop{0%{transform:translate(0);}20%{transform:translate(-5px,-5px);}40%{transform:translate(5px,5px);}60%{transform:translate(-5px,5px);}80%{transform:translate(5px,-5px);}100%{transform:translate(0);}}
+@keyframes glitchBottom{0%{transform:translate(0);}20%{transform:translate(5px,5px);}40%{transform:translate(-5px,-5px);}60%{transform:translate(5px,-5px);}80%{transform:translate(-5px,5px);}100%{transform:translate(0);}}
 
-/* CART PANEL */
-#cart{
-position:fixed;
-right:-400px;
-top:0;
-width:350px;
-height:100%;
-background:#0f0f0f;
-padding:25px;
-transition:.4s;
-z-index:2000;
-overflow-y:auto;
-box-shadow:-5px 0 25px rgba(138,43,226,0.3);
-}
-
-#cart.active{right:0;}
-
-.cart-item{
-margin-bottom:15px;
-border-bottom:1px solid #333;
-padding-bottom:10px;
-}
-
-.cart-item input{
-width:50px;
-background:#222;
-border:none;
-color:white;
-padding:4px;
-border-radius:4px;
-}
-
-.remove{
-color:red;
-cursor:pointer;
-font-size:13px;
-}
-
-footer{
-text-align:center;
-padding:30px;
-background:#111;
-}
+footer{text-align:center;padding:30px;background:#111;opacity:0.9;}
+.disclaimer{color:#aaa;text-align:center;margin-top:40px;font-size:14px;}
+.contact-info{text-align:center;margin-top:20px;font-size:16px;}
 </style>
 </head>
 <body>
@@ -181,74 +100,116 @@ background:#111;
 
 <nav>
 <div class="logo">CYBER TECH</div>
-
 <ul>
 <li><a href="#">Home</a></li>
 <li><a href="#products">Products</a></li>
 </ul>
-
-<div class="cart-icon" onclick="toggleCart()">
-🛒 <span id="cartCount">0</span>
-</div>
 </nav>
 
 <div class="hero">
-<h1>Cyber Tech Store</h1>
-<p>Professional penetration testing tools.</p>
-<button class="btn" onclick="document.getElementById('products').scrollIntoView()">Explore Tools</button>
+<h1 class="glitch" data-text="Cyber Tech Store">Cyber Tech Store</h1>
+<p>Professional penetration testing and digital security tools built for advanced operators.</p>
+<a href="#products" class="btn">Explore Tools</a>
 </div>
 
 <section id="products">
 <h2 class="section-title">Our Tools</h2>
 
-<div class="grid">
+<div class="filter">
+<input type="text" id="search" placeholder="Search tool...">
+</div>
 
-<div class="card" data-name="Tool Name 1" data-price="500">
+<div class="grid" id="productList">
+
+<!-- 10 Product Cards -->
+<div class="card fade">
 <div class="image"></div>
 <h3>Tool Name 1</h3>
 <p>Description of tool 1.</p>
-<div class="price">500 EGP</div>
-<button class="btn add-to-cart">Add To Cart</button>
+<a class="btn" target="_blank" href="https://wa.me/201288833842?text=Hello%20I%20want%20to%20order%20Tool%20Name%201%20from%20Cyber%20Tech%20Store">Order via WhatsApp</a>
 </div>
 
-<div class="card" data-name="Tool Name 2" data-price="800">
+<div class="card fade">
 <div class="image"></div>
 <h3>Tool Name 2</h3>
 <p>Description of tool 2.</p>
-<div class="price">800 EGP</div>
-<button class="btn add-to-cart">Add To Cart</button>
+<a class="btn" target="_blank" href="https://wa.me/201288833842?text=Hello%20I%20want%20to%20order%20Tool%20Name%202%20from%20Cyber%20Tech%20Store">Order via WhatsApp</a>
 </div>
 
-<div class="card" data-name="Tool Name 3" data-price="1200">
+<div class="card fade">
 <div class="image"></div>
 <h3>Tool Name 3</h3>
 <p>Description of tool 3.</p>
-<div class="price">1200 EGP</div>
-<button class="btn add-to-cart">Add To Cart</button>
+<a class="btn" target="_blank" href="https://wa.me/201288833842?text=Hello%20I%20want%20to%20order%20Tool%20Name%203%20from%20Cyber%20Tech%20Store">Order via WhatsApp</a>
+</div>
+
+<div class="card fade">
+<div class="image"></div>
+<h3>Tool Name 4</h3>
+<p>Description of tool 4.</p>
+<a class="btn" target="_blank" href="https://wa.me/201288833842?text=Hello%20I%20want%20to%20order%20Tool%20Name%204%20from%20Cyber%20Tech%20Store">Order via WhatsApp</a>
+</div>
+
+<div class="card fade">
+<div class="image"></div>
+<h3>Tool Name 5</h3>
+<p>Description of tool 5.</p>
+<a class="btn" target="_blank" href="https://wa.me/201288833842?text=Hello%20I%20want%20to%20order%20Tool%20Name%205%20from%20Cyber%20Tech%20Store">Order via WhatsApp</a>
+</div>
+
+<div class="card fade">
+<div class="image"></div>
+<h3>Tool Name 6</h3>
+<p>Description of tool 6.</p>
+<a class="btn" target="_blank" href="https://wa.me/201288833842?text=Hello%20I%20want%20to%20order%20Tool%20Name%206%20from%20Cyber%20Tech%20Store">Order via WhatsApp</a>
+</div>
+
+<div class="card fade">
+<div class="image"></div>
+<h3>Tool Name 7</h3>
+<p>Description of tool 7.</p>
+<a class="btn" target="_blank" href="https://wa.me/201288833842?text=Hello%20I%20want%20to%20order%20Tool%20Name%207%20from%20Cyber%20Tech%20Store">Order via WhatsApp</a>
+</div>
+
+<div class="card fade">
+<div class="image"></div>
+<h3>Tool Name 8</h3>
+<p>Description of tool 8.</p>
+<a class="btn" target="_blank" href="https://wa.me/201288833842?text=Hello%20I%20want%20to%20order%20Tool%20Name%208%20from%20Cyber%20Tech%20Store">Order via WhatsApp</a>
+</div>
+
+<div class="card fade">
+<div class="image"></div>
+<h3>Tool Name 9</h3>
+<p>Description of tool 9.</p>
+<a class="btn" target="_blank" href="https://wa.me/201288833842?text=Hello%20I%20want%20to%20order%20Tool%20Name%209%20from%20Cyber%20Tech%20Store">Order via WhatsApp</a>
+</div>
+
+<div class="card fade">
+<div class="image"></div>
+<h3>Tool Name 10</h3>
+<p>Description of tool 10.</p>
+<a class="btn" target="_blank" href="https://wa.me/201288833842?text=Hello%20I%20want%20to%20order%20Tool%20Name%2010%20from%20Cyber%20Tech%20Store">Order via WhatsApp</a>
 </div>
 
 </div>
+
+<p class="disclaimer">All products are sold for educational purposes only.</p>
+<p class="contact-info">Contact: 01288833842 | Email: Cyber.tech7799@gmail.com</p>
 </section>
 
-<!-- CART -->
-<div id="cart">
-<h2 style="color:var(--glow);margin-bottom:20px;">Your Cart</h2>
-<div id="cartItems"></div>
-<h3 id="cartTotal">Total: 0 EGP</h3>
-<button class="btn" onclick="sendWhatsApp()">Send Invoice via WhatsApp</button>
-</div>
-
 <footer>
-© 2026 Cyber Tech Store
+©️ 2026 Cyber Tech Store | All Rights Reserved
 </footer>
 
 <script>
-/* MATRIX EFFECT */
+// Typing + Matrix
 const canvas=document.getElementById("matrix");
 const ctx=canvas.getContext("2d");
 canvas.width=window.innerWidth;
 canvas.height=window.innerHeight;
-let letters="01".split("");
+let letters="01";
+letters=letters.split("");
 let fontSize=14;
 let columns=canvas.width/fontSize;
 let drops=[];
@@ -268,76 +229,24 @@ requestAnimationFrame(draw);
 }
 draw();
 
-/* CART SYSTEM */
-let cart=JSON.parse(localStorage.getItem("cart"))||[];
-
-function toggleCart(){
-document.getElementById("cart").classList.toggle("active");
-}
-
-document.querySelectorAll(".add-to-cart").forEach(btn=>{
-btn.addEventListener("click",function(){
-let card=this.closest(".card");
-let name=card.dataset.name;
-let price=parseFloat(card.dataset.price);
-let existing=cart.find(item=>item.name===name);
-if(existing){existing.quantity++;}
-else{cart.push({name,price,quantity:1});}
-saveCart();
+// Fade on scroll
+const faders=document.querySelectorAll(".fade");
+window.addEventListener("scroll",()=>{
+faders.forEach(el=>{
+const top=el.getBoundingClientRect().top;
+if(top<window.innerHeight-100) el.classList.add("show");
 });
 });
 
-function saveCart(){
-localStorage.setItem("cart",JSON.stringify(cart));
-updateCart();
-}
-
-function updateCart(){
-let cartItems=document.getElementById("cartItems");
-cartItems.innerHTML="";
-let total=0;
-let count=0;
-
-cart.forEach((item,index)=>{
-total+=item.price*item.quantity;
-count+=item.quantity;
-cartItems.innerHTML+=`
-<div class="cart-item">
-<strong>${item.name}</strong><br>
-${item.price} EGP × 
-<input type="number" min="1" value="${item.quantity}" onchange="changeQty(${index},this.value)">
-<br>
-<span class="remove" onclick="removeItem(${index})">Remove</span>
-</div>`;
+// Search filter
+document.getElementById("search").addEventListener("keyup",function(){
+let value=this.value.toLowerCase();
+let cards=document.querySelectorAll(".card");
+cards.forEach(card=>{
+let text=card.innerText.toLowerCase();
+card.style.display=text.includes(value)?"block":"none";
 });
-
-document.getElementById("cartTotal").innerText="Total: "+total+" EGP";
-document.getElementById("cartCount").innerText=count;
-}
-
-function changeQty(index,value){
-cart[index].quantity=parseInt(value);
-saveCart();
-}
-
-function removeItem(index){
-cart.splice(index,1);
-saveCart();
-}
-
-function sendWhatsApp(){
-if(cart.length===0){alert("Cart is empty");return;}
-let message="Hello, I want to order:%0A";
-let total=0;
-cart.forEach(item=>{
-message+=`${item.name} - ${item.quantity} x ${item.price} EGP%0A`;
-total+=item.price*item.quantity;
 });
-message+=`Total: ${total} EGP`;
-window.open(`https://wa.me/201288833842?text=${message}`,"_blank");
-}
-
-updateCart();
 </script>
 
 </body>
