@@ -20,8 +20,7 @@
 body{background:var(--black);color:white;overflow-x:hidden;position:relative;}
 
 canvas#matrix{
-position:fixed;
-top:0;left:0;width:100%;height:100%;z-index:-1;
+position:fixed;top:0;left:0;width:100%;height:100%;z-index:-1;
 }
 
 /* NAV */
@@ -44,17 +43,10 @@ padding:2px 7px;font-size:12px;
 }
 
 /* SEARCH */
-.search-box{
-text-align:center;
-margin-bottom:40px;
-}
+.search-box{text-align:center;margin-bottom:40px;}
 .search-box input{
-width:300px;
-padding:10px;
-border-radius:6px;
-border:1px solid #333;
-background:#111;
-color:white;
+width:300px;padding:10px;border-radius:6px;
+border:1px solid #333;background:#111;color:white;
 }
 
 /* HERO */
@@ -93,11 +85,8 @@ grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
 gap:30px;
 }
 .card{
-background:#121212;
-padding:20px;
-border-radius:10px;
-transition:.4s;
-border:1px solid #222;
+background:#121212;padding:20px;border-radius:10px;
+transition:.4s;border:1px solid #222;
 }
 .card:hover{
 transform:translateY(-10px);
@@ -110,46 +99,36 @@ border-radius:8px;margin-bottom:15px;
 
 /* CART PAGE */
 #cartPage{
-display:none;
-padding:120px 8%;
-min-height:100vh;
-background:#0a0a0a;
+display:none;padding:120px 8%;
+min-height:100vh;background:#0a0a0a;
 }
 
 .cart-item-row{
-display:flex;
-justify-content:space-between;
-align-items:center;
-margin-bottom:15px;
-border-bottom:1px solid #333;
-padding-bottom:10px;
+display:flex;justify-content:space-between;
+align-items:center;margin-bottom:15px;
+border-bottom:1px solid #333;padding-bottom:10px;
 }
 
-.qty-controls{
-display:flex;
-align-items:center;
-gap:10px;
-}
+.qty-controls{display:flex;align-items:center;gap:10px;}
 .qty-btn{
-background:#333;
-color:white;
-border:none;
-width:25px;height:25px;
-border-radius:4px;
-cursor:pointer;
+background:#333;color:white;border:none;
+width:25px;height:25px;border-radius:4px;cursor:pointer;
 }
 .qty-btn:hover{background:var(--purple);}
 
-/* Notification */
+/* Toast Notification */
 #notify{
 position:fixed;
 bottom:30px;
-right:30px;
-background:var(--purple);
-padding:15px 20px;
-border-radius:8px;
-display:none;
+right:-400px;
+background:linear-gradient(45deg,#8a2be2,#b266ff);
+padding:18px 25px;
+border-radius:10px;
+box-shadow:0 0 20px rgba(178,102,255,0.6);
+font-weight:bold;
+transition:0.5s ease;
 }
+#notify.show{right:30px;}
 
 footer{text-align:center;padding:30px;background:#111;opacity:0.9;}
 </style>
@@ -183,7 +162,6 @@ footer{text-align:center;padding:30px;background:#111;opacity:0.9;}
 </div>
 
 <div class="grid">
-
 <script>
 for(let i=1;i<=8;i++){
 document.write(`
@@ -197,7 +175,6 @@ document.write(`
 `);
 }
 </script>
-
 </div>
 
 <!-- DISCLAIMER -->
@@ -208,31 +185,10 @@ By purchasing, you agree to use these tools responsibly and within legal boundar
 </div>
 
 <!-- CONTACT BOX -->
-<div style="
-margin-top:40px;
-background:#121212;
-border:1px solid #222;
-padding:25px;
-border-radius:10px;
-text-align:center;
-max-width:600px;
-margin-left:auto;
-margin-right:auto;
-box-shadow:0 0 20px rgba(138,43,226,0.2);
-">
-
-<h3 style="color:#8a2be2;font-family:'Orbitron';margin-bottom:15px;">
-Contact Information
-</h3>
-
-<p style="margin-bottom:8px;">
-📞 Phone: <span style="color:#b266ff;">01288833842</span>
-</p>
-
-<p>
-📧 Email: <span style="color:#b266ff;">Cyber.tech7799@gmail.com</span>
-</p>
-
+<div style="margin-top:40px;background:#121212;border:1px solid #222;padding:25px;border-radius:10px;text-align:center;max-width:600px;margin-left:auto;margin-right:auto;box-shadow:0 0 20px rgba(138,43,226,0.2);">
+<h3 style="color:#8a2be2;font-family:'Orbitron';margin-bottom:15px;">Contact Information</h3>
+<p style="margin-bottom:8px;">📞 Phone: <span style="color:#b266ff;">01288833842</span></p>
+<p>📧 Email: <span style="color:#b266ff;">Cyber.tech7799@gmail.com</span></p>
 </div>
 
 </section>
@@ -243,7 +199,14 @@ Contact Information
 <h2 class="section-title">Your Cart</h2>
 <div id="cartItems"></div>
 <h3 id="cartTotal"></h3>
-<button onclick="showHome()" class="btn">Back To Store</button>
+
+<button onclick="orderWhatsApp()" class="btn" style="width:100%;margin-top:20px;">
+Order via WhatsApp
+</button>
+
+<button onclick="showHome()" class="btn" style="width:100%;margin-top:10px;background:#333;">
+Back To Store
+</button>
 </div>
 
 <div id="notify"></div>
@@ -253,7 +216,111 @@ Contact Information
 </footer>
 
 <script>
-/* كل الجافاسكريبت زي ما هو بدون تغيير */
+// MATRIX (زي ما هو)
+const canvas=document.getElementById("matrix");
+const ctx=canvas.getContext("2d");
+canvas.width=window.innerWidth;
+canvas.height=window.innerHeight;
+let letters="01".split("");
+let fontSize=14;
+let columns=canvas.width/fontSize;
+let drops=[];
+for(let x=0;x<columns;x++)drops[x]=1;
+function draw(){
+ctx.fillStyle="rgba(0,0,0,0.05)";
+ctx.fillRect(0,0,canvas.width,canvas.height);
+ctx.fillStyle="#8a2be2";
+ctx.font=fontSize+"px monospace";
+for(let i=0;i<drops.length;i++){
+let text=letters[Math.floor(Math.random()*letters.length)];
+ctx.fillText(text,i*fontSize,drops[i]*fontSize);
+if(drops[i]*fontSize>canvas.height&&Math.random()>0.975)drops[i]=0;
+drops[i]++;
+}
+requestAnimationFrame(draw);
+}
+draw();
+
+// CART SYSTEM
+let cart=JSON.parse(localStorage.getItem("cart"))||[];
+const cartItems=document.getElementById("cartItems");
+const cartTotal=document.getElementById("cartTotal");
+const cartCount=document.getElementById("cartCount");
+const notify=document.getElementById("notify");
+
+function showCart(){homePage.style.display="none";cartPage.style.display="block";updateCart();}
+function showHome(){cartPage.style.display="none";homePage.style.display="block";}
+document.getElementById("cartIcon").onclick=showCart;
+
+document.addEventListener("click",function(e){
+if(e.target.classList.contains("addToCart")){
+let card=e.target.closest(".card");
+let name=card.dataset.name;
+let price=parseFloat(card.dataset.price);
+let existing=cart.find(i=>i.name===name);
+if(existing){existing.quantity++;}else{cart.push({name,price,quantity:1});}
+saveCart();
+showNotification("✔ "+name+" added to cart");
+}
+});
+
+function saveCart(){localStorage.setItem("cart",JSON.stringify(cart));updateCart();}
+
+function updateCart(){
+cartItems.innerHTML="";
+let total=0,count=0;
+cart.forEach((item,i)=>{
+let itemTotal=item.price*item.quantity;
+total+=itemTotal;count+=item.quantity;
+cartItems.innerHTML+=`
+<div class="cart-item-row">
+<div><strong>${item.name}</strong><br><small>${item.price} EGP</small></div>
+<div class="qty-controls">
+<button class="qty-btn" onclick="changeQty(${i},-1)">-</button>
+<span>${item.quantity}</span>
+<button class="qty-btn" onclick="changeQty(${i},1)">+</button>
+</div>
+<div style="font-weight:bold;color:#b266ff;">${itemTotal} EGP</div>
+</div>`;
+});
+cartTotal.innerText="Total: "+total+" EGP";
+cartCount.innerText=count;
+}
+
+function changeQty(i,val){
+cart[i].quantity+=val;
+if(cart[i].quantity<=0)cart.splice(i,1);
+saveCart();
+}
+
+function showNotification(text){
+notify.innerText=text;
+notify.classList.add("show");
+setTimeout(()=>{notify.classList.remove("show");},2500);
+}
+
+function orderWhatsApp(){
+if(cart.length===0){alert("Cart is empty");return;}
+let message="Hello Cyber Tech Store,%0A%0AOrder Details:%0A";
+let total=0;
+cart.forEach(item=>{
+message+=`- ${item.name} (x${item.quantity}) = ${item.price*item.quantity} EGP%0A`;
+total+=item.price*item.quantity;
+});
+message+=`%0ATotal: ${total} EGP`;
+window.open(`https://wa.me/201288833842?text=${message}`);
+}
+
+updateCart();
+
+// SEARCH
+document.getElementById("searchInput").addEventListener("keyup",function(){
+let value=this.value.toLowerCase();
+document.querySelectorAll(".card").forEach(card=>{
+let name=card.dataset.name.toLowerCase();
+card.style.display=name.includes(value)?"block":"none";
+});
+});
 </script>
 
 </body>
