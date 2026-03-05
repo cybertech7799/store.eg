@@ -171,6 +171,37 @@ border-radius:8px;
 margin-bottom:10px;
 }
 
+/* DISCLAIMER تحت المنتجات */
+
+.products-disclaimer {
+    margin-top:60px;
+    margin-bottom:60px; /* زيادة المسافة قبل مربع التواصل */
+    text-align: center;
+    color: #aaa;
+    font-size: 16px; /* تكبير الخط */
+    max-width: 700px;
+    margin-left: auto;
+    margin-right: auto;
+    line-height: 1.6;
+    padding: 15px; /* padding داخلي */
+    background: #111; /* اختياري لتوضيح النص */
+    border-radius: 10px; /* اختياري لتجميل الصندوق */
+}
+
+/* مربع التواصل */
+
+.contact-box {
+    margin-top: 80px; /* زيادة المسافة فوقه */
+    background:#121212;
+    border:1px solid #222;
+    padding:25px;
+    border-radius:10px;
+    text-align:center;
+    max-width:600px;
+    margin-left:auto;
+    margin-right:auto;
+}
+
 /* CART */
 
 #cartPage{
@@ -256,22 +287,20 @@ Professional penetration testing and digital security tools.
 
 <div class="grid" id="productGrid"></div>
 
-
-<div style="margin-top:60px;text-align:center;color:#aaa;font-size:14px;max-width:700px;margin:auto;">
+<!-- النص بعد المنتجات -->
+<div class="products-disclaimer">
 All products are sold strictly for educational and research purposes only.
 Cyber Tech Store does not promote or support illegal activities.
 </div>
 
-
-<div style="margin-top:140px;background:#121212;border:1px solid #222;padding:25px;border-radius:10px;text-align:center;max-width:600px;margin:auto;">
-
+<!-- مربع التواصل -->
+<div class="contact-box">
 <h3 style="color:#8a2be2;font-family:'Orbitron';margin-bottom:15px;">
 Contact
 </h3>
 
 <p>📞 01288833842</p>
 <p>📧 Cyber.tech7799@gmail.com</p>
-
 </div>
 
 </section>
@@ -390,7 +419,6 @@ grid.innerHTML+=`
 `
 
 })
-
 
 /* CART */
 
@@ -598,9 +626,3 @@ draw()
 
 </body>
 </html>
-
-
-
-
-
-
