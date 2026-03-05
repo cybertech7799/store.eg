@@ -43,6 +43,20 @@ background:var(--purple);border-radius:50%;
 padding:2px 7px;font-size:12px;
 }
 
+/* SEARCH */
+.search-box{
+text-align:center;
+margin-bottom:40px;
+}
+.search-box input{
+width:300px;
+padding:10px;
+border-radius:6px;
+border:1px solid #333;
+background:#111;
+color:white;
+}
+
 /* HERO */
 .hero{
 height:100vh;display:flex;justify-content:center;align-items:center;
@@ -94,26 +108,19 @@ height:180px;background:#1e1e1e;
 border-radius:8px;margin-bottom:15px;
 }
 
-/* CART */
-#cartModal{
-position:fixed;
-top:0;right:-420px;
-width:400px;height:100%;
-background:#111;
-padding:20px;
-overflow-y:auto;
-z-index:2000;
-box-shadow:-5px 0 20px rgba(0,0,0,0.8);
-border-left:1px solid var(--purple);
-transition:0.4s ease;
+/* CART PAGE */
+#cartPage{
+display:none;
+padding:120px 8%;
+min-height:100vh;
+background:#0a0a0a;
 }
-#cartModal.active{right:0;}
 
 .cart-item-row{
 display:flex;
 justify-content:space-between;
 align-items:center;
-margin-bottom:10px;
+margin-bottom:15px;
 border-bottom:1px solid #333;
 padding-bottom:10px;
 }
@@ -133,9 +140,15 @@ cursor:pointer;
 }
 .qty-btn:hover{background:var(--purple);}
 
-.close-cart{
-position:absolute;top:10px;right:15px;
-font-size:24px;cursor:pointer;color:#aaa;
+/* Notification */
+#notify{
+position:fixed;
+bottom:30px;
+right:30px;
+background:var(--purple);
+padding:15px 20px;
+border-radius:8px;
+display:none;
 }
 
 footer{text-align:center;padding:30px;background:#111;opacity:0.9;}
@@ -148,11 +161,13 @@ footer{text-align:center;padding:30px;background:#111;opacity:0.9;}
 <nav>
 <div class="logo">CYBER TECH</div>
 <ul>
-<li><a href="#">Home</a></li>
-<li><a href="#products">Products</a></li>
+<li><a href="#" onclick="showHome()">Home</a></li>
+<li><a href="#products" onclick="showHome()">Products</a></li>
 </ul>
 <div id="cartIcon">🛒 <span id="cartCount">0</span></div>
 </nav>
+
+<div id="homePage">
 
 <div class="hero">
 <h1>Cyber Tech Store</h1>
@@ -163,12 +178,14 @@ footer{text-align:center;padding:30px;background:#111;opacity:0.9;}
 <section id="products">
 <h2 class="section-title">Our Tools</h2>
 
-<div class="grid">
+<div class="search-box">
+<input type="text" id="searchInput" placeholder="Search product by name...">
+</div>
 
-<!-- 10 PRODUCTS -->
+<div class="grid" id="productGrid">
 
 <script>
-for(let i=1;i<=10;i++){
+for(let i=1;i<=8;i++){
 document.write(`
 <div class="card" data-name="Tool Name ${i}" data-price="${100+i*50}">
 <div class="image"></div>
@@ -182,57 +199,21 @@ document.write(`
 </script>
 
 </div>
-
-<!-- DISCLAIMER -->
-<div style="margin-top:60px;text-align:center;color:#aaa;font-size:14px;max-width:700px;margin-left:auto;margin-right:auto;">
-All products are sold strictly for educational and research purposes only. 
-Cyber Tech Store does not promote or support any illegal activities. 
-By purchasing, you agree to use these tools responsibly and within legal boundaries.
-</div>
-
-<!-- CONTACT BOX -->
-<div style="
-margin-top:40px;
-background:#121212;
-border:1px solid #222;
-padding:25px;
-border-radius:10px;
-text-align:center;
-max-width:600px;
-margin-left:auto;
-margin-right:auto;
-box-shadow:0 0 20px rgba(138,43,226,0.2);
-">
-
-<h3 style="color:#8a2be2;font-family:'Orbitron';margin-bottom:15px;">
-Contact Information
-</h3>
-
-<p style="margin-bottom:8px;">
-📞 Phone: <span style="color:#b266ff;">01288833842</span>
-</p>
-
-<p>
-📧 Email: <span style="color:#b266ff;">Cyber.tech7799@gmail.com</span>
-</p>
-
-</div>
-
 </section>
-
-<!-- CART -->
-<div id="cartModal">
-<span class="close-cart" onclick="toggleCart()">&times;</span>
-<h2 style="color:#8a2be2;margin-bottom:20px;">Your Cart</h2>
-<div id="cartItems"></div>
-<h3 id="cartTotal" style="margin-top:20px;color:var(--glow);"></h3>
-<button onclick="sendToWhatsApp()" class="btn" style="width:100%;margin-top:15px;">
-Send Invoice via WhatsApp
-</button>
 </div>
+
+<!-- CART PAGE -->
+<div id="cartPage">
+<h2 class="section-title">Your Cart</h2>
+<div id="cartItems"></div>
+<h3 id="cartTotal"></h3>
+<button onclick="showHome()" class="btn">Back To Store</button>
+</div>
+
+<div id="notify"></div>
 
 <footer>
-© 2026 Cyber Tech Store | All Rights Reserved
+©️ 2026 Cyber Tech Store | All Rights Reserved
 </footer>
 
 <script>
@@ -261,26 +242,29 @@ requestAnimationFrame(draw);
 }
 draw();
 
-// CART SYSTEM
-let cart=JSON.parse(localStorage.getItem("cart"))||[];
+// PAGES
+const homePage=document.getElementById("homePage");
+const cartPage=document.getElementById("cartPage");
 
-const cartIcon=document.getElementById("cartIcon");
-const cartModal=document.getElementById("cartModal");
+function showCart(){
+homePage.style.display="none";
+cartPage.style.display="block";
+updateCart();
+}
+
+function showHome(){
+cartPage.style.display="none";
+homePage.style.display="block";
+}
+
+document.getElementById("cartIcon").onclick=showCart;
+
+// CART
+let cart=JSON.parse(localStorage.getItem("cart"))||[];
 const cartItems=document.getElementById("cartItems");
 const cartTotal=document.getElementById("cartTotal");
 const cartCount=document.getElementById("cartCount");
-
-function toggleCart(){
-cartModal.classList.toggle("active");
-}
-
-cartIcon.onclick=toggleCart;
-
-document.addEventListener("click",function(e){
-if(!cartModal.contains(e.target)&&!cartIcon.contains(e.target)){
-cartModal.classList.remove("active");
-}
-});
+const notify=document.getElementById("notify");
 
 document.addEventListener("click",function(e){
 if(e.target.classList.contains("addToCart")){
@@ -291,6 +275,7 @@ let existing=cart.find(i=>i.name===name);
 if(existing){existing.quantity++;}
 else{cart.push({name,price,quantity:1});}
 saveCart();
+showNotification(name+" added to cart");
 }
 });
 
@@ -303,9 +288,6 @@ function updateCart(){
 cartItems.innerHTML="";
 let total=0,count=0;
 
-if(cart.length===0){
-cartItems.innerHTML="<p style='text-align:center;color:#777;'>Your cart is empty.</p>";
-}else{
 cart.forEach((item,i)=>{
 let itemTotal=item.price*item.quantity;
 total+=itemTotal;
@@ -324,13 +306,12 @@ cartItems.innerHTML+=`
 <button class="qty-btn" onclick="changeQty(${i},1)">+</button>
 </div>
 
-<div style="font-weight:bold;color:var(--glow);">
+<div style="font-weight:bold;color:#b266ff;">
 ${itemTotal} EGP
 </div>
 </div>
 `;
 });
-}
 
 cartTotal.innerText="Total: "+total+" EGP";
 cartCount.innerText=count;
@@ -342,22 +323,22 @@ if(cart[i].quantity<=0)cart.splice(i,1);
 saveCart();
 }
 
-function sendToWhatsApp(){
-if(cart.length===0){alert("Cart is empty!");return;}
-
-let message="Hello, I want to order:%0A%0A";
-let total=0;
-
-cart.forEach(item=>{
-message+=`- ${item.name} (x${item.quantity}) : ${item.price*item.quantity} EGP%0A`;
-total+=item.price*item.quantity;
-});
-
-message+=`%0ATotal: ${total} EGP`;
-window.open(`https://wa.me/201288833842?text=${message}`);
+function showNotification(text){
+notify.innerText=text;
+notify.style.display="block";
+setTimeout(()=>{notify.style.display="none";},2000);
 }
 
 updateCart();
+
+// SEARCH
+document.getElementById("searchInput").addEventListener("keyup",function(){
+let value=this.value.toLowerCase();
+document.querySelectorAll(".card").forEach(card=>{
+let name=card.dataset.name.toLowerCase();
+card.style.display=name.includes(value)?"block":"none";
+});
+});
 </script>
 
 </body>
