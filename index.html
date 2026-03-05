@@ -559,28 +559,35 @@ notification.classList.remove("show")
 
 function orderWhatsApp(){
 
-if(cart.length==0){
-alert("Cart empty")
-return
+  if(cart.length==0){
+    alert("Cart empty")
+    return
+  }
+
+  let msg="Hello Cyber Tech Store%0AOrder:%0A"
+
+  let total=0
+
+  cart.forEach(i=>{
+    let itemTotal = i.price * i.qty
+    total += itemTotal
+    msg += `${i.name} x${i.qty} = ${itemTotal} EGP%0A`
+  })
+
+  let finalTotal = total
+  let discountAmount = 0
+
+  if(discountApplied > 0){
+    discountAmount = total * discountApplied
+    finalTotal = total - discountAmount
+    msg += `Discount: -${discountAmount} EGP%0A`
+  }
+
+  msg += `Total: ${finalTotal} EGP`
+
+  window.open(`https://wa.me/201288833842?text=${msg}`)
 }
 
-let msg="Hello Cyber Tech Store%0AOrder:%0A"
-
-let total=0
-
-cart.forEach(i=>{
-
-msg+=`${i.name} x${i.qty} = ${i.price*i.qty} EGP%0A`
-
-total+=i.price*i.qty
-
-})
-
-msg+=`Total: ${total} EGP`
-
-window.open(`https://wa.me/201288833842?text=${msg}`)
-
-}
 
 /* NAV */
 
@@ -659,3 +666,4 @@ draw()
 
 </body>
 </html>
+
