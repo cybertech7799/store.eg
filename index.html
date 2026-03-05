@@ -312,6 +312,13 @@ Contact
 
 <h2 class="section-title">Your Cart</h2>
 
+<!-- خانة كود الخصم -->
+<div style="margin:20px 0;text-align:center;">
+  <input type="text" id="discountCode" placeholder="Enter discount code" 
+         style="padding:10px;width:60%;border-radius:6px;border:1px solid #333;background:#111;color:white;">
+  <button onclick="applyDiscount()" class="btn" style="margin-left:10px;">Apply</button>
+</div>
+
 <div id="cartItems"></div>
 
 <h3 id="cartTotal"></h3>
@@ -423,10 +430,12 @@ grid.innerHTML+=`
 /* CART */
 
 let cart=[]
-
 const cartItems=document.getElementById("cartItems")
 const cartTotal=document.getElementById("cartTotal")
 const cartCount=document.getElementById("cartCount")
+
+// نسبة الخصم المطبقة
+let discountApplied = 0;
 
 document.addEventListener("click",e=>{
 
@@ -489,7 +498,16 @@ ${item.qty}
 
 })
 
-cartTotal.innerText="Total: "+total+" EGP"
+let finalTotal = total;
+
+if(discountApplied > 0){
+  let discountAmount = total * discountApplied;
+  finalTotal = total - discountAmount;
+  cartTotal.innerHTML = `Total: ${total} EGP<br><span style="color:#b266ff;">Discount: -${discountAmount} EGP</span><br><b>Final: ${finalTotal} EGP</b>`;
+} else {
+  cartTotal.innerText = "Total: " + total + " EGP";
+}
+
 cartCount.innerText=count
 
 }
@@ -502,6 +520,21 @@ if(cart[i].qty<=0)cart.splice(i,1)
 
 updateCart()
 
+}
+
+/* خصم كود */
+function applyDiscount() {
+  const code = document.getElementById("discountCode").value.trim();
+  
+  if(code.toUpperCase() === "CYS15") {
+    discountApplied = 0.15; // 15%
+    showNotification("Discount code applied! 15% off");
+  } else {
+    discountApplied = 0;
+    showNotification("Invalid discount code");
+  }
+  
+  updateCart();
 }
 
 /* NOTIFICATION */
