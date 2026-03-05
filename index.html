@@ -24,25 +24,26 @@ position:fixed;
 top:0;left:0;width:100%;height:100%;z-index:-1;
 }
 
+/* NAV */
 nav{
 display:flex;justify-content:space-between;align-items:center;
 padding:20px 8%;background:rgba(0,0,0,0.8);
-backdrop-filter:blur(10px);position:fixed;width:100%;z-index:1000;
+backdrop-filter:blur(10px);
+position:fixed;width:100%;z-index:1000;
 }
 .logo{font-family:'Orbitron';color:var(--purple);font-size:22px;}
 nav ul{display:flex;gap:25px;list-style:none;}
 nav a{color:white;text-decoration:none;transition:.3s;}
 nav a:hover{color:var(--purple);}
 
-#cartIcon{
-cursor:pointer;position:relative;font-size:22px;
-}
+#cartIcon{cursor:pointer;position:relative;font-size:22px;}
 #cartCount{
 position:absolute;top:-10px;right:-15px;
-background:#8a2be2;border-radius:50%;
+background:var(--purple);border-radius:50%;
 padding:2px 7px;font-size:12px;
 }
 
+/* HERO */
 .hero{
 height:100vh;display:flex;justify-content:center;align-items:center;
 flex-direction:column;text-align:center;padding-top:60px;
@@ -56,6 +57,7 @@ from{text-shadow:0 0 10px var(--purple);}
 to{text-shadow:0 0 30px var(--glow);}
 }
 .hero p{margin-top:20px;max-width:600px;opacity:0.8;font-size:18px;}
+
 .btn{
 margin-top:15px;padding:10px 20px;
 background:var(--purple);border:none;
@@ -82,8 +84,6 @@ padding:20px;
 border-radius:10px;
 transition:.4s;
 border:1px solid #222;
-position: relative;
-overflow:hidden;
 }
 .card:hover{
 transform:translateY(-10px);
@@ -94,61 +94,51 @@ height:180px;background:#1e1e1e;
 border-radius:8px;margin-bottom:15px;
 }
 
-.filter{text-align:center;margin-bottom:40px;}
-.filter input{
-padding:10px;width:250px;border:none;
-border-radius:6px;background:#1e1e1e;color:white;
-}
-
-.fade{opacity:0;transform:translateY(30px);transition:1s;}
-.fade.show{opacity:1;transform:translateY(0);}
-
-footer{text-align:center;padding:30px;background:#111;opacity:0.9;}
-
-/* --- CART MODAL STYLES --- */
+/* CART */
 #cartModal{
-display:none;
 position:fixed;
-top:0;right:0;
+top:0;right:-420px;
 width:400px;height:100%;
 background:#111;
 padding:20px;
 overflow-y:auto;
 z-index:2000;
 box-shadow:-5px 0 20px rgba(0,0,0,0.8);
-border-left: 1px solid var(--purple);
+border-left:1px solid var(--purple);
+transition:0.4s ease;
 }
-.cart-item-row {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 10px;
-    border-bottom: 1px solid #333;
-    padding-bottom: 10px;
+#cartModal.active{right:0;}
+
+.cart-item-row{
+display:flex;
+justify-content:space-between;
+align-items:center;
+margin-bottom:10px;
+border-bottom:1px solid #333;
+padding-bottom:10px;
 }
-.qty-controls {
-    display: flex;
-    align-items: center;
-    gap: 10px;
+
+.qty-controls{
+display:flex;
+align-items:center;
+gap:10px;
 }
-.qty-btn {
-    background: #333;
-    color: white;
-    border: none;
-    width: 25px;
-    height: 25px;
-    border-radius: 4px;
-    cursor: pointer;
+.qty-btn{
+background:#333;
+color:white;
+border:none;
+width:25px;height:25px;
+border-radius:4px;
+cursor:pointer;
 }
-.qty-btn:hover { background: var(--purple); }
-.close-cart {
-    position: absolute;
-    top: 10px;
-    right: 15px;
-    font-size: 24px;
-    cursor: pointer;
-    color: #aaa;
+.qty-btn:hover{background:var(--purple);}
+
+.close-cart{
+position:absolute;top:10px;right:15px;
+font-size:24px;cursor:pointer;color:#aaa;
 }
+
+footer{text-align:center;padding:30px;background:#111;opacity:0.9;}
 </style>
 </head>
 <body>
@@ -173,52 +163,76 @@ border-left: 1px solid var(--purple);
 <section id="products">
 <h2 class="section-title">Our Tools</h2>
 
-<div class="filter">
-<input type="text" id="search" placeholder="Search tool...">
-</div>
-
 <div class="grid">
 
-<!-- PRODUCTS -->
+<!-- 10 PRODUCTS -->
 
-<div class="card fade" data-name="Tool Name 1" data-price="150">
+<script>
+for(let i=1;i<=10;i++){
+document.write(`
+<div class="card" data-name="Tool Name ${i}" data-price="${100+i*50}">
 <div class="image"></div>
-<h3>Tool Name 1</h3>
-<p>Description of tool 1.</p>
-<p style="color:#b266ff;font-weight:bold;">150 EGP</p>
+<h3>Tool Name ${i}</h3>
+<p>Description of tool ${i}.</p>
+<p style="color:#b266ff;font-weight:bold;">${100+i*50} EGP</p>
 <button class="btn addToCart">Add To Cart</button>
 </div>
-
-<div class="card fade" data-name="Tool Name 2" data-price="200">
-<div class="image"></div>
-<h3>Tool Name 2</h3>
-<p>Description of tool 2.</p>
-<p style="color:#b266ff;font-weight:bold;">200 EGP</p>
-<button class="btn addToCart">Add To Cart</button>
-</div>
-
-<div class="card fade" data-name="Tool Name 3" data-price="250">
-<div class="image"></div>
-<h3>Tool Name 3</h3>
-<p>Description of tool 3.</p>
-<p style="color:#b266ff;font-weight:bold;">250 EGP</p>
-<button class="btn addToCart">Add To Cart</button>
-</div>
+`);
+}
+</script>
 
 </div>
+
+<!-- DISCLAIMER -->
+<div style="margin-top:60px;text-align:center;color:#aaa;font-size:14px;max-width:700px;margin-left:auto;margin-right:auto;">
+All products are sold strictly for educational and research purposes only. 
+Cyber Tech Store does not promote or support any illegal activities. 
+By purchasing, you agree to use these tools responsibly and within legal boundaries.
+</div>
+
+<!-- CONTACT BOX -->
+<div style="
+margin-top:40px;
+background:#121212;
+border:1px solid #222;
+padding:25px;
+border-radius:10px;
+text-align:center;
+max-width:600px;
+margin-left:auto;
+margin-right:auto;
+box-shadow:0 0 20px rgba(138,43,226,0.2);
+">
+
+<h3 style="color:#8a2be2;font-family:'Orbitron';margin-bottom:15px;">
+Contact Information
+</h3>
+
+<p style="margin-bottom:8px;">
+📞 Phone: <span style="color:#b266ff;">01288833842</span>
+</p>
+
+<p>
+📧 Email: <span style="color:#b266ff;">Cyber.tech7799@gmail.com</span>
+</p>
+
+</div>
+
 </section>
 
 <!-- CART -->
 <div id="cartModal">
-    <span class="close-cart" onclick="toggleCart()">&times;</span>
-    <h2 style="color:#8a2be2; margin-bottom: 20px;">Your Cart</h2>
-    <div id="cartItems"></div>
-    <h3 id="cartTotal" style="margin-top: 20px; color: var(--glow);"></h3>
-    <button onclick="sendToWhatsApp()" class="btn" style="width:100%; margin-top: 15px;">Send Invoice via WhatsApp</button>
+<span class="close-cart" onclick="toggleCart()">&times;</span>
+<h2 style="color:#8a2be2;margin-bottom:20px;">Your Cart</h2>
+<div id="cartItems"></div>
+<h3 id="cartTotal" style="margin-top:20px;color:var(--glow);"></h3>
+<button onclick="sendToWhatsApp()" class="btn" style="width:100%;margin-top:15px;">
+Send Invoice via WhatsApp
+</button>
 </div>
 
 <footer>
-©️ 2026 Cyber Tech Store | All Rights Reserved
+© 2026 Cyber Tech Store | All Rights Reserved
 </footer>
 
 <script>
@@ -247,108 +261,103 @@ requestAnimationFrame(draw);
 }
 draw();
 
-// CART
-let cart=[];
+// CART SYSTEM
+let cart=JSON.parse(localStorage.getItem("cart"))||[];
+
 const cartIcon=document.getElementById("cartIcon");
 const cartModal=document.getElementById("cartModal");
 const cartItems=document.getElementById("cartItems");
 const cartTotal=document.getElementById("cartTotal");
 const cartCount=document.getElementById("cartCount");
 
-// Toggle Cart
 function toggleCart(){
-    cartModal.style.display=cartModal.style.display==="none"?"block":"none";
+cartModal.classList.toggle("active");
 }
+
 cartIcon.onclick=toggleCart;
 
-// Add to Cart
-document.querySelectorAll(".addToCart").forEach(btn=>{
-btn.addEventListener("click",function(){
-let card=this.closest(".card");
+document.addEventListener("click",function(e){
+if(!cartModal.contains(e.target)&&!cartIcon.contains(e.target)){
+cartModal.classList.remove("active");
+}
+});
+
+document.addEventListener("click",function(e){
+if(e.target.classList.contains("addToCart")){
+let card=e.target.closest(".card");
 let name=card.dataset.name;
 let price=parseFloat(card.dataset.price);
 let existing=cart.find(i=>i.name===name);
 if(existing){existing.quantity++;}
 else{cart.push({name,price,quantity:1});}
-updateCart();
-});
+saveCart();
+}
 });
 
-// Update Cart UI
+function saveCart(){
+localStorage.setItem("cart",JSON.stringify(cart));
+updateCart();
+}
+
 function updateCart(){
 cartItems.innerHTML="";
 let total=0,count=0;
 
-if(cart.length === 0){
-    cartItems.innerHTML = "<p style='text-align:center; color:#777;'>Your cart is empty.</p>";
-} else {
-    cart.forEach((item,i)=>{
-    let itemTotal=item.price*item.quantity;
-    total+=itemTotal;
-    count+=item.quantity;
+if(cart.length===0){
+cartItems.innerHTML="<p style='text-align:center;color:#777;'>Your cart is empty.</p>";
+}else{
+cart.forEach((item,i)=>{
+let itemTotal=item.price*item.quantity;
+total+=itemTotal;
+count+=item.quantity;
 
-    cartItems.innerHTML+=`
-    <div class="cart-item-row">
-        <div>
-            <strong>${item.name}</strong><br>
-            <small>${item.price} EGP</small>
-        </div>
-        <div class="qty-controls">
-            <button class="qty-btn" onclick="changeQty(${i},-1)">-</button>
-            <span>${item.quantity}</span>
-            <button class="qty-btn" onclick="changeQty(${i},1)">+</button>
-        </div>
-        <div style="font-weight:bold;">${itemTotal}</div>
-    </div>
-    `;
-    });
+cartItems.innerHTML+=`
+<div class="cart-item-row">
+<div>
+<strong>${item.name}</strong><br>
+<small>${item.price} EGP</small>
+</div>
+
+<div class="qty-controls">
+<button class="qty-btn" onclick="changeQty(${i},-1)">-</button>
+<span>${item.quantity}</span>
+<button class="qty-btn" onclick="changeQty(${i},1)">+</button>
+</div>
+
+<div style="font-weight:bold;color:var(--glow);">
+${itemTotal} EGP
+</div>
+</div>
+`;
+});
 }
 
 cartTotal.innerText="Total: "+total+" EGP";
 cartCount.innerText=count;
 }
 
-// Change Quantity
 function changeQty(i,val){
 cart[i].quantity+=val;
 if(cart[i].quantity<=0)cart.splice(i,1);
-updateCart();
+saveCart();
 }
 
-// Send to WhatsApp
 function sendToWhatsApp(){
-if(cart.length===0){
-    alert("Cart is empty!");
-    return;
-}
+if(cart.length===0){alert("Cart is empty!");return;}
+
 let message="Hello, I want to order:%0A%0A";
 let total=0;
+
 cart.forEach(item=>{
 message+=`- ${item.name} (x${item.quantity}) : ${item.price*item.quantity} EGP%0A`;
 total+=item.price*item.quantity;
 });
+
 message+=`%0ATotal: ${total} EGP`;
 window.open(`https://wa.me/201288833842?text=${message}`);
 }
 
-// Search Filter
-document.getElementById("search").addEventListener("keyup",function(){
-let value=this.value.toLowerCase();
-let cards=document.querySelectorAll(".card");
-cards.forEach(card=>{
-let text=card.innerText.toLowerCase();
-card.style.display=text.includes(value)?"block":"none";
-});
-});
-
-// Fade Animation on Scroll
-window.addEventListener("scroll",()=>{
-let faders=document.querySelectorAll(".fade");
-faders.forEach(el=>{
-const top=el.getBoundingClientRect().top;
-if(top<window.innerHeight-100) el.classList.add("show");
-});
-});
+updateCart();
 </script>
 
 </body>
