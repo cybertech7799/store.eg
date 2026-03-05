@@ -105,6 +105,7 @@ border-radius:6px;background:#1e1e1e;color:white;
 
 footer{text-align:center;padding:30px;background:#111;opacity:0.9;}
 
+/* --- CART MODAL STYLES --- */
 #cartModal{
 display:none;
 position:fixed;
@@ -115,6 +116,38 @@ padding:20px;
 overflow-y:auto;
 z-index:2000;
 box-shadow:-5px 0 20px rgba(0,0,0,0.8);
+border-left: 1px solid var(--purple);
+}
+.cart-item-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+    border-bottom: 1px solid #333;
+    padding-bottom: 10px;
+}
+.qty-controls {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+.qty-btn {
+    background: #333;
+    color: white;
+    border: none;
+    width: 25px;
+    height: 25px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+.qty-btn:hover { background: var(--purple); }
+.close-cart {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    font-size: 24px;
+    cursor: pointer;
+    color: #aaa;
 }
 </style>
 </head>
@@ -177,10 +210,11 @@ box-shadow:-5px 0 20px rgba(0,0,0,0.8);
 
 <!-- CART -->
 <div id="cartModal">
-<h2 style="color:#8a2be2;">Your Cart</h2>
-<div id="cartItems"></div>
-<h3 id="cartTotal"></h3>
-<button onclick="sendToWhatsApp()" class="btn" style="width:100%;">Send Invoice via WhatsApp</button>
+    <span class="close-cart" onclick="toggleCart()">&times;</span>
+    <h2 style="color:#8a2be2; margin-bottom: 20px;">Your Cart</h2>
+    <div id="cartItems"></div>
+    <h3 id="cartTotal" style="margin-top: 20px; color: var(--glow);"></h3>
+    <button onclick="sendToWhatsApp()" class="btn" style="width:100%; margin-top: 15px;">Send Invoice via WhatsApp</button>
 </div>
 
 <footer>
@@ -221,10 +255,13 @@ const cartItems=document.getElementById("cartItems");
 const cartTotal=document.getElementById("cartTotal");
 const cartCount=document.getElementById("cartCount");
 
-cartIcon.onclick=()=>{
-cartModal.style.display=cartModal.style.display==="none"?"block":"none";
-};
+// Toggle Cart
+function toggleCart(){
+    cartModal.style.display=cartModal.style.display==="none"?"block":"none";
+}
+cartIcon.onclick=toggleCart;
 
+// Add to Cart
 document.querySelectorAll(".addToCart").forEach(btn=>{
 btn.addEventListener("click",function(){
 let card=this.closest(".card");
@@ -237,48 +274,81 @@ updateCart();
 });
 });
 
+// Update Cart UI
 function updateCart(){
 cartItems.innerHTML="";
 let total=0,count=0;
 
-cart.forEach((item,i)=>{
-let itemTotal=item.price*item.quantity;
-total+=itemTotal;
-count+=item.quantity;
+if(cart.length === 0){
+    cartItems.innerHTML = "<p style='text-align:center; color:#777;'>Your cart is empty.</p>";
+} else {
+    cart.forEach((item,i)=>{
+    let itemTotal=item.price*item.quantity;
+    total+=itemTotal;
+    count+=item.quantity;
 
-cartItems.innerHTML+=`
-<div style="margin-bottom:15px;border-bottom:1px solid #333;padding-bottom:10px;">
-<strong>${item.name}</strong><br>
-${item.price} EGP x 
-<button onclick="changeQty(${i},-1)">-</button>
-${item.quantity}
-<button onclick="changeQty(${i},1)">+</button>
-<br>Total: ${itemTotal} EGP
-</div>
-`;
-});
+    cartItems.innerHTML+=`
+    <div class="cart-item-row">
+        <div>
+            <strong>${item.name}</strong><br>
+            <small>${item.price} EGP</small>
+        </div>
+        <div class="qty-controls">
+            <button class="qty-btn" onclick="changeQty(${i},-1)">-</button>
+            <span>${item.quantity}</span>
+            <button class="qty-btn" onclick="changeQty(${i},1)">+</button>
+        </div>
+        <div style="font-weight:bold;">${itemTotal}</div>
+    </div>
+    `;
+    });
+}
 
 cartTotal.innerText="Total: "+total+" EGP";
 cartCount.innerText=count;
 }
 
+// Change Quantity
 function changeQty(i,val){
 cart[i].quantity+=val;
 if(cart[i].quantity<=0)cart.splice(i,1);
 updateCart();
 }
 
+// Send to WhatsApp
 function sendToWhatsApp(){
-if(cart.length===0)return;
+if(cart.length===0){
+    alert("Cart is empty!");
+    return;
+}
 let message="Hello, I want to order:%0A%0A";
 let total=0;
 cart.forEach(item=>{
-message+=`${item.name} - ${item.quantity} x ${item.price} EGP%0A`;
+message+=`- ${item.name} (x${item.quantity}) : ${item.price*item.quantity} EGP%0A`;
 total+=item.price*item.quantity;
 });
 message+=`%0ATotal: ${total} EGP`;
 window.open(`https://wa.me/201288833842?text=${message}`);
 }
+
+// Search Filter
+document.getElementById("search").addEventListener("keyup",function(){
+let value=this.value.toLowerCase();
+let cards=document.querySelectorAll(".card");
+cards.forEach(card=>{
+let text=card.innerText.toLowerCase();
+card.style.display=text.includes(value)?"block":"none";
+});
+});
+
+// Fade Animation on Scroll
+window.addEventListener("scroll",()=>{
+let faders=document.querySelectorAll(".fade");
+faders.forEach(el=>{
+const top=el.getBoundingClientRect().top;
+if(top<window.innerHeight-100) el.classList.add("show");
+});
+});
 </script>
 
 </body>
