@@ -309,16 +309,61 @@ Back
 
 const products=[
 
-{name:"WiFi Deauther",price:450,image:"https://images.unsplash.com/photo-1555949963-aa79dcee981c"},
-{name:"USB Rubber Ducky",price:750,image:"https://images.unsplash.com/photo-1593642532973-d31b6557fa68"},
-{name:"Raspberry Pi Pentest Kit",price:1200,image:"https://images.unsplash.com/photo-1587202372775-a4f1d6c0b89d"},
-{name:"Network Sniffer",price:650,image:"https://images.unsplash.com/photo-1550751827-4bd374c3f58b"},
-{name:"RF Analyzer",price:900,image:"https://images.unsplash.com/photo-1581091870622-1e7b3cba2d9b"},
-{name:"Portable Kali Device",price:1100,image:"https://images.unsplash.com/photo-1587202372616-8c3f6a5b7c24"},
-{name:"Password Cracker",price:1300,image:"https://images.unsplash.com/photo-1518770660439-4636190af475"},
-{name:"Cyber Security Toolkit",price:1500,image:"https://images.unsplash.com/photo-1556155092-490a1ba16284"},
-{name:"WiFi Pineapple",price:1700,image:"https://images.unsplash.com/photo-1517430816045-df4b7de11d1d"},
-{name:"Forensics Kit",price:2000,image:"https://images.unsplash.com/photo-1563206767-5b18f218e8de"}
+{
+name:"M5STACKC PLUS2",
+price:2999,
+image:"https://i.postimg.cc/d1BvvtD1/IMG-5720.jpg",
+desc:"ESP32-PiCo-V3-O2-Based IOT kit with WI-FI ,bluetooth and screen built for smart innovation."
+},
+
+{
+name:"T-Embed",
+price:4999,
+image:"https://i.postimg.cc/wMGCTtzq/IMG-5725.jpg",
+desc:"NFC module with 12c and built-in battery,perfect for IOT and smart projects."
+},
+
+{
+name:"Mobile IR Remote",
+price:299,
+image:"https://i.postimg.cc/BZVkFKWb/IMG-5726.jpg",
+desc:"Turn your smartphone into a remote."
+},
+
+{
+name:"ESP32 Bruce CYD24",
+price:1199,
+image:"https://i.postimg.cc/k45Y6nfB/IMG-5721.jpg",
+desc:"WI-FI Bluetooth NFC PN532 CNSS ATGM336H."
+},
+
+{
+name:"Flipper Zero",
+price:24999,
+image:"https://i.postimg.cc/Jn7vN348/IMG-5727.jpg",
+desc:"Testing wireless systems,RFID,NFC,and infrared devices Perfect for security research."
+},
+
+{
+name:"NRF24L01",
+price:250,
+image:"https://i.postimg.cc/6Q6xcxMC/IMG-5722.jpg",
+desc:"Wireless module-low powers high speed, Transceiver for Arduino ESP32 , Perfect for IOT sensors and remote control projects."
+},
+
+{
+name:"Premium Wires",
+price:150,
+image:"https://i.postimg.cc/pT4NPhR8/IMG-5724.jpg",
+desc:"As many as you order in dm with details."
+},
+
+{
+name:"A limited bundle",
+price:299,
+image:"https://i.postimg.cc/NjY3Gwqb/IMG-5723.jpg",
+desc:"N532NFC RFLD V3 module- ICS50 card read - PCB ANTENNA ,12cllC/SPL/HAU/interface for Arduino."
+},
 
 ]
 
@@ -334,7 +379,7 @@ grid.innerHTML+=`
 
 <h3>${p.name}</h3>
 
-<p>Professional cyber security device.</p>
+<p>${p.desc}</p>
 
 <p style="color:#b266ff;font-weight:bold;">${p.price} EGP</p>
 
@@ -345,6 +390,7 @@ grid.innerHTML+=`
 `
 
 })
+
 
 /* CART */
 
@@ -552,3 +598,4 @@ draw()
 
 </body>
 </html>
+
