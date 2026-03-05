@@ -186,6 +186,25 @@ border-bottom:1px solid #333;
 padding-bottom:10px;
 }
 
+/* NOTIFICATION */
+
+#notification{
+position:fixed;
+bottom:30px;
+right:-400px;
+background:linear-gradient(45deg,#8a2be2,#b266ff);
+padding:15px 25px;
+border-radius:10px;
+font-weight:bold;
+box-shadow:0 0 20px rgba(178,102,255,0.6);
+transition:0.5s;
+z-index:9999;
+}
+
+#notification.show{
+right:30px;
+}
+
 footer{
 text-align:center;
 padding:30px;
@@ -244,7 +263,7 @@ Cyber Tech Store does not promote or support illegal activities.
 </div>
 
 
-<div style="margin-top:40px;background:#121212;border:1px solid #222;padding:25px;border-radius:10px;text-align:center;max-width:600px;margin:auto;">
+<div style="margin-top:140px;background:#121212;border:1px solid #222;padding:25px;border-radius:10px;text-align:center;max-width:600px;margin:auto;">
 
 <h3 style="color:#8a2be2;font-family:'Orbitron';margin-bottom:15px;">
 Contact
@@ -278,11 +297,11 @@ Back
 
 </div>
 
-
 <footer>
 © 2026 Cyber Tech Store
 </footer>
 
+<div id="notification"></div>
 
 <script>
 
@@ -351,6 +370,8 @@ else{cart.push({name,price,qty:1})}
 
 updateCart()
 
+showNotification(name+" added to cart")
+
 }
 
 })
@@ -409,6 +430,24 @@ updateCart()
 
 }
 
+/* NOTIFICATION */
+
+function showNotification(text){
+
+const notification=document.getElementById("notification")
+
+notification.innerText="✔ "+text
+
+notification.classList.add("show")
+
+setTimeout(()=>{
+
+notification.classList.remove("show")
+
+},2500)
+
+}
+
 /* WHATSAPP */
 
 function orderWhatsApp(){
@@ -439,21 +478,16 @@ window.open(`https://wa.me/201288833842?text=${msg}`)
 /* NAV */
 
 function showCart(){
-
 homePage.style.display="none"
 cartPage.style.display="block"
-
 }
 
 function showHome(){
-
 cartPage.style.display="none"
 homePage.style.display="block"
-
 }
 
 document.getElementById("cartIcon").onclick=showCart
-
 
 /* SEARCH */
 
@@ -470,7 +504,6 @@ c.style.display=n.includes(v)?"block":"none"
 })
 
 })
-
 
 /* MATRIX */
 
@@ -503,7 +536,6 @@ let text=letters[Math.floor(Math.random()*letters.length)]
 ctx.fillText(text,i*fontSize,drops[i]*fontSize)
 
 if(drops[i]*fontSize>canvas.height && Math.random()>0.975)
-
 drops[i]=0
 
 drops[i]++
