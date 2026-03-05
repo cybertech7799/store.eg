@@ -3,201 +3,269 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Cyber Tech Store | Security Tools</title>
+<title>Cyber Tech Store</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Poppins:wght@300;400;500&display=swap" rel="stylesheet">
 
 <style>
+
 :root{
 --black:#0a0a0a;
---dark:#111;
 --purple:#8a2be2;
 --glow:#b266ff;
---white:#fff;
 }
 
-*{margin:0;padding:0;box-sizing:border-box;font-family:'Poppins',sans-serif;}
-body{background:var(--black);color:white;overflow-x:hidden;position:relative;}
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:'Poppins',sans-serif;
+}
 
-canvas#matrix{
-position:fixed;top:0;left:0;width:100%;height:100%;z-index:-1;
+body{
+background:var(--black);
+color:white;
+overflow-x:hidden;
+}
+
+canvas{
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+z-index:-1;
 }
 
 /* NAV */
+
 nav{
-display:flex;justify-content:space-between;align-items:center;
-padding:20px 8%;background:rgba(0,0,0,0.8);
-backdrop-filter:blur(10px);
-position:fixed;width:100%;z-index:1000;
+display:flex;
+justify-content:space-between;
+align-items:center;
+padding:20px 8%;
+background:#000;
+position:fixed;
+width:100%;
+z-index:1000;
 }
-.logo{font-family:'Orbitron';color:var(--purple);font-size:22px;}
-nav ul{display:flex;gap:25px;list-style:none;}
-nav a{color:white;text-decoration:none;transition:.3s;}
-nav a:hover{color:var(--purple);}
 
-#cartIcon{cursor:pointer;position:relative;font-size:22px;}
+.logo{
+font-family:'Orbitron';
+color:var(--purple);
+font-size:22px;
+}
+
+nav ul{
+display:flex;
+gap:25px;
+list-style:none;
+}
+
+nav a{
+color:white;
+text-decoration:none;
+}
+
+#cartIcon{
+cursor:pointer;
+font-size:22px;
+position:relative;
+}
+
 #cartCount{
-position:absolute;top:-10px;right:-15px;
-background:var(--purple);border-radius:50%;
-padding:2px 7px;font-size:12px;
-}
-
-/* SEARCH */
-.search-box{text-align:center;margin-bottom:40px;}
-.search-box input{
-width:300px;padding:10px;border-radius:6px;
-border:1px solid #333;background:#111;color:white;
+position:absolute;
+top:-10px;
+right:-15px;
+background:var(--purple);
+border-radius:50%;
+padding:2px 7px;
+font-size:12px;
 }
 
 /* HERO */
+
 .hero{
-height:100vh;display:flex;justify-content:center;align-items:center;
-flex-direction:column;text-align:center;padding-top:60px;
+height:100vh;
+display:flex;
+flex-direction:column;
+justify-content:center;
+align-items:center;
+text-align:center;
 }
+
 .hero h1{
-font-family:'Orbitron';font-size:55px;color:var(--glow);
-animation:glow 2s infinite alternate;
+font-family:'Orbitron';
+font-size:55px;
+color:var(--glow);
 }
-@keyframes glow{
-from{text-shadow:0 0 10px var(--purple);}
-to{text-shadow:0 0 30px var(--glow);}
+
+.hero p{
+margin-top:15px;
+max-width:600px;
+opacity:0.8;
 }
-.hero p{margin-top:20px;max-width:600px;opacity:0.8;font-size:18px;}
 
 .btn{
-margin-top:15px;padding:10px 20px;
-background:var(--purple);border:none;
-border-radius:6px;color:white;
-cursor:pointer;transition:.3s;
-text-decoration:none;display:inline-block;
+margin-top:15px;
+padding:10px 20px;
+background:var(--purple);
+border:none;
+border-radius:6px;
+color:white;
+cursor:pointer;
+text-decoration:none;
 }
-.btn:hover{background:var(--glow);transform:scale(1.05);}
 
-section{padding:100px 8%;}
+/* PRODUCTS */
+
+section{
+padding:100px 8%;
+}
+
 .section-title{
-font-family:'Orbitron';color:var(--purple);
-text-align:center;margin-bottom:60px;font-size:36px;
+font-family:'Orbitron';
+color:var(--purple);
+text-align:center;
+margin-bottom:40px;
+font-size:36px;
+}
+
+.search-box{
+text-align:center;
+margin-bottom:30px;
+}
+
+.search-box input{
+width:300px;
+padding:10px;
+border-radius:6px;
+border:1px solid #333;
+background:#111;
+color:white;
 }
 
 .grid{
 display:grid;
-grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
-gap:30px;
+grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+gap:25px;
 }
+
 .card{
-background:#121212;padding:20px;border-radius:10px;
-transition:.4s;border:1px solid #222;
-}
-.card:hover{
-transform:translateY(-10px);
-box-shadow:0 0 25px var(--purple);
-}
-.image{
-height:180px;background:#1e1e1e;
-border-radius:8px;margin-bottom:15px;
-}
-
-/* CART PAGE */
-#cartPage{
-display:none;padding:120px 8%;
-min-height:100vh;background:#0a0a0a;
-}
-
-.cart-item-row{
-display:flex;justify-content:space-between;
-align-items:center;margin-bottom:15px;
-border-bottom:1px solid #333;padding-bottom:10px;
-}
-
-.qty-controls{display:flex;align-items:center;gap:10px;}
-.qty-btn{
-background:#333;color:white;border:none;
-width:25px;height:25px;border-radius:4px;cursor:pointer;
-}
-.qty-btn:hover{background:var(--purple);}
-
-/* Toast Notification */
-#notify{
-position:fixed;
-bottom:30px;
-right:-400px;
-background:linear-gradient(45deg,#8a2be2,#b266ff);
-padding:18px 25px;
+background:#121212;
+padding:15px;
 border-radius:10px;
-box-shadow:0 0 20px rgba(178,102,255,0.6);
-font-weight:bold;
-transition:0.5s ease;
+transition:0.3s;
 }
-#notify.show{right:30px;}
 
-footer{text-align:center;padding:30px;background:#111;opacity:0.9;}
+.card:hover{
+transform:translateY(-8px);
+box-shadow:0 0 20px var(--purple);
+}
+
+.card img{
+width:100%;
+height:180px;
+object-fit:cover;
+border-radius:8px;
+margin-bottom:10px;
+}
+
+/* CART */
+
+#cartPage{
+display:none;
+padding:120px 8%;
+}
+
+.cart-row{
+display:flex;
+justify-content:space-between;
+margin-bottom:15px;
+border-bottom:1px solid #333;
+padding-bottom:10px;
+}
+
+footer{
+text-align:center;
+padding:30px;
+background:#111;
+}
+
 </style>
 </head>
+
 <body>
 
 <canvas id="matrix"></canvas>
 
 <nav>
 <div class="logo">CYBER TECH</div>
+
 <ul>
 <li><a href="#" onclick="showHome()">Home</a></li>
 <li><a href="#products" onclick="showHome()">Products</a></li>
 </ul>
+
 <div id="cartIcon">🛒 <span id="cartCount">0</span></div>
+
 </nav>
+
 
 <div id="homePage">
 
 <div class="hero">
+
 <h1>Cyber Tech Store</h1>
-<p>Professional penetration testing and digital security tools built for advanced operators.</p>
+
+<p>
+Professional penetration testing and digital security tools.
+</p>
+
 <a href="#products" class="btn">Explore Tools</a>
+
 </div>
 
+
 <section id="products">
+
 <h2 class="section-title">Our Tools</h2>
 
 <div class="search-box">
-<input type="text" id="searchInput" placeholder="Search product by name...">
+<input type="text" id="searchInput" placeholder="Search product...">
 </div>
 
-<div class="grid">
-<script>
-for(let i=1;i<=8;i++){
-document.write(`
-<div class="card" data-name="Tool Name ${i}" data-price="${100+i*50}">
-<div class="image"></div>
-<h3>Tool Name ${i}</h3>
-<p>Description of tool ${i}.</p>
-<p style="color:#b266ff;font-weight:bold;">${100+i*50} EGP</p>
-<button class="btn addToCart">Add To Cart</button>
-</div>
-`);
-}
-</script>
+<div class="grid" id="productGrid"></div>
+
+
+<div style="margin-top:60px;text-align:center;color:#aaa;font-size:14px;max-width:700px;margin:auto;">
+All products are sold strictly for educational and research purposes only.
+Cyber Tech Store does not promote or support illegal activities.
 </div>
 
-<!-- DISCLAIMER -->
-<div style="margin-top:60px;text-align:center;color:#aaa;font-size:14px;max-width:700px;margin-left:auto;margin-right:auto;">
-All products are sold strictly for educational and research purposes only. 
-Cyber Tech Store does not promote or support any illegal activities. 
-By purchasing, you agree to use these tools responsibly and within legal boundaries.
-</div>
 
-<!-- CONTACT BOX -->
-<div style="margin-top:40px;background:#121212;border:1px solid #222;padding:25px;border-radius:10px;text-align:center;max-width:600px;margin-left:auto;margin-right:auto;box-shadow:0 0 20px rgba(138,43,226,0.2);">
-<h3 style="color:#8a2be2;font-family:'Orbitron';margin-bottom:15px;">Contact Information</h3>
-<p style="margin-bottom:8px;">📞 Phone: <span style="color:#b266ff;">01288833842</span></p>
-<p>📧 Email: <span style="color:#b266ff;">Cyber.tech7799@gmail.com</span></p>
+<div style="margin-top:40px;background:#121212;border:1px solid #222;padding:25px;border-radius:10px;text-align:center;max-width:600px;margin:auto;">
+
+<h3 style="color:#8a2be2;font-family:'Orbitron';margin-bottom:15px;">
+Contact
+</h3>
+
+<p>📞 01288833842</p>
+<p>📧 Cyber.tech7799@gmail.com</p>
+
 </div>
 
 </section>
+
 </div>
 
-<!-- CART PAGE -->
+
 <div id="cartPage">
+
 <h2 class="section-title">Your Cart</h2>
+
 <div id="cartItems"></div>
+
 <h3 id="cartTotal"></h3>
 
 <button onclick="orderWhatsApp()" class="btn" style="width:100%;margin-top:20px;">
@@ -205,122 +273,249 @@ Order via WhatsApp
 </button>
 
 <button onclick="showHome()" class="btn" style="width:100%;margin-top:10px;background:#333;">
-Back To Store
+Back
 </button>
+
 </div>
 
-<div id="notify"></div>
 
 <footer>
-©️ 2026 Cyber Tech Store | All Rights Reserved
+© 2026 Cyber Tech Store
 </footer>
 
+
 <script>
-// MATRIX (زي ما هو)
-const canvas=document.getElementById("matrix");
-const ctx=canvas.getContext("2d");
-canvas.width=window.innerWidth;
-canvas.height=window.innerHeight;
-let letters="01".split("");
-let fontSize=14;
-let columns=canvas.width/fontSize;
-let drops=[];
-for(let x=0;x<columns;x++)drops[x]=1;
-function draw(){
-ctx.fillStyle="rgba(0,0,0,0.05)";
-ctx.fillRect(0,0,canvas.width,canvas.height);
-ctx.fillStyle="#8a2be2";
-ctx.font=fontSize+"px monospace";
-for(let i=0;i<drops.length;i++){
-let text=letters[Math.floor(Math.random()*letters.length)];
-ctx.fillText(text,i*fontSize,drops[i]*fontSize);
-if(drops[i]*fontSize>canvas.height&&Math.random()>0.975)drops[i]=0;
-drops[i]++;
+
+/* PRODUCTS */
+
+const products=[
+
+{name:"WiFi Deauther",price:450,image:"https://images.unsplash.com/photo-1555949963-aa79dcee981c"},
+{name:"USB Rubber Ducky",price:750,image:"https://images.unsplash.com/photo-1593642532973-d31b6557fa68"},
+{name:"Raspberry Pi Pentest Kit",price:1200,image:"https://images.unsplash.com/photo-1587202372775-a4f1d6c0b89d"},
+{name:"Network Sniffer",price:650,image:"https://images.unsplash.com/photo-1550751827-4bd374c3f58b"},
+{name:"RF Analyzer",price:900,image:"https://images.unsplash.com/photo-1581091870622-1e7b3cba2d9b"},
+{name:"Portable Kali Device",price:1100,image:"https://images.unsplash.com/photo-1587202372616-8c3f6a5b7c24"},
+{name:"Password Cracker",price:1300,image:"https://images.unsplash.com/photo-1518770660439-4636190af475"},
+{name:"Cyber Security Toolkit",price:1500,image:"https://images.unsplash.com/photo-1556155092-490a1ba16284"},
+{name:"WiFi Pineapple",price:1700,image:"https://images.unsplash.com/photo-1517430816045-df4b7de11d1d"},
+{name:"Forensics Kit",price:2000,image:"https://images.unsplash.com/photo-1563206767-5b18f218e8de"}
+
+]
+
+const grid=document.getElementById("productGrid")
+
+products.forEach(p=>{
+
+grid.innerHTML+=`
+
+<div class="card" data-name="${p.name}" data-price="${p.price}">
+
+<img src="${p.image}">
+
+<h3>${p.name}</h3>
+
+<p>Professional cyber security device.</p>
+
+<p style="color:#b266ff;font-weight:bold;">${p.price} EGP</p>
+
+<button class="btn add">Add To Cart</button>
+
+</div>
+
+`
+
+})
+
+/* CART */
+
+let cart=[]
+
+const cartItems=document.getElementById("cartItems")
+const cartTotal=document.getElementById("cartTotal")
+const cartCount=document.getElementById("cartCount")
+
+document.addEventListener("click",e=>{
+
+if(e.target.classList.contains("add")){
+
+let card=e.target.closest(".card")
+
+let name=card.dataset.name
+let price=parseFloat(card.dataset.price)
+
+let item=cart.find(i=>i.name===name)
+
+if(item){item.qty++}
+else{cart.push({name,price,qty:1})}
+
+updateCart()
+
 }
-requestAnimationFrame(draw);
-}
-draw();
 
-// CART SYSTEM
-let cart=JSON.parse(localStorage.getItem("cart"))||[];
-const cartItems=document.getElementById("cartItems");
-const cartTotal=document.getElementById("cartTotal");
-const cartCount=document.getElementById("cartCount");
-const notify=document.getElementById("notify");
-
-function showCart(){homePage.style.display="none";cartPage.style.display="block";updateCart();}
-function showHome(){cartPage.style.display="none";homePage.style.display="block";}
-document.getElementById("cartIcon").onclick=showCart;
-
-document.addEventListener("click",function(e){
-if(e.target.classList.contains("addToCart")){
-let card=e.target.closest(".card");
-let name=card.dataset.name;
-let price=parseFloat(card.dataset.price);
-let existing=cart.find(i=>i.name===name);
-if(existing){existing.quantity++;}else{cart.push({name,price,quantity:1});}
-saveCart();
-showNotification("✔ "+name+" added to cart");
-}
-});
-
-function saveCart(){localStorage.setItem("cart",JSON.stringify(cart));updateCart();}
+})
 
 function updateCart(){
-cartItems.innerHTML="";
-let total=0,count=0;
+
+cartItems.innerHTML=""
+let total=0
+let count=0
+
 cart.forEach((item,i)=>{
-let itemTotal=item.price*item.quantity;
-total+=itemTotal;count+=item.quantity;
+
+let itemTotal=item.price*item.qty
+total+=itemTotal
+count+=item.qty
+
 cartItems.innerHTML+=`
-<div class="cart-item-row">
-<div><strong>${item.name}</strong><br><small>${item.price} EGP</small></div>
-<div class="qty-controls">
-<button class="qty-btn" onclick="changeQty(${i},-1)">-</button>
-<span>${item.quantity}</span>
-<button class="qty-btn" onclick="changeQty(${i},1)">+</button>
+
+<div class="cart-row">
+
+<div>
+<b>${item.name}</b><br>
+${item.price} EGP
 </div>
-<div style="font-weight:bold;color:#b266ff;">${itemTotal} EGP</div>
-</div>`;
-});
-cartTotal.innerText="Total: "+total+" EGP";
-cartCount.innerText=count;
+
+<div>
+
+<button onclick="changeQty(${i},-1)">-</button>
+
+${item.qty}
+
+<button onclick="changeQty(${i},1)">+</button>
+
+</div>
+
+<div>${itemTotal} EGP</div>
+
+</div>
+
+`
+
+})
+
+cartTotal.innerText="Total: "+total+" EGP"
+cartCount.innerText=count
+
 }
 
-function changeQty(i,val){
-cart[i].quantity+=val;
-if(cart[i].quantity<=0)cart.splice(i,1);
-saveCart();
+function changeQty(i,v){
+
+cart[i].qty+=v
+
+if(cart[i].qty<=0)cart.splice(i,1)
+
+updateCart()
+
 }
 
-function showNotification(text){
-notify.innerText=text;
-notify.classList.add("show");
-setTimeout(()=>{notify.classList.remove("show");},2500);
-}
+/* WHATSAPP */
 
 function orderWhatsApp(){
-if(cart.length===0){alert("Cart is empty");return;}
-let message="Hello Cyber Tech Store,%0A%0AOrder Details:%0A";
-let total=0;
-cart.forEach(item=>{
-message+=`- ${item.name} (x${item.quantity}) = ${item.price*item.quantity} EGP%0A`;
-total+=item.price*item.quantity;
-});
-message+=`%0ATotal: ${total} EGP`;
-window.open(`https://wa.me/201288833842?text=${message}`);
+
+if(cart.length==0){
+alert("Cart empty")
+return
 }
 
-updateCart();
+let msg="Hello Cyber Tech Store%0AOrder:%0A"
 
-// SEARCH
+let total=0
+
+cart.forEach(i=>{
+
+msg+=`${i.name} x${i.qty} = ${i.price*i.qty} EGP%0A`
+
+total+=i.price*i.qty
+
+})
+
+msg+=`Total: ${total} EGP`
+
+window.open(`https://wa.me/201288833842?text=${msg}`)
+
+}
+
+/* NAV */
+
+function showCart(){
+
+homePage.style.display="none"
+cartPage.style.display="block"
+
+}
+
+function showHome(){
+
+cartPage.style.display="none"
+homePage.style.display="block"
+
+}
+
+document.getElementById("cartIcon").onclick=showCart
+
+
+/* SEARCH */
+
 document.getElementById("searchInput").addEventListener("keyup",function(){
-let value=this.value.toLowerCase();
-document.querySelectorAll(".card").forEach(card=>{
-let name=card.dataset.name.toLowerCase();
-card.style.display=name.includes(value)?"block":"none";
-});
-});
+
+let v=this.value.toLowerCase()
+
+document.querySelectorAll(".card").forEach(c=>{
+
+let n=c.dataset.name.toLowerCase()
+
+c.style.display=n.includes(v)?"block":"none"
+
+})
+
+})
+
+
+/* MATRIX */
+
+const canvas=document.getElementById("matrix")
+const ctx=canvas.getContext("2d")
+
+canvas.width=window.innerWidth
+canvas.height=window.innerHeight
+
+let letters="01"
+let fontSize=14
+let columns=canvas.width/fontSize
+
+let drops=[]
+
+for(let x=0;x<columns;x++)drops[x]=1
+
+function draw(){
+
+ctx.fillStyle="rgba(0,0,0,0.05)"
+ctx.fillRect(0,0,canvas.width,canvas.height)
+
+ctx.fillStyle="#8a2be2"
+ctx.font=fontSize+"px monospace"
+
+for(let i=0;i<drops.length;i++){
+
+let text=letters[Math.floor(Math.random()*letters.length)]
+
+ctx.fillText(text,i*fontSize,drops[i]*fontSize)
+
+if(drops[i]*fontSize>canvas.height && Math.random()>0.975)
+
+drops[i]=0
+
+drops[i]++
+
+}
+
+requestAnimationFrame(draw)
+
+}
+
+draw()
+
 </script>
 
 </body>
