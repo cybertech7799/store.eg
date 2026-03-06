@@ -25,16 +25,6 @@ font-family:'Poppins',sans-serif;
 body{
 background:var(--black);
 color:white;
-overflow-x:hidden;
-}
-
-canvas{
-position:fixed;
-top:0;
-left:0;
-width:100%;
-height:100%;
-z-index:-1;
 }
 
 /* NAV */
@@ -44,11 +34,11 @@ display:flex;
 justify-content:space-between;
 align-items:center;
 padding:20px 8%;
-backdrop-filter: blur(12px);
-background:rgba(0,0,0,0.4);
+background:rgba(0,0,0,0.6);
 position:fixed;
 width:100%;
 z-index:1000;
+backdrop-filter:blur(10px);
 }
 
 .logo{
@@ -118,6 +108,23 @@ cursor:pointer;
 text-decoration:none;
 }
 
+/* FILTER */
+
+.filters{
+text-align:center;
+margin-bottom:30px;
+}
+
+.filters button{
+margin:5px;
+padding:8px 14px;
+border:none;
+background:#222;
+color:white;
+border-radius:6px;
+cursor:pointer;
+}
+
 /* PRODUCTS */
 
 section{
@@ -132,20 +139,6 @@ margin-bottom:40px;
 font-size:36px;
 }
 
-.search-box{
-text-align:center;
-margin-bottom:30px;
-}
-
-.search-box input{
-width:300px;
-padding:10px;
-border-radius:6px;
-border:1px solid #333;
-background:#111;
-color:white;
-}
-
 .grid{
 display:grid;
 grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
@@ -157,7 +150,7 @@ background:#121212;
 padding:15px;
 border-radius:10px;
 transition:0.3s;
-cursor:pointer;
+position:relative;
 }
 
 .card:hover{
@@ -173,100 +166,32 @@ border-radius:8px;
 margin-bottom:10px;
 }
 
-/* PRODUCT PAGE */
-
-#productPage{
-display:none;
-padding:120px 8%;
-text-align:center;
+.badge{
+position:absolute;
+top:10px;
+left:10px;
+background:var(--purple);
+padding:4px 8px;
+font-size:11px;
+border-radius:4px;
 }
 
-#productPage img{
-width:300px;
-border-radius:10px;
-margin-bottom:20px;
+.rating{
+color:gold;
+font-size:14px;
+margin-bottom:6px;
 }
 
-#pName{
-color:var(--purple);
-}
-
-/* DISCLAIMER */
-
-.products-disclaimer {
-margin-top:60px;
-margin-bottom:60px;
-text-align:center;
-color:#ddd;
-font-size:16px;
-max-width:750px;
-margin-left:auto;
-margin-right:auto;
-line-height:1.8;
-padding:25px;
-background:linear-gradient(145deg,#111,#1a1a1a);
-border-radius:15px;
-box-shadow:0 0 25px rgba(138,43,226,0.4);
-}
-
-/* CONTACT */
-
-.contact-box{
-margin-top:80px;
-background:linear-gradient(145deg,#111,#1a1a1a);
-border:1px solid #222;
-padding:25px;
-border-radius:15px;
-text-align:center;
-max-width:600px;
-margin-left:auto;
-margin-right:auto;
-box-shadow:0 0 25px rgba(138,43,226,0.4);
-}
-
-/* CART */
-
-#cartPage{
-display:none;
-padding:120px 8%;
-}
-
-.cart-row{
-display:flex;
-justify-content:space-between;
-margin-bottom:15px;
-border-bottom:1px solid #333;
-padding-bottom:10px;
-flex-wrap:wrap;
-}
-
-.cart-row div{
-margin-bottom:5px;
-}
-
-/* NOTIFICATION */
-
-#notification{
-position:fixed;
-bottom:30px;
-right:-400px;
-background:linear-gradient(45deg,#8a2be2,#b266ff);
-padding:15px 25px;
-border-radius:10px;
-font-weight:bold;
-box-shadow:0 0 20px rgba(178,102,255,0.6);
-transition:0.5s;
-z-index:9999;
-}
-
-#notification.show{
-right:30px;
+.stock-low{
+color:#ff4d4d;
+font-size:13px;
 }
 
 footer{
 text-align:center;
 padding:30px;
 background:#111;
+margin-top:50px;
 }
 
 </style>
@@ -274,357 +199,196 @@ background:#111;
 
 <body>
 
-<canvas id="matrix"></canvas>
-
 <nav>
+
 <div class="logo">CYBER TECH</div>
 
 <ul>
-<li><a href="#" onclick="showHome()">Home</a></li>
-<li><a href="#products" onclick="showHome()">Products</a></li>
+<li><a href="#">Home</a></li>
+<li><a href="#products">Products</a></li>
 </ul>
 
-<div id="cartIcon">🛒 <span id="cartCount">0</span></div>
+<div id="cartIcon">
+🛒 <span id="cartCount">0</span>
+</div>
 
 </nav>
 
-<div id="homePage">
-
 <div class="hero">
+
 <h1>Cyber Tech Store</h1>
-<p>Professional penetration testing and digital security tools.</p>
+
+<p>Professional penetration testing and IoT hardware tools.</p>
+
 <a href="#products" class="btn">Explore Tools</a>
+
 </div>
 
 <section id="products">
 
 <h2 class="section-title">Our Tools</h2>
 
-<div class="search-box">
-<input type="text" id="searchInput" placeholder="Search product...">
+<div class="filters">
+
+<button onclick="filterProducts('all')">All</button>
+<button onclick="filterProducts('iot')">IoT</button>
+<button onclick="filterProducts('rf')">RF</button>
+<button onclick="filterProducts('modules')">Modules</button>
+
 </div>
 
 <div class="grid" id="productGrid"></div>
 
-<div class="products-disclaimer">
-All products are sold strictly for educational and research purposes only.
-Cyber Tech Store does not promote or support illegal activities.
-</div>
-
-<div class="contact-box">
-<h3 style="color:#8a2be2;font-family:'Orbitron';margin-bottom:15px;">
-Contact
-</h3>
-
-<p>📞 01288833842</p>
-<p>📧 Cyber.tech7799@gmail.com</p>
-</div>
-
 </section>
 
-</div>
-
-<div id="productPage">
-
-<h2 id="pName"></h2>
-
-<img id="pImg">
-
-<p id="pDesc"></p>
-
-<h3 id="pPrice"></h3>
-
-<button id="pAdd" class="btn">Add To Cart</button>
-
-<br><br>
-
-<button onclick="showHome()" class="btn">Back</button>
-
-</div>
-
-<div id="cartPage">
-
-<h2 class="section-title">Your Cart</h2>
-
-<div id="cartItems"></div>
-
-<h3 id="cartTotal"></h3>
-
-<div style="margin-top:20px;">
-<input id="discountCode" placeholder="Discount Code"
-style="width:100%;padding:10px;border-radius:6px;border:none;margin-bottom:10px;">
-<button onclick="applyDiscount()" class="btn" style="width:100%;">Apply Code</button>
-</div>
-
-<button onclick="orderWhatsApp()" class="btn" style="width:100%;margin-top:20px;">
-Checkout via WhatsApp
-</button>
-
-<button onclick="showHome()" class="btn" style="width:100%;margin-top:10px;background:#333;">
-Back
-</button>
-
-</div>
-
 <footer>
-©️ 2026 Cyber Tech Store
+© 2026 Cyber Tech Store
 </footer>
-
-<div id="notification"></div>
 
 <script>
 
-// PRODUCTS
 const products=[
-{name:"Flipper Zero",price:24999,stock:6,image:"https://image2url.com/r2/default/images/1772738184200-4f09180b-546f-47ae-94bd-4b7ba162f724.jpeg",desc:"Multi tool for testing RFID NFC and wireless systems."},
-{name:"NRF24L01",price:250,stock:53,image:"https://image2url.com/r2/default/images/1772738244772-7ffeab84-7355-40f7-b459-8d528dec2b95.jpeg",desc:"Wireless transceiver module for Arduino and ESP32 projects."},
-{name:"ESP32 Bruce CYD24",price:1199,stock:10,image:"https://image2url.com/r2/default/images/1772738204799-bf642669-610a-4d4c-8e96-9858acbfa383.jpeg",desc:"WiFi Bluetooth development board for advanced IoT projects."},
-{name:"Mobile IR Remote",price:299,stock:20,image:"https://image2url.com/r2/default/images/1772738156638-ca629519-0d80-4bb7-9a8e-6d6abeea3f92.jpeg",desc:"Turn your smartphone into an infrared universal remote."},
-{name:"Premium Wires",price:150,stock:14,image:"https://image2url.com/r2/default/images/1772738291988-375603c1-a999-43cf-b199-2e79efd32b91.jpeg",desc:"High quality wires for electronics and prototyping."},
-{name:"T-Embed",price:4999,stock:11,image:"https://image2url.com/r2/default/images/1772738131322-bfefd54e-0f5a-4590-9b54-463921a14bc7.jpeg",desc:"NFC embedded device for smart hardware projects."},
-{name:"M5Stack Core2",price:2999,stock:24,image:"https://image2url.com/r2/default/images/1772737954349-428ea98d-bc0f-4dfd-9cfb-ba1373c96684.jpeg",desc:"ESP32 based IoT development kit with display."},
-{name:"NFC Module",price:299,stock:33,image:"https://image2url.com/r2/default/images/1772738309056-3b8c3b4c-6dfb-4ef3-bbd0-6e1a340ebb99.jpeg",desc:"NFC reader module for Arduino projects."}
+
+{
+name:"Flipper Zero",
+price:24999,
+stock:6,
+category:"rf",
+rating:5,
+badge:"Best Seller",
+image:"https://image2url.com/r2/default/images/1772738184200-4f09180b-546f-47ae-94bd-4b7ba162f724.jpeg"
+},
+
+{
+name:"NRF24L01",
+price:250,
+stock:53,
+category:"modules",
+rating:4,
+badge:"New",
+image:"https://image2url.com/r2/default/images/1772738244772-7ffeab84-7355-40f7-b459-8d528dec2b95.jpeg"
+},
+
+{
+name:"ESP32 Bruce CYD24",
+price:1199,
+stock:10,
+category:"iot",
+rating:4,
+badge:"",
+image:"https://image2url.com/r2/default/images/1772738204799-bf642669-610a-4d4c-8e96-9858acbfa383.jpeg"
+},
+
+{
+name:"Mobile IR Remote",
+price:299,
+stock:20,
+category:"iot",
+rating:4,
+badge:"",
+image:"https://image2url.com/r2/default/images/1772738156638-ca629519-0d80-4bb7-9a8e-6d6abeea3f92.jpeg"
+}
+
 ]
 
-// GRID
-const grid=document.getElementById("productGrid")
-products.forEach((p,i)=>{
-grid.innerHTML+=`
-<div class="card" onclick="openProduct(${i})">
-<img src="${p.image}">
-<h3>${p.name}</h3>
-<p style="color:#aaa; font-size:14px;">Stock: ${p.stock}</p>
-<p>${p.desc}</p>
-<p style="color:#b266ff;font-weight:bold;">${p.price} EGP</p>
-<button class="btn add" onclick="event.stopPropagation();addCart(${i})">Add To Cart</button>
-</div>
-`
-})
-
-
-// CART
 let cart=[]
-let discount=0
-let discountCodeUsed=""
 
-// Load cart from localStorage
-if(localStorage.getItem("cart")) cart=JSON.parse(localStorage.getItem("cart"))
-if(localStorage.getItem("discount")) discount= parseFloat(localStorage.getItem("discount"))
-if(localStorage.getItem("discountCodeUsed")) discountCodeUsed=localStorage.getItem("discountCodeUsed")
+const grid=document.getElementById("productGrid")
 
-function applyDiscount(){
-let code=document.getElementById("discountCode").value.trim().toUpperCase()
-if(code==="CYS15"){
-discount=0.15
-discountCodeUsed="CYS15"
-localStorage.setItem("discount",discount)
-localStorage.setItem("discountCodeUsed",discountCodeUsed)
-showNotification("15% Discount Applied")
-updateCart()
-}else{
-discount=0
-discountCodeUsed=""
-localStorage.setItem("discount",discount)
-localStorage.setItem("discountCodeUsed",discountCodeUsed)
-showNotification("Invalid Code or No Discount Applied")
-updateCart()
-}
+function renderProducts(list){
+
+grid.innerHTML=""
+
+list.forEach((p,i)=>{
+
+let stars=""
+
+for(let s=0;s<p.rating;s++){
+stars+="⭐"
 }
 
-function addCart(i){
-    let p = products[i]
-    let item = cart.find(x => x.name == p.name)
-    
-    if(item){
-        if(item.qty < p.stock){ // لو ما وصلش للـ stock
-            item.qty++
-            showNotification(p.name + " added")
-        } else {
-            showNotification("Stock limit reached for " + p.name)
-        }
-    } else {
-        if(p.stock > 0){
-            cart.push({name: p.name, price: p.price, qty: 1})
-            showNotification(p.name + " added")
-        } else {
-            showNotification("Out of stock: " + p.name)
-        }
-    }
-    
-    localStorage.setItem("cart", JSON.stringify(cart))
-    updateCart()
+let stockWarn=""
+
+if(p.stock<=5){
+stockWarn=`<div class="stock-low">⚠ Only ${p.stock} left</div>`
 }
 
+grid.innerHTML+=`
 
-function updateCart(){
-let items=document.getElementById("cartItems")
-items.innerHTML=""
-let total=0
-let count=0
-cart.forEach((i,x)=>{
-let t=Number(i.price)*Number(i.qty)
-total+=t
-count+=Number(i.qty)
-items.innerHTML+=`
-<div class="cart-row">
-<div><b>${i.name}</b></div>
-<div>Price: ${i.price} EGP</div>
-<div>
-<button onclick="changeQty(${x},-1)">-</button>
-${i.qty}
-<button onclick="changeQty(${x},1)">+</button>
+<div class="card">
+
+${p.badge?`<span class="badge">${p.badge}</span>`:""}
+
+<img src="${p.image}">
+
+<h3>${p.name}</h3>
+
+<div class="rating">${stars}</div>
+
+${stockWarn}
+
+<p style="color:#b266ff;font-weight:bold;">
+${p.price} EGP
+</p>
+
+<button class="btn" onclick="addCart(${i})">
+Add To Cart
+</button>
+
 </div>
-<div>Subtotal: ${t} EGP</div>
-</div>
+
 `
+
 })
-let finalTotal=total
-let cartTotalEl=document.getElementById("cartTotal")
-if(discount>0){
-let d=total*discount
-finalTotal=total-d
-cartTotalEl.innerHTML=
-`<div>Total: ${total} EGP</div>
-<div>Discount: ${d.toFixed(0)} EGP</div>
-<div>Final: ${finalTotal.toFixed(0)} EGP</div>`
-}else{
-cartTotalEl.innerHTML=`<div>Total: ${total} EGP</div>`
-}
-document.getElementById("cartCount").innerText=count
-localStorage.setItem("cart",JSON.stringify(cart))
+
 }
 
-function changeQty(i,v){
-cart[i].qty+=v
-if(cart[i].qty<=0)cart.splice(i,1)
-localStorage.setItem("cart",JSON.stringify(cart))
-updateCart()
-}
+function filterProducts(cat){
 
-function openProduct(i){
-let p=products[i]
-document.getElementById("homePage").style.display="none"
-document.getElementById("productPage").style.display="block"
-document.getElementById("pName").innerText=p.name
-document.getElementById("pImg").src=p.image
-document.getElementById("pDesc").innerText=p.desc
-document.getElementById("pPrice").innerText=p.price+" EGP"
-document.getElementById("pAdd").onclick=function(){addCart(i)}
-// Scroll to product position
-window.scrollTo(0,document.getElementById("productGrid").children[i].offsetTop)
-}
-
-function showHome(){
-document.getElementById("productPage").style.display="none"
-document.getElementById("cartPage").style.display="none"
-document.getElementById("homePage").style.display="block"
-}
-
-document.getElementById("cartIcon").onclick=function(){
-document.getElementById("homePage").style.display="none"
-document.getElementById("cartPage").style.display="block"
-}
-
-function orderWhatsApp(){
-
-if(cart.length==0){
-alert("Cart empty")
+if(cat==="all"){
+renderProducts(products)
 return
 }
 
-// ORDER NUMBER SYSTEM
-let orderNumber = localStorage.getItem("orderNumber")
+let filtered=products.filter(p=>p.category===cat)
 
-if(!orderNumber){
-orderNumber = 1000
+renderProducts(filtered)
+
+}
+
+function addCart(i){
+
+let p=products[i]
+
+let item=cart.find(x=>x.name==p.name)
+
+if(item){
+
+item.qty++
+
 }else{
-orderNumber = parseInt(orderNumber) + 1
-}
 
-localStorage.setItem("orderNumber",orderNumber)
-
-let msg = `Hello Cyber Tech Store
-Order ID: #${orderNumber}
-
-`
-
-let total=0
-
-cart.forEach(i=>{
-let t = Number(i.price) * Number(i.qty)
-total += t
-msg += `${i.name} x${i.qty} = ${t} EGP
-`
-})
-
-let finalTotal = total
-
-if(discount>0){
-let d = total * discount
-finalTotal = total - d
-
-msg += `
-Discount Code: ${discountCodeUsed}
-Discount: ${d.toFixed(0)} EGP
-`
-}
-
-msg += `
-Total: ${finalTotal.toFixed(0)} EGP
-`
-
-// IMPORTANT FIX
-let encodedMsg = encodeURIComponent(msg)
-
-window.open(`https://wa.me/201288833842?text=${encodedMsg}`)
+cart.push({name:p.name,price:p.price,qty:1})
 
 }
 
+updateCart()
 
-function showNotification(text){
-let n=document.getElementById("notification")
-n.innerText="✔ "+text
-n.classList.add("show")
-setTimeout(()=>{n.classList.remove("show")},2500)
 }
 
-document.getElementById("searchInput").addEventListener("keyup",function(){
-let v=this.value.toLowerCase()
-document.querySelectorAll(".card").forEach(c=>{
-let n=c.innerText.toLowerCase()
-c.style.display=n.includes(v)?"block":"none"
-})
-})
+function updateCart(){
 
-const canvas=document.getElementById("matrix")
-const ctx=canvas.getContext("2d")
-canvas.width=window.innerWidth
-canvas.height=window.innerHeight
-let letters="01"
-let fontSize=14
-let columns=canvas.width/fontSize
-let drops=[]
-for(let x=0;x<columns;x++)drops[x]=1
-function draw(){
-ctx.fillStyle="rgba(0,0,0,0.05)"
-ctx.fillRect(0,0,canvas.width,canvas.height)
-ctx.fillStyle="#8a2be2"
-ctx.font=fontSize+"px monospace"
-for(let i=0;i<drops.length;i++){
-let text=letters[Math.floor(Math.random()*letters.length)]
-ctx.fillText(text,i*fontSize,drops[i]*fontSize)
-if(drops[i]*fontSize>canvas.height && Math.random()>0.975)
-drops[i]=0
-drops[i]++
+let count=0
+
+cart.forEach(i=>count+=i.qty)
+
+document.getElementById("cartCount").innerText=count
+
 }
-requestAnimationFrame(draw)
-}
-draw()
-updateCart() // Ensure cart shows correct values on refresh
+
+renderProducts(products)
 
 </script>
 
 </body>
 </html>
-
-
