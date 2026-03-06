@@ -25,6 +25,16 @@ font-family:'Poppins',sans-serif;
 body{
 background:var(--black);
 color:white;
+overflow-x:hidden;
+}
+
+canvas{
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+z-index:-1;
 }
 
 /* NAV */
@@ -34,11 +44,11 @@ display:flex;
 justify-content:space-between;
 align-items:center;
 padding:20px 8%;
-background:rgba(0,0,0,0.6);
+backdrop-filter: blur(12px);
+background:rgba(0,0,0,0.4);
 position:fixed;
 width:100%;
 z-index:1000;
-backdrop-filter:blur(10px);
 }
 
 .logo{
@@ -108,23 +118,6 @@ cursor:pointer;
 text-decoration:none;
 }
 
-/* FILTER */
-
-.filters{
-text-align:center;
-margin-bottom:30px;
-}
-
-.filters button{
-margin:5px;
-padding:8px 14px;
-border:none;
-background:#222;
-color:white;
-border-radius:6px;
-cursor:pointer;
-}
-
 /* PRODUCTS */
 
 section{
@@ -139,6 +132,20 @@ margin-bottom:40px;
 font-size:36px;
 }
 
+.search-box{
+text-align:center;
+margin-bottom:30px;
+}
+
+.search-box input{
+width:300px;
+padding:10px;
+border-radius:6px;
+border:1px solid #333;
+background:#111;
+color:white;
+}
+
 .grid{
 display:grid;
 grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
@@ -150,6 +157,7 @@ background:#121212;
 padding:15px;
 border-radius:10px;
 transition:0.3s;
+cursor:pointer;
 position:relative;
 }
 
@@ -166,6 +174,8 @@ border-radius:8px;
 margin-bottom:10px;
 }
 
+/* BADGE */
+
 .badge{
 position:absolute;
 top:10px;
@@ -173,25 +183,104 @@ left:10px;
 background:var(--purple);
 padding:4px 8px;
 font-size:11px;
-border-radius:4px;
+border-radius:5px;
+font-weight:bold;
 }
 
-.rating{
-color:gold;
-font-size:14px;
-margin-bottom:6px;
+/* PRODUCT PAGE */
+
+#productPage{
+display:none;
+padding:120px 8%;
+text-align:center;
 }
 
-.stock-low{
-color:#ff4d4d;
-font-size:13px;
+#productPage img{
+width:300px;
+border-radius:10px;
+margin-bottom:20px;
+}
+
+#pName{
+color:var(--purple);
+}
+
+/* DISCLAIMER */
+
+.products-disclaimer {
+margin-top:60px;
+margin-bottom:60px;
+text-align:center;
+color:#ddd;
+font-size:16px;
+max-width:750px;
+margin-left:auto;
+margin-right:auto;
+line-height:1.8;
+padding:25px;
+background:linear-gradient(145deg,#111,#1a1a1a);
+border-radius:15px;
+box-shadow:0 0 25px rgba(138,43,226,0.4);
+}
+
+/* CONTACT */
+
+.contact-box{
+margin-top:80px;
+background:linear-gradient(145deg,#111,#1a1a1a);
+border:1px solid #222;
+padding:25px;
+border-radius:15px;
+text-align:center;
+max-width:600px;
+margin-left:auto;
+margin-right:auto;
+box-shadow:0 0 25px rgba(138,43,226,0.4);
+}
+
+/* CART */
+
+#cartPage{
+display:none;
+padding:120px 8%;
+}
+
+.cart-row{
+display:flex;
+justify-content:space-between;
+margin-bottom:15px;
+border-bottom:1px solid #333;
+padding-bottom:10px;
+flex-wrap:wrap;
+}
+
+.cart-row div{
+margin-bottom:5px;
+}
+
+/* NOTIFICATION */
+
+#notification{
+position:fixed;
+bottom:30px;
+right:-400px;
+background:linear-gradient(45deg,#8a2be2,#b266ff);
+padding:15px 25px;
+border-radius:10px;
+font-weight:bold;
+box-shadow:0 0 20px rgba(178,102,255,0.6);
+transition:0.5s;
+z-index:9999;
+}
+
+#notification.show{
+right:30px;
 }
 
 footer{
 text-align:center;
 padding:30px;
 background:#111;
-margin-top:50px;
 }
 
 </style>
@@ -199,196 +288,132 @@ margin-top:50px;
 
 <body>
 
-<nav>
+<canvas id="matrix"></canvas>
 
+<nav>
 <div class="logo">CYBER TECH</div>
 
 <ul>
-<li><a href="#">Home</a></li>
-<li><a href="#products">Products</a></li>
+<li><a href="#" onclick="showHome()">Home</a></li>
+<li><a href="#products" onclick="showHome()">Products</a></li>
 </ul>
 
-<div id="cartIcon">
-🛒 <span id="cartCount">0</span>
-</div>
+<div id="cartIcon">🛒 <span id="cartCount">0</span></div>
 
 </nav>
 
+<div id="homePage">
+
 <div class="hero">
-
 <h1>Cyber Tech Store</h1>
-
-<p>Professional penetration testing and IoT hardware tools.</p>
-
+<p>Professional penetration testing and digital security tools.</p>
 <a href="#products" class="btn">Explore Tools</a>
-
 </div>
 
 <section id="products">
 
 <h2 class="section-title">Our Tools</h2>
 
-<div class="filters">
+<!-- CATEGORIES -->
 
-<button onclick="filterProducts('all')">All</button>
-<button onclick="filterProducts('iot')">IoT</button>
-<button onclick="filterProducts('rf')">RF</button>
-<button onclick="filterProducts('modules')">Modules</button>
+<div style="text-align:center;margin-bottom:30px;">
+<button class="btn" onclick="filterCategory('all')">All</button>
+<button class="btn" onclick="filterCategory('iot')">IoT</button>
+<button class="btn" onclick="filterCategory('rf')">RF</button>
+<button class="btn" onclick="filterCategory('modules')">Modules</button>
+<button class="btn" onclick="filterCategory('accessories')">Accessories</button>
+</div>
 
+<div class="search-box">
+<input type="text" id="searchInput" placeholder="Search product...">
 </div>
 
 <div class="grid" id="productGrid"></div>
 
+<div class="products-disclaimer">
+All products are sold strictly for educational and research purposes only.
+Cyber Tech Store does not promote or support illegal activities.
+</div>
+
+<div class="contact-box">
+<h3 style="color:#8a2be2;font-family:'Orbitron';margin-bottom:15px;">
+Contact
+</h3>
+
+<p>📞 01288833842</p>
+<p>📧 Cyber.tech7799@gmail.com</p>
+</div>
+
 </section>
 
-<footer>
-© 2026 Cyber Tech Store
-</footer>
+</div>
 
-<script>
+<div id="productPage">
 
-const products=[
+<h2 id="pName"></h2>
 
-{
-name:"Flipper Zero",
-price:24999,
-stock:6,
-category:"rf",
-rating:5,
-badge:"Best Seller",
-image:"https://image2url.com/r2/default/images/1772738184200-4f09180b-546f-47ae-94bd-4b7ba162f724.jpeg"
-},
+<img id="pImg">
 
-{
-name:"NRF24L01",
-price:250,
-stock:53,
-category:"modules",
-rating:4,
-badge:"New",
-image:"https://image2url.com/r2/default/images/1772738244772-7ffeab84-7355-40f7-b459-8d528dec2b95.jpeg"
-},
+<p id="pDesc"></p>
 
-{
-name:"ESP32 Bruce CYD24",
-price:1199,
-stock:10,
-category:"iot",
-rating:4,
-badge:"",
-image:"https://image2url.com/r2/default/images/1772738204799-bf642669-610a-4d4c-8e96-9858acbfa383.jpeg"
-},
+<h3 id="pPrice"></h3>
 
-{
-name:"Mobile IR Remote",
-price:299,
-stock:20,
-category:"iot",
-rating:4,
-badge:"",
-image:"https://image2url.com/r2/default/images/1772738156638-ca629519-0d80-4bb7-9a8e-6d6abeea3f92.jpeg"
-}
+<button id="pAdd" class="btn">Add To Cart</button>
 
-]
+<br><br>
 
-let cart=[]
+<button onclick="showHome()" class="btn">Back</button>
 
-const grid=document.getElementById("productGrid")
+</div>
 
-function renderProducts(list){
+<div id="cartPage">
 
-grid.innerHTML=""
+<h2 class="section-title">Your Cart</h2>
 
-list.forEach((p,i)=>{
+<div id="cartItems"></div>
 
-let stars=""
+<h3 id="cartTotal"></h3>
 
-for(let s=0;s<p.rating;s++){
-stars+="⭐"
-}
+<div style="margin-top:20px;">
+<input id="discountCode" placeholder="Discount Code"
+style="width:100%;padding:10px;border-radius:6px;border:none;margin-bottom:10px;">
+<button onclick="applyDiscount()" class="btn" style="width:100%;">Apply Code</button>
+</div>
 
-let stockWarn=""
+<button onclick="orderWhatsApp()" class="btn" style="width:100%;margin-top:20px;">
+Checkout via WhatsApp
+</button>
 
-if(p.stock<=5){
-stockWarn=`<div class="stock-low">⚠ Only ${p.stock} left</div>`
-}
-
-grid.innerHTML+=`
-
-<div class="card">
-
-${p.badge?`<span class="badge">${p.badge}</span>`:""}
-
-<img src="${p.image}">
-
-<h3>${p.name}</h3>
-
-<div class="rating">${stars}</div>
-
-${stockWarn}
-
-<p style="color:#b266ff;font-weight:bold;">
-${p.price} EGP
-</p>
-
-<button class="btn" onclick="addCart(${i})">
-Add To Cart
+<button onclick="showHome()" class="btn" style="width:100%;margin-top:10px;background:#333;">
+Back
 </button>
 
 </div>
 
-`
+<footer>
+©️ 2026 Cyber Tech Store
+</footer>
 
-})
+<div id="notification"></div>
 
-}
+<script>
 
-function filterProducts(cat){
+const products=[
+{name:"Flipper Zero",price:24999,stock:6,category:"rf",badge:"BEST",image:"https://image2url.com/r2/default/images/1772738184200-4f09180b-546f-47ae-94bd-4b7ba162f724.jpeg",desc:"Multi tool for testing RFID NFC and wireless systems."},
 
-if(cat==="all"){
-renderProducts(products)
-return
-}
+{name:"NRF24L01",price:250,stock:53,category:"modules",badge:"",image:"https://image2url.com/r2/default/images/1772738244772-7ffeab84-7355-40f7-b459-8d528dec2b95.jpeg",desc:"Wireless transceiver module for Arduino and ESP32 projects."},
 
-let filtered=products.filter(p=>p.category===cat)
+{name:"ESP32 Bruce CYD24",price:1199,stock:10,category:"iot",badge:"NEW",image:"https://image2url.com/r2/default/images/1772738204799-bf642669-610a-4d4c-8e96-9858acbfa383.jpeg",desc:"WiFi Bluetooth development board for advanced IoT projects."},
 
-renderProducts(filtered)
+{name:"Mobile IR Remote",price:299,stock:20,category:"iot",badge:"",image:"https://image2url.com/r2/default/images/1772738156638-ca629519-0d80-4bb7-9a8e-6d6abeea3f92.jpeg",desc:"Turn your smartphone into an infrared universal remote."},
 
-}
+{name:"Premium Wires",price:150,stock:14,category:"accessories",badge:"",image:"https://image2url.com/r2/default/images/1772738291988-375603c1-a999-43cf-b199-2e79efd32b91.jpeg",desc:"High quality wires for electronics and prototyping."},
 
-function addCart(i){
+{name:"T-Embed",price:4999,stock:11,category:"rf",badge:"BEST",image:"https://image2url.com/r2/default/images/1772738131322-bfefd54e-0f5a-4590-9b54-463921a14bc7.jpeg",desc:"NFC embedded device for smart hardware projects."},
 
-let p=products[i]
+{name:"M5Stack Core2",price:2999,stock:24,category:"iot",badge:"NEW",image:"https://image2url.com/r2/default/images/1772737954349-428ea98d-bc0f-4dfd-9cfb-ba1373c96684.jpeg",desc:"ESP32 based IoT development kit with display."},
 
-let item=cart.find(x=>x.name==p.name)
+{name:"NFC Module",price:299,stock:33,category:"modules",badge:"",image:"https://image2url.com/r2/default/images/1772738309056-3b8c3b4c-6dfb-4ef3-bbd0-6e1a340ebb99.jpeg",desc:"NFC reader module for Arduino projects."}
+]
 
-if(item){
-
-item.qty++
-
-}else{
-
-cart.push({name:p.name,price:p.price,qty:1})
-
-}
-
-updateCart()
-
-}
-
-function updateCart(){
-
-let count=0
-
-cart.forEach(i=>count+=i.qty)
-
-document.getElementById("cartCount").innerText=count
-
-}
-
-renderProducts(products)
-
-</script>
-
-</body>
-</html>
+// باقي الكود كما هو
