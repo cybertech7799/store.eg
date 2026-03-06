@@ -156,6 +156,7 @@ background:#121212;
 padding:15px;
 border-radius:10px;
 transition:0.3s;
+cursor:pointer;
 }
 
 .card:hover{
@@ -171,35 +172,35 @@ border-radius:8px;
 margin-bottom:10px;
 }
 
-/* DISCLAIMER تحت المنتجات */
+/* DISCLAIMER */
 
 .products-disclaimer {
-    margin-top:60px;
-    margin-bottom:60px; /* زيادة المسافة قبل مربع التواصل */
-    text-align: center;
-    color: #aaa;
-    font-size: 16px; /* تكبير الخط */
-    max-width: 700px;
-    margin-left: auto;
-    margin-right: auto;
-    line-height: 1.6;
-    padding: 15px; /* padding داخلي */
-    background: #111; /* اختياري لتوضيح النص */
-    border-radius: 10px; /* اختياري لتجميل الصندوق */
+margin-top:60px;
+margin-bottom:60px;
+text-align:center;
+color:#aaa;
+font-size:16px;
+max-width:700px;
+margin-left:auto;
+margin-right:auto;
+line-height:1.6;
+padding:15px;
+background:#111;
+border-radius:10px;
 }
 
-/* مربع التواصل */
+/* CONTACT */
 
 .contact-box {
-    margin-top: 80px; /* زيادة المسافة فوقه */
-    background:#121212;
-    border:1px solid #222;
-    padding:25px;
-    border-radius:10px;
-    text-align:center;
-    max-width:600px;
-    margin-left:auto;
-    margin-right:auto;
+margin-top:80px;
+background:#121212;
+border:1px solid #222;
+padding:25px;
+border-radius:10px;
+text-align:center;
+max-width:600px;
+margin-left:auto;
+margin-right:auto;
 }
 
 /* CART */
@@ -215,6 +216,14 @@ justify-content:space-between;
 margin-bottom:15px;
 border-bottom:1px solid #333;
 padding-bottom:10px;
+}
+
+/* PRODUCT PAGE */
+
+#productPage{
+display:none;
+padding:120px 8%;
+text-align:center;
 }
 
 /* NOTIFICATION */
@@ -287,13 +296,11 @@ Professional penetration testing and digital security tools.
 
 <div class="grid" id="productGrid"></div>
 
-<!-- النص بعد المنتجات -->
 <div class="products-disclaimer">
 All products are sold strictly for educational and research purposes only.
 Cyber Tech Store does not promote or support illegal activities.
 </div>
 
-<!-- مربع التواصل -->
 <div class="contact-box">
 <h3 style="color:#8a2be2;font-family:'Orbitron';margin-bottom:15px;">
 Contact
@@ -308,15 +315,31 @@ Contact
 </div>
 
 
+<div id="productPage">
+
+<h2 id="productTitle" class="section-title"></h2>
+
+<img id="productImage" style="width:350px;border-radius:10px;margin-bottom:20px;">
+
+<p id="productDesc" style="max-width:600px;margin:auto;margin-bottom:20px;"></p>
+
+<h3 id="productPrice" style="color:#b266ff;margin-bottom:20px;"></h3>
+
+<button id="productAddBtn" class="btn">Add To Cart</button>
+
+<button onclick="showHome()" class="btn" style="background:#333;margin-left:10px;">Back</button>
+
+</div>
+
+
 <div id="cartPage">
 
 <h2 class="section-title">Your Cart</h2>
 
-<!-- خانة كود الخصم -->
 <div style="margin:20px 0;text-align:center;">
-  <input type="text" id="discountCode" placeholder="Enter discount code" 
-         style="padding:10px;width:60%;border-radius:6px;border:1px solid #333;background:#111;color:white;">
-  <button onclick="applyDiscount()" class="btn" style="margin-left:10px;">Apply</button>
+<input type="text" id="discountCode" placeholder="Enter discount code"
+style="padding:10px;width:60%;border-radius:6px;border:1px solid #333;background:#111;color:white;">
+<button onclick="applyDiscount()" class="btn" style="margin-left:10px;">Apply</button>
 </div>
 
 <div id="cartItems"></div>
@@ -334,7 +357,7 @@ Back
 </div>
 
 <footer>
-© 2026 Cyber Tech Store
+©️ 2026 Cyber Tech Store
 </footer>
 
 <div id="notification"></div>
@@ -409,7 +432,7 @@ products.forEach(p=>{
 
 grid.innerHTML+=`
 
-<div class="card" data-name="${p.name}" data-price="${p.price}">
+<div class="card" data-name="${p.name}" data-price="${p.price}" data-desc="${p.desc}" data-image="${p.image}">
 
 <img src="${p.image}">
 
@@ -427,6 +450,45 @@ grid.innerHTML+=`
 
 })
 
+/* PRODUCT PAGE */
+
+document.addEventListener("click",function(e){
+
+if(e.target.closest(".card") && !e.target.classList.contains("add")){
+
+let card=e.target.closest(".card")
+
+let name=card.dataset.name
+let price=card.dataset.price
+let desc=card.dataset.desc
+let image=card.dataset.image
+
+homePage.style.display="none"
+cartPage.style.display="none"
+productPage.style.display="block"
+
+document.getElementById("productTitle").innerText=name
+document.getElementById("productDesc").innerText=desc
+document.getElementById("productPrice").innerText=price+" EGP"
+document.getElementById("productImage").src=image
+
+document.getElementById("productAddBtn").onclick=function(){
+
+let item=cart.find(i=>i.name===name)
+
+if(item){item.qty++}
+else{cart.push({name,price:parseFloat(price),qty:1})}
+
+updateCart()
+
+showNotification(name+" added to cart")
+
+}
+
+}
+
+})
+
 /* CART */
 
 let cart=[]
@@ -434,8 +496,7 @@ const cartItems=document.getElementById("cartItems")
 const cartTotal=document.getElementById("cartTotal")
 const cartCount=document.getElementById("cartCount")
 
-// نسبة الخصم المطبقة
-let discountApplied = 0;
+let discountApplied=0
 
 document.addEventListener("click",e=>{
 
@@ -498,14 +559,19 @@ ${item.qty}
 
 })
 
-let finalTotal = total;
+let finalTotal=total
 
-if(discountApplied > 0){
-  let discountAmount = total * discountApplied;
-  finalTotal = total - discountAmount;
-  cartTotal.innerHTML = `Total: ${total} EGP<br><span style="color:#b266ff;">Discount: -${discountAmount} EGP</span><br><b>Final: ${finalTotal} EGP</b>`;
-} else {
-  cartTotal.innerText = "Total: " + total + " EGP";
+if(discountApplied>0){
+
+let discountAmount=total*discountApplied
+finalTotal=total-discountAmount
+
+cartTotal.innerHTML=`Total: ${total} EGP<br><span style="color:#b266ff;">Discount: -${discountAmount} EGP</span><br><b>Final: ${finalTotal} EGP</b>`
+
+}else{
+
+cartTotal.innerText="Total: "+total+" EGP"
+
 }
 
 cartCount.innerText=count
@@ -522,82 +588,77 @@ updateCart()
 
 }
 
-/* خصم كود */
-function applyDiscount() {
-  const code = document.getElementById("discountCode").value.trim();
-  
-  if(code.toUpperCase() === "CYS15") {
-    discountApplied = 0.15; // 15%
-    showNotification("Discount code applied! 15% off");
-  } else {
-    discountApplied = 0;
-    showNotification("Invalid discount code");
-  }
-  
-  updateCart();
-}
+/* DISCOUNT */
 
-/* NOTIFICATION */
+function applyDiscount(){
 
-function showNotification(text){
+const code=document.getElementById("discountCode").value.trim()
 
-const notification=document.getElementById("notification")
+if(code.toUpperCase()=="CYS15"){
 
-notification.innerText="✔ "+text
+discountApplied=0.15
+showNotification("Discount code applied!")
 
-notification.classList.add("show")
+}else{
 
-setTimeout(()=>{
-
-notification.classList.remove("show")
-
-},2500)
+discountApplied=0
+showNotification("Invalid discount code")
 
 }
 
-/* WHATSAPP */
+updateCart()
+
+}
+
+/* WHATSAPP ORDER */
 
 function orderWhatsApp(){
 
-  if(cart.length==0){
-    alert("Cart empty")
-    return
-  }
-
-  let msg="Hello Cyber Tech Store%0AOrder:%0A"
-
-  let total=0
-
-  cart.forEach(i=>{
-    let itemTotal = i.price * i.qty
-    total += itemTotal
-    msg += `${i.name} x${i.qty} = ${itemTotal} EGP%0A`
-  })
-
-  let finalTotal = total
-  let discountAmount = 0
-
-  if(discountApplied > 0){
-    discountAmount = total * discountApplied
-    finalTotal = total - discountAmount
-    msg += `Discount: -${discountAmount} EGP%0A`
-  }
-
-  msg += `Total: ${finalTotal} EGP`
-
-  window.open(`https://wa.me/201288833842?text=${msg}`)
+if(cart.length==0){
+alert("Cart empty")
+return
 }
 
+let orderNumber="#" + Math.floor(10000 + Math.random()*90000)
+
+let msg="Hello Cyber Tech Store%0AOrder Number: "+orderNumber+"%0A%0AOrder:%0A"
+
+let total=0
+
+cart.forEach(i=>{
+let itemTotal=i.price*i.qty
+total+=itemTotal
+msg+=`${i.name} x${i.qty} = ${itemTotal} EGP%0A`
+})
+
+let finalTotal=total
+let discountAmount=0
+
+if(discountApplied>0){
+
+discountAmount=total*discountApplied
+finalTotal=total-discountAmount
+msg+=`Discount: -${discountAmount} EGP%0A`
+
+}
+
+msg+=`Total: ${finalTotal} EGP`
+
+window.open(`https://wa.me/201288833842?text=${msg}`)
+
+}
 
 /* NAV */
 
 function showCart(){
 homePage.style.display="none"
 cartPage.style.display="block"
+productPage.style.display="none"
 }
 
 function showHome(){
 cartPage.style.display="none"
+productPage.style.display="none"
 homePage.style.display="block"
 }
 
@@ -619,51 +680,25 @@ c.style.display=n.includes(v)?"block":"none"
 
 })
 
-/* MATRIX */
+/* NOTIFICATION */
 
-const canvas=document.getElementById("matrix")
-const ctx=canvas.getContext("2d")
+function showNotification(text){
 
-canvas.width=window.innerWidth
-canvas.height=window.innerHeight
+const notification=document.getElementById("notification")
 
-let letters="01"
-let fontSize=14
-let columns=canvas.width/fontSize
+notification.innerText="✔ "+text
 
-let drops=[]
+notification.classList.add("show")
 
-for(let x=0;x<columns;x++)drops[x]=1
+setTimeout(()=>{
 
-function draw(){
+notification.classList.remove("show")
 
-ctx.fillStyle="rgba(0,0,0,0.05)"
-ctx.fillRect(0,0,canvas.width,canvas.height)
-
-ctx.fillStyle="#8a2be2"
-ctx.font=fontSize+"px monospace"
-
-for(let i=0;i<drops.length;i++){
-
-let text=letters[Math.floor(Math.random()*letters.length)]
-
-ctx.fillText(text,i*fontSize,drops[i]*fontSize)
-
-if(drops[i]*fontSize>canvas.height && Math.random()>0.975)
-drops[i]=0
-
-drops[i]++
+},2500)
 
 }
-
-requestAnimationFrame(draw)
-
-}
-
-draw()
 
 </script>
 
 </body>
 </html>
-
