@@ -146,29 +146,6 @@ background:#111;
 color:white;
 }
 
-/* CATEGORY BAR */
-
-.category-bar{
-text-align:center;
-margin-bottom:25px;
-}
-
-.category-bar button{
-margin:5px;
-padding:8px 16px;
-background:#111;
-border:1px solid #333;
-border-radius:6px;
-color:white;
-cursor:pointer;
-}
-
-.category-bar button:hover{
-background:var(--purple);
-}
-
-/* GRID */
-
 .grid{
 display:grid;
 grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
@@ -327,33 +304,93 @@ background:#111;
 <input type="text" id="searchInput" placeholder="Search product...">
 </div>
 
-<div class="category-bar">
-<button onclick="filterCategory('all')">All</button>
-<button onclick="filterCategory('device')">Devices</button>
-<button onclick="filterCategory('module')">Modules</button>
-<button onclick="filterCategory('accessory')">Accessories</button>
+<div class="grid" id="productGrid"></div>
+
+<div class="products-disclaimer">
+All products are sold strictly for educational and research purposes only.
+Cyber Tech Store does not promote or support illegal activities.
 </div>
 
-<div class="grid" id="productGrid"></div>
-  <script>
+<div class="contact-box">
+<h3 style="color:#8a2be2;font-family:'Orbitron';margin-bottom:15px;">
+Contact
+</h3>
+
+<p>📞 01288833842</p>
+<p>📧 Cyber.tech7799@gmail.com</p>
+</div>
+
+</section>
+
+</div>
+
+<div id="productPage">
+
+<h2 id="pName"></h2>
+
+<img id="pImg">
+
+<p id="pDesc"></p>
+
+<h3 id="pPrice"></h3>
+
+<button id="pAdd" class="btn">Add To Cart</button>
+
+<br><br>
+
+<button onclick="showHome()" class="btn">Back</button>
+
+</div>
+
+<div id="cartPage">
+
+<h2 class="section-title">Your Cart</h2>
+
+<div id="cartItems"></div>
+
+<h3 id="cartTotal"></h3>
+
+<div style="margin-top:20px;">
+<input id="discountCode" placeholder="Discount Code"
+style="width:100%;padding:10px;border-radius:6px;border:none;margin-bottom:10px;">
+<button onclick="applyDiscount()" class="btn" style="width:100%;">Apply Code</button>
+</div>
+
+<button onclick="orderWhatsApp()" class="btn" style="width:100%;margin-top:20px;">
+Checkout via WhatsApp
+</button>
+
+<button onclick="showHome()" class="btn" style="width:100%;margin-top:10px;background:#333;">
+Back
+</button>
+
+</div>
+
+<footer>
+©️ 2026 Cyber Tech Store
+</footer>
+
+<div id="notification"></div>
+
+<script>
 
 // PRODUCTS
 const products=[
-{name:"Flipper Zero",category:"device",price:24999,stock:6,image:"https://image2url.com/r2/default/images/1772738184200-4f09180b-546f-47ae-94bd-4b7ba162f724.jpeg",desc:"Multi tool for testing RFID NFC and wireless systems."},
-{name:"NRF24L01",category:"module",price:250,stock:53,image:"https://image2url.com/r2/default/images/1772738244772-7ffeab84-7355-40f7-b459-8d528dec2b95.jpeg",desc:"Wireless transceiver module for Arduino and ESP32 projects."},
-{name:"ESP32 Bruce CYD24",category:"device",price:1199,stock:10,image:"https://image2url.com/r2/default/images/1772738204799-bf642669-610a-4d4c-8e96-9858acbfa383.jpeg",desc:"WiFi Bluetooth development board for advanced IoT projects."},
-{name:"Mobile IR Remote",category:"accessory",price:299,stock:20,image:"https://image2url.com/r2/default/images/1772738156638-ca629519-0d80-4bb7-9a8e-6d6abeea3f92.jpeg",desc:"Turn your smartphone into an infrared universal remote."},
-{name:"Premium Wires",category:"accessory",price:150,stock:14,image:"https://image2url.com/r2/default/images/1772738291988-375603c1-a999-43cf-b199-2e79efd32b91.jpeg",desc:"High quality wires for electronics and prototyping."},
-{name:"T-Embed",category:"device",price:4999,stock:11,image:"https://image2url.com/r2/default/images/1772738131322-bfefd54e-0f5a-4590-9b54-463921a14bc7.jpeg",desc:"NFC embedded device for smart hardware projects."},
-{name:"M5Stack Core2",category:"device",price:2999,stock:24,image:"https://image2url.com/r2/default/images/1772737954349-428ea98d-bc0f-4dfd-9cfb-ba1373c96684.jpeg",desc:"ESP32 based IoT development kit with display."},
-{name:"NFC Module",category:"module",price:299,stock:33,image:"https://image2url.com/r2/default/images/1772738309056-3b8c3b4c-6dfb-4ef3-bbd0-6e1a340ebb99.jpeg",desc:"NFC reader module for Arduino projects."}
+{name:"Flipper Zero",price:24999,stock:6,image:"https://image2url.com/r2/default/images/1772738184200-4f09180b-546f-47ae-94bd-4b7ba162f724.jpeg",desc:"Multi tool for testing RFID NFC and wireless systems."},
+{name:"NRF24L01",price:250,stock:53,image:"https://image2url.com/r2/default/images/1772738244772-7ffeab84-7355-40f7-b459-8d528dec2b95.jpeg",desc:"Wireless transceiver module for Arduino and ESP32 projects."},
+{name:"ESP32 Bruce CYD24",price:1199,stock:10,image:"https://image2url.com/r2/default/images/1772738204799-bf642669-610a-4d4c-8e96-9858acbfa383.jpeg",desc:"WiFi Bluetooth development board for advanced IoT projects."},
+{name:"Mobile IR Remote",price:299,stock:20,image:"https://image2url.com/r2/default/images/1772738156638-ca629519-0d80-4bb7-9a8e-6d6abeea3f92.jpeg",desc:"Turn your smartphone into an infrared universal remote."},
+{name:"Premium Wires",price:150,stock:14,image:"https://image2url.com/r2/default/images/1772738291988-375603c1-a999-43cf-b199-2e79efd32b91.jpeg",desc:"High quality wires for electronics and prototyping."},
+{name:"T-Embed",price:4999,stock:11,image:"https://image2url.com/r2/default/images/1772738131322-bfefd54e-0f5a-4590-9b54-463921a14bc7.jpeg",desc:"NFC embedded device for smart hardware projects."},
+{name:"M5Stack Core2",price:2999,stock:24,image:"https://image2url.com/r2/default/images/1772737954349-428ea98d-bc0f-4dfd-9cfb-ba1373c96684.jpeg",desc:"ESP32 based IoT development kit with display."},
+{name:"NFC Module",price:299,stock:33,image:"https://image2url.com/r2/default/images/1772738309056-3b8c3b4c-6dfb-4ef3-bbd0-6e1a340ebb99.jpeg",desc:"NFC reader module for Arduino projects."}
 ]
 
 // GRID
 const grid=document.getElementById("productGrid")
 products.forEach((p,i)=>{
 grid.innerHTML+=`
-<div class="card" data-cat="${p.category}" onclick="openProduct(${i})">
+<div class="card" onclick="openProduct(${i})">
 <img src="${p.image}">
 <h3>${p.name}</h3>
 <p style="color:#aaa; font-size:14px;">Stock: ${p.stock}</p>
@@ -363,6 +400,7 @@ grid.innerHTML+=`
 </div>
 `
 })
+
 
 // CART
 let cart=[]
@@ -398,7 +436,7 @@ function addCart(i){
     let item = cart.find(x => x.name == p.name)
     
     if(item){
-        if(item.qty < p.stock){
+        if(item.qty < p.stock){ // لو ما وصلش للـ stock
             item.qty++
             showNotification(p.name + " added")
         } else {
@@ -472,6 +510,7 @@ document.getElementById("pImg").src=p.image
 document.getElementById("pDesc").innerText=p.desc
 document.getElementById("pPrice").innerText=p.price+" EGP"
 document.getElementById("pAdd").onclick=function(){addCart(i)}
+// Scroll to product position
 window.scrollTo(0,document.getElementById("productGrid").children[i].offsetTop)
 }
 
@@ -493,6 +532,7 @@ alert("Cart empty")
 return
 }
 
+// ORDER NUMBER SYSTEM
 let orderNumber = localStorage.getItem("orderNumber")
 
 if(!orderNumber){
@@ -533,6 +573,7 @@ msg += `
 Total: ${finalTotal.toFixed(0)} EGP
 `
 
+// IMPORTANT FIX
 let encodedMsg = encodeURIComponent(msg)
 
 window.open(`https://wa.me/201288833842?text=${encodedMsg}`)
@@ -554,16 +595,6 @@ let n=c.innerText.toLowerCase()
 c.style.display=n.includes(v)?"block":"none"
 })
 })
-
-function filterCategory(cat){
-document.querySelectorAll(".card").forEach(c=>{
-if(cat==="all" || c.dataset.cat===cat){
-c.style.display="block"
-}else{
-c.style.display="none"
-}
-})
-}
 
 const canvas=document.getElementById("matrix")
 const ctx=canvas.getContext("2d")
@@ -589,7 +620,7 @@ drops[i]++
 requestAnimationFrame(draw)
 }
 draw()
-updateCart()
+updateCart() // Ensure cart shows correct values on refresh
 
 </script>
 
