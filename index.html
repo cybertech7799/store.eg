@@ -406,17 +406,22 @@ grid.innerHTML+=`
 
 })
 
-// ===== حفظ الكارت بعد الريفريش =====
-let cart = JSON.parse(localStorage.getItem("cart")) || []
-let discount = 0
-let discountCodeUsed = ""
+let cart=[]
+let discount=0
+let discountCodeUsed=""
 
-// ===== دوال الكود والخصم =====
+// Load cart from localStorage
+if(localStorage.getItem("cart")) cart=JSON.parse(localStorage.getItem("cart"))
+if(localStorage.getItem("discount")) discount= parseFloat(localStorage.getItem("discount"))
+if(localStorage.getItem("discountCodeUsed")) discountCodeUsed=localStorage.getItem("discountCodeUsed")
+
 function applyDiscount(){
 let code=document.getElementById("discountCode").value.trim().toUpperCase()
 if(code==="CYS15"){
 discount=0.15
 discountCodeUsed="CYS15"
+localStorage.setItem("discount",discount)
+localStorage.setItem("discountCodeUsed",discountCodeUsed)
 showNotification("15% Discount Applied")
 updateCart()
 }else{
@@ -429,22 +434,20 @@ let p=products[i]
 let item=cart.find(x=>x.name==p.name)
 if(item){item.qty++}
 else{cart.push({name:p.name,price:p.price,qty:1})}
+localStorage.setItem("cart",JSON.stringify(cart))
 updateCart()
 showNotification(p.name+" added")
 }
 
 function updateCart(){
-localStorage.setItem("cart", JSON.stringify(cart)) // حفظ الكارت
-
 let items=document.getElementById("cartItems")
 items.innerHTML=""
 let total=0
 let count=0
-
 cart.forEach((i,x)=>{
-let t=i.price*i.qty
+let t=Number(i.price)*Number(i.qty)
 total+=t
-count+=i.qty
+count+=Number(i.qty)
 items.innerHTML+=`
 <div class="cart-row">
 <div><b>${i.name}</b><br>${i.price} EGP</div>
@@ -457,7 +460,6 @@ ${i.qty}
 </div>
 `
 })
-
 let finalTotal=total
 if(discount>0){
 let d=total*discount
@@ -467,13 +469,14 @@ document.getElementById("cartTotal").innerText=
 }else{
 document.getElementById("cartTotal").innerText="Total: "+total+" EGP"
 }
-
 document.getElementById("cartCount").innerText=count
+localStorage.setItem("cart",JSON.stringify(cart))
 }
 
 function changeQty(i,v){
 cart[i].qty+=v
 if(cart[i].qty<=0)cart.splice(i,1)
+localStorage.setItem("cart",JSON.stringify(cart))
 updateCart()
 }
 
@@ -505,7 +508,7 @@ let orderId="#"+Math.floor(Math.random()*90000+10000)
 let msg=`Hello Cyber Tech Store%0AOrder ID: ${orderId}%0A%0A`
 let total=0
 cart.forEach(i=>{
-let t=i.price*i.qty
+let t=Number(i.price)*Number(i.qty)
 total+=t
 msg+=`${i.name} x${i.qty} = ${t} EGP%0A`
 })
@@ -544,7 +547,6 @@ let fontSize=14
 let columns=canvas.width/fontSize
 let drops=[]
 for(let x=0;x<columns;x++)drops[x]=1
-
 function draw(){
 ctx.fillStyle="rgba(0,0,0,0.05)"
 ctx.fillRect(0,0,canvas.width,canvas.height)
@@ -559,10 +561,8 @@ drops[i]++
 }
 requestAnimationFrame(draw)
 }
-
 draw()
-
-updateCart() // مهم لتحديث الكارت عند تحميل الصفحة
+updateCart() // Ensure cart shows correct values on refresh
 
 </script>
 
