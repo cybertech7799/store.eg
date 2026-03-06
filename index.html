@@ -465,9 +465,7 @@ if(discount>0){
 let d=total*discount
 finalTotal=total-d
 document.getElementById("cartTotal").innerText=
-"Total: "+total+" EGP 
-  Discount: "+d.toFixed(0)+" EGP 
-  Final: "+finalTotal.toFixed(0)+" EGP"
+"Total: "+total+" EGP | Discount: "+d.toFixed(0)+" EGP | Final: "+finalTotal.toFixed(0)+" EGP"
 }else{
 document.getElementById("cartTotal").innerText="Total: "+total+" EGP"
 }
@@ -570,4 +568,3 @@ updateCart() // Ensure cart shows correct values on refresh
 
 </body>
 </html>
-
