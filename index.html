@@ -172,6 +172,20 @@ border-radius:8px;
 margin-bottom:10px;
 }
 
+/* PRODUCT PAGE */
+
+#productPage{
+display:none;
+padding:120px 8%;
+text-align:center;
+}
+
+#productPage img{
+width:300px;
+border-radius:10px;
+margin-bottom:20px;
+}
+
 /* DISCLAIMER */
 
 .products-disclaimer {
@@ -191,7 +205,7 @@ border-radius:10px;
 
 /* CONTACT */
 
-.contact-box {
+.contact-box{
 margin-top:80px;
 background:#121212;
 border:1px solid #222;
@@ -216,14 +230,6 @@ justify-content:space-between;
 margin-bottom:15px;
 border-bottom:1px solid #333;
 padding-bottom:10px;
-}
-
-/* PRODUCT PAGE */
-
-#productPage{
-display:none;
-padding:120px 8%;
-text-align:center;
 }
 
 /* NOTIFICATION */
@@ -274,15 +280,9 @@ background:#111;
 <div id="homePage">
 
 <div class="hero">
-
 <h1>Cyber Tech Store</h1>
-
-<p>
-Professional penetration testing and digital security tools.
-</p>
-
+<p>Professional penetration testing and digital security tools.</p>
 <a href="#products" class="btn">Explore Tools</a>
-
 </div>
 
 
@@ -317,37 +317,31 @@ Contact
 
 <div id="productPage">
 
-<h2 id="productTitle" class="section-title"></h2>
+<h2 id="pName"></h2>
 
-<img id="productImage" style="width:350px;border-radius:10px;margin-bottom:20px;">
+<img id="pImg">
 
-<p id="productDesc" style="max-width:600px;margin:auto;margin-bottom:20px;"></p>
+<p id="pDesc"></p>
 
-<h3 id="productPrice" style="color:#b266ff;margin-bottom:20px;"></h3>
+<h3 id="pPrice"></h3>
 
-<button id="productAddBtn" class="btn">Add To Cart</button>
+<button id="pAdd" class="btn">Add To Cart</button>
 
-<button onclick="showHome()" class="btn" style="background:#333;margin-left:10px;">Back</button>
+<br><br>
+
+<button onclick="showHome()" class="btn">Back</button>
 
 </div>
-
-
-<div id="cartPage">
+  <div id="cartPage">
 
 <h2 class="section-title">Your Cart</h2>
-
-<div style="margin:20px 0;text-align:center;">
-<input type="text" id="discountCode" placeholder="Enter discount code"
-style="padding:10px;width:60%;border-radius:6px;border:1px solid #333;background:#111;color:white;">
-<button onclick="applyDiscount()" class="btn" style="margin-left:10px;">Apply</button>
-</div>
 
 <div id="cartItems"></div>
 
 <h3 id="cartTotal"></h3>
 
 <button onclick="orderWhatsApp()" class="btn" style="width:100%;margin-top:20px;">
-Order via WhatsApp
+Checkout via WhatsApp
 </button>
 
 <button onclick="showHome()" class="btn" style="width:100%;margin-top:10px;background:#333;">
@@ -364,75 +358,33 @@ Back
 
 <script>
 
-/* PRODUCTS */
-
 const products=[
 
-{
-name:"M5STACKC PLUS2",
-price:2999,
-image:"https://image2url.com/r2/default/images/1772737954349-428ea98d-bc0f-4dfd-9cfb-ba1373c96684.jpeg",
-desc:"ESP32-PiCo-V3-O2-Based IOT kit with WI-FI ,bluetooth and screen built for smart innovation."
-},
+{name:"Flipper Zero",price:24999,image:"https://image2url.com/r2/default/images/1772738184200-4f09180b-546f-47ae-94bd-4b7ba162f724.jpeg",desc:"Multi tool for testing RFID NFC and wireless systems."},
 
-{
-name:"T-Embed",
-price:4999,
-image:"https://image2url.com/r2/default/images/1772738131322-bfefd54e-0f5a-4590-9b54-463921a14bc7.jpeg",
-desc:"NFC module with 12c and built-in battery,perfect for IOT and smart projects."
-},
+{name:"NRF24L01",price:250,image:"https://image2url.com/r2/default/images/1772738244772-7ffeab84-7355-40f7-b459-8d528dec2b95.jpeg",desc:"Wireless transceiver module for Arduino and ESP32 projects."},
 
-{
-name:"Mobile IR Remote",
-price:299,
-image:"https://image2url.com/r2/default/images/1772738156638-ca629519-0d80-4bb7-9a8e-6d6abeea3f92.jpeg",
-desc:"Turn your smartphone into a remote."
-},
+{name:"ESP32 Bruce CYD24",price:1199,image:"https://image2url.com/r2/default/images/1772738204799-bf642669-610a-4d4c-8e96-9858acbfa383.jpeg",desc:"WiFi Bluetooth development board for advanced IoT projects."},
 
-{
-name:"ESP32 Bruce CYD24",
-price:1199,
-image:"https://image2url.com/r2/default/images/1772738204799-bf642669-610a-4d4c-8e96-9858acbfa383.jpeg",
-desc:"WI-FI Bluetooth NFC PN532 CNSS ATGM336H."
-},
+{name:"Mobile IR Remote",price:299,image:"https://image2url.com/r2/default/images/1772738156638-ca629519-0d80-4bb7-9a8e-6d6abeea3f92.jpeg",desc:"Turn your smartphone into an infrared universal remote."},
 
-{
-name:"Flipper Zero",
-price:24999,
-image:"https://image2url.com/r2/default/images/1772738184200-4f09180b-546f-47ae-94bd-4b7ba162f724.jpeg",
-desc:"Testing wireless systems,RFID,NFC,and infrared devices Perfect for security research."
-},
+{name:"Premium Wires",price:150,image:"https://image2url.com/r2/default/images/1772738291988-375603c1-a999-43cf-b199-2e79efd32b91.jpeg",desc:"High quality wires for electronics and prototyping."},
 
-{
-name:"NRF24L01",
-price:250,
-image:"https://image2url.com/r2/default/images/1772738244772-7ffeab84-7355-40f7-b459-8d528dec2b95.jpeg",
-desc:"Wireless module-low powers high speed, Transceiver for Arduino ESP32 , Perfect for IOT sensors and remote control projects."
-},
+{name:"T-Embed",price:4999,image:"https://image2url.com/r2/default/images/1772738131322-bfefd54e-0f5a-4590-9b54-463921a14bc7.jpeg",desc:"NFC embedded device for smart hardware projects."},
 
-{
-name:"Premium Wires",
-price:150,
-image:"https://image2url.com/r2/default/images/1772738291988-375603c1-a999-43cf-b199-2e79efd32b91.jpeg",
-desc:"As many as you order in dm with details."
-},
+{name:"M5Stack Core2",price:2999,image:"https://image2url.com/r2/default/images/1772737954349-428ea98d-bc0f-4dfd-9cfb-ba1373c96684.jpeg",desc:"ESP32 based IoT development kit with display."},
 
-{
-name:"A limited bundle",
-price:299,
-image:"https://image2url.com/r2/default/images/1772738309056-3b8c3b4c-6dfb-4ef3-bbd0-6e1a340ebb99.jpeg",
-desc:"N532NFC RFLD V3 module- ICS50 card read - PCB ANTENNA ,12cllC/SPL/HAU/interface for Arduino."
-},
+{name:"NFC Module",price:299,image:"https://image2url.com/r2/default/images/1772738309056-3b8c3b4c-6dfb-4ef3-bbd0-6e1a340ebb99.jpeg",desc:"NFC reader module for Arduino projects."}
 
 ]
 
 const grid=document.getElementById("productGrid")
 
-products.forEach(p=>{
+products.forEach((p,i)=>{
 
 grid.innerHTML+=`
 
-<div class="card" data-name="${p.name}" data-price="${p.price}" data-desc="${p.desc}" data-image="${p.image}">
+<div class="card" onclick="openProduct(${i})">
 
 <img src="${p.image}">
 
@@ -442,7 +394,7 @@ grid.innerHTML+=`
 
 <p style="color:#b266ff;font-weight:bold;">${p.price} EGP</p>
 
-<button class="btn add">Add To Cart</button>
+<button class="btn add" onclick="event.stopPropagation();addCart(${i})">Add To Cart</button>
 
 </div>
 
@@ -450,108 +402,59 @@ grid.innerHTML+=`
 
 })
 
-/* PRODUCT PAGE */
-
-document.addEventListener("click",function(e){
-
-if(e.target.closest(".card") && !e.target.classList.contains("add")){
-
-let card=e.target.closest(".card")
-
-let name=card.dataset.name
-let price=card.dataset.price
-let desc=card.dataset.desc
-let image=card.dataset.image
-
-homePage.style.display="none"
-cartPage.style.display="none"
-productPage.style.display="block"
-
-document.getElementById("productTitle").innerText=name
-document.getElementById("productDesc").innerText=desc
-document.getElementById("productPrice").innerText=price+" EGP"
-document.getElementById("productImage").src=image
-
-document.getElementById("productAddBtn").onclick=function(){
-
-let item=cart.find(i=>i.name===name)
-
-if(item){item.qty++}
-else{cart.push({name,price:parseFloat(price),qty:1})}
-
-updateCart()
-
-showNotification(name+" added to cart")
-
-}
-
-}
-
-})
-
-/* CART */
-
 let cart=[]
-const cartItems=document.getElementById("cartItems")
-const cartTotal=document.getElementById("cartTotal")
-const cartCount=document.getElementById("cartCount")
 
-let discountApplied=0
+function addCart(i){
 
-document.addEventListener("click",e=>{
+let p=products[i]
 
-if(e.target.classList.contains("add")){
-
-let card=e.target.closest(".card")
-
-let name=card.dataset.name
-let price=parseFloat(card.dataset.price)
-
-let item=cart.find(i=>i.name===name)
+let item=cart.find(x=>x.name==p.name)
 
 if(item){item.qty++}
-else{cart.push({name,price,qty:1})}
+
+else{cart.push({name:p.name,price:p.price,qty:1})}
 
 updateCart()
 
-showNotification(name+" added to cart")
+showNotification(p.name+" added")
 
 }
-
-})
 
 function updateCart(){
 
-cartItems.innerHTML=""
+let items=document.getElementById("cartItems")
+
+items.innerHTML=""
+
 let total=0
+
 let count=0
 
-cart.forEach((item,i)=>{
+cart.forEach((i,x)=>{
 
-let itemTotal=item.price*item.qty
-total+=itemTotal
-count+=item.qty
+let t=i.price*i.qty
 
-cartItems.innerHTML+=`
+total+=t
+
+count+=i.qty
+
+items.innerHTML+=`
 
 <div class="cart-row">
 
-<div>
-<b>${item.name}</b><br>
-${item.price} EGP
-</div>
+<div><b>${i.name}</b><br>${i.price} EGP</div>
 
 <div>
 
-<button onclick="changeQty(${i},-1)">-</button>
+<button onclick="changeQty(${x},-1)">-</button>
 
-${item.qty}
+${i.qty}
 
-<button onclick="changeQty(${i},1)">+</button>
+<button onclick="changeQty(${x},1)">+</button>
 
 </div>
 
-<div>${itemTotal} EGP</div>
+<div>${t} EGP</div>
 
 </div>
 
@@ -559,22 +462,9 @@ ${item.qty}
 
 })
 
-let finalTotal=total
+document.getElementById("cartTotal").innerText="Total: "+total+" EGP"
 
-if(discountApplied>0){
-
-let discountAmount=total*discountApplied
-finalTotal=total-discountAmount
-
-cartTotal.innerHTML=`Total: ${total} EGP<br><span style="color:#b266ff;">Discount: -${discountAmount} EGP</span><br><b>Final: ${finalTotal} EGP</b>`
-
-}else{
-
-cartTotal.innerText="Total: "+total+" EGP"
-
-}
-
-cartCount.innerText=count
+document.getElementById("cartCount").innerText=count
 
 }
 
@@ -588,81 +478,81 @@ updateCart()
 
 }
 
-/* DISCOUNT */
+function openProduct(i){
 
-function applyDiscount(){
+let p=products[i]
 
-const code=document.getElementById("discountCode").value.trim()
+document.getElementById("homePage").style.display="none"
 
-if(code.toUpperCase()=="CYS15"){
+document.getElementById("productPage").style.display="block"
 
-discountApplied=0.15
-showNotification("Discount code applied!")
+document.getElementById("pName").innerText=p.name
 
-}else{
+document.getElementById("pImg").src=p.image
 
-discountApplied=0
-showNotification("Invalid discount code")
+document.getElementById("pDesc").innerText=p.desc
 
-}
+document.getElementById("pPrice").innerText=p.price+" EGP"
 
-updateCart()
+document.getElementById("pAdd").onclick=function(){addCart(i)}
 
 }
 
-/* WHATSAPP ORDER */
+function showHome(){
+
+document.getElementById("productPage").style.display="none"
+
+document.getElementById("cartPage").style.display="none"
+
+document.getElementById("homePage").style.display="block"
+
+}
+
+document.getElementById("cartIcon").onclick=function(){
+
+document.getElementById("homePage").style.display="none"
+
+document.getElementById("cartPage").style.display="block"
+
+}
 
 function orderWhatsApp(){
 
-if(cart.length==0){
-alert("Cart empty")
-return
-}
+if(cart.length==0){alert("Cart empty");return}
 
-let orderNumber="#" + Math.floor(10000 + Math.random()*90000)
+let orderId="#"+Math.floor(Math.random()*90000+10000)
 
-let msg="Hello Cyber Tech Store%0AOrder Number: "+orderNumber+"%0A%0AOrder:%0A"
+let msg=`Hello Cyber Tech Store%0AOrder ID: ${orderId}%0A%0A`
 
 let total=0
 
 cart.forEach(i=>{
-let itemTotal=i.price*i.qty
-total+=itemTotal
-msg+=`${i.name} x${i.qty} = ${itemTotal} EGP%0A`
+
+let t=i.price*i.qty
+
+total+=t
+
+msg+=`${i.name} x${i.qty} = ${t} EGP%0A`
+
 })
 
-let finalTotal=total
-let discountAmount=0
-
-if(discountApplied>0){
-
-discountAmount=total*discountApplied
-finalTotal=total-discountAmount
-msg+=`Discount: -${discountAmount} EGP%0A`
-
-}
-
-msg+=`Total: ${finalTotal} EGP`
+msg+=`%0ATotal: ${total} EGP`
 
 window.open(`https://wa.me/201288833842?text=${msg}`)
 
 }
 
-/* NAV */
+function showNotification(text){
 
-function showCart(){
-homePage.style.display="none"
-cartPage.style.display="block"
-productPage.style.display="none"
+let n=document.getElementById("notification")
+
+n.innerText="✔ "+text
+
+n.classList.add("show")
+
+setTimeout(()=>{n.classList.remove("show")},2500)
+
 }
-
-function showHome(){
-cartPage.style.display="none"
-productPage.style.display="none"
-homePage.style.display="block"
-}
-
-document.getElementById("cartIcon").onclick=showCart
 
 /* SEARCH */
 
@@ -672,7 +562,7 @@ let v=this.value.toLowerCase()
 
 document.querySelectorAll(".card").forEach(c=>{
 
-let n=c.dataset.name.toLowerCase()
+let n=c.innerText.toLowerCase()
 
 c.style.display=n.includes(v)?"block":"none"
 
@@ -680,23 +570,54 @@ c.style.display=n.includes(v)?"block":"none"
 
 })
 
-/* NOTIFICATION */
+/* MATRIX EFFECT */
 
-function showNotification(text){
+const canvas=document.getElementById("matrix")
 
-const notification=document.getElementById("notification")
+const ctx=canvas.getContext("2d")
 
-notification.innerText="✔ "+text
+canvas.width=window.innerWidth
 
-notification.classList.add("show")
+canvas.height=window.innerHeight
 
-setTimeout(()=>{
+let letters="01"
 
-notification.classList.remove("show")
+let fontSize=14
 
-},2500)
+let columns=canvas.width/fontSize
+
+let drops=[]
+
+for(let x=0;x<columns;x++)drops[x]=1
+
+function draw(){
+
+ctx.fillStyle="rgba(0,0,0,0.05)"
+
+ctx.fillRect(0,0,canvas.width,canvas.height)
+
+ctx.fillStyle="#8a2be2"
+
+ctx.font=fontSize+"px monospace"
+
+for(let i=0;i<drops.length;i++){
+
+let text=letters[Math.floor(Math.random()*letters.length)]
+
+ctx.fillText(text,i*fontSize,drops[i]*fontSize)
+
+if(drops[i]*fontSize>canvas.height && Math.random()>0.975)
+drops[i]=0
+
+drops[i]++
 
 }
+
+requestAnimationFrame(draw)
+
+}
+
+draw()
 
 </script>
 
