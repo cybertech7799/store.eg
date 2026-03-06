@@ -4,30 +4,24 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Cyber Tech Store</title>
-
 <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Poppins:wght@300;400;500&display=swap" rel="stylesheet">
-
 <style>
-
 :root{
 --black:#0a0a0a;
 --purple:#8a2be2;
 --glow:#b266ff;
 }
-
 *{
 margin:0;
 padding:0;
 box-sizing:border-box;
 font-family:'Poppins',sans-serif;
 }
-
 body{
 background:var(--black);
 color:white;
 overflow-x:hidden;
 }
-
 canvas{
 position:fixed;
 top:0;
@@ -36,9 +30,6 @@ width:100%;
 height:100%;
 z-index:-1;
 }
-
-/* NAV */
-
 nav{
 display:flex;
 justify-content:space-between;
@@ -50,30 +41,25 @@ position:fixed;
 width:100%;
 z-index:1000;
 }
-
 .logo{
 font-family:'Orbitron';
 color:var(--purple);
 font-size:22px;
 }
-
 nav ul{
 display:flex;
 gap:25px;
 list-style:none;
 }
-
 nav a{
 color:white;
 text-decoration:none;
 }
-
 #cartIcon{
 cursor:pointer;
 font-size:22px;
 position:relative;
 }
-
 #cartCount{
 position:absolute;
 top:-10px;
@@ -83,9 +69,6 @@ border-radius:50%;
 padding:2px 7px;
 font-size:12px;
 }
-
-/* HERO */
-
 .hero{
 height:100vh;
 display:flex;
@@ -94,19 +77,16 @@ justify-content:center;
 align-items:center;
 text-align:center;
 }
-
 .hero h1{
 font-family:'Orbitron';
 font-size:55px;
 color:var(--glow);
 }
-
 .hero p{
 margin-top:15px;
 max-width:600px;
 opacity:0.8;
 }
-
 .btn{
 margin-top:15px;
 padding:10px 20px;
@@ -117,13 +97,9 @@ color:white;
 cursor:pointer;
 text-decoration:none;
 }
-
-/* PRODUCTS */
-
 section{
 padding:100px 8%;
 }
-
 .section-title{
 font-family:'Orbitron';
 color:var(--purple);
@@ -131,12 +107,10 @@ text-align:center;
 margin-bottom:40px;
 font-size:36px;
 }
-
 .search-box{
 text-align:center;
 margin-bottom:30px;
 }
-
 .search-box input{
 width:300px;
 padding:10px;
@@ -145,13 +119,11 @@ border:1px solid #333;
 background:#111;
 color:white;
 }
-
 .grid{
 display:grid;
 grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
 gap:25px;
 }
-
 .card{
 background:#121212;
 padding:15px;
@@ -159,12 +131,10 @@ border-radius:10px;
 transition:0.3s;
 cursor:pointer;
 }
-
 .card:hover{
 transform:translateY(-8px);
 box-shadow:0 0 20px var(--purple);
 }
-
 .card img{
 width:100%;
 height:180px;
@@ -172,27 +142,19 @@ object-fit:cover;
 border-radius:8px;
 margin-bottom:10px;
 }
-
-/* PRODUCT PAGE */
-
 #productPage{
 display:none;
 padding:120px 8%;
 text-align:center;
 }
-
 #productPage img{
 width:300px;
 border-radius:10px;
 margin-bottom:20px;
 }
-
 #pName{
 color:var(--purple);
 }
-
-/* DISCLAIMER */
-
 .products-disclaimer {
 margin-top:60px;
 margin-bottom:60px;
@@ -208,9 +170,6 @@ background:linear-gradient(145deg,#111,#1a1a1a);
 border-radius:15px;
 box-shadow:0 0 25px rgba(138,43,226,0.4);
 }
-
-/* CONTACT */
-
 .contact-box{
 margin-top:80px;
 background:linear-gradient(145deg,#111,#1a1a1a);
@@ -223,14 +182,10 @@ margin-left:auto;
 margin-right:auto;
 box-shadow:0 0 25px rgba(138,43,226,0.4);
 }
-
-/* CART */
-
 #cartPage{
 display:none;
 padding:120px 8%;
 }
-
 .cart-row{
 display:flex;
 justify-content:space-between;
@@ -239,13 +194,9 @@ border-bottom:1px solid #333;
 padding-bottom:10px;
 flex-wrap:wrap;
 }
-
 .cart-row div{
 margin-bottom:5px;
 }
-
-/* NOTIFICATION */
-
 #notification{
 position:fixed;
 bottom:30px;
@@ -258,122 +209,80 @@ box-shadow:0 0 20px rgba(178,102,255,0.6);
 transition:0.5s;
 z-index:9999;
 }
-
 #notification.show{
 right:30px;
 }
-
 footer{
 text-align:center;
 padding:30px;
 background:#111;
 }
-
 </style>
 </head>
-
 <body>
-
 <canvas id="matrix"></canvas>
-
 <nav>
 <div class="logo">CYBER TECH</div>
-
 <ul>
 <li><a href="#" onclick="showHome()">Home</a></li>
 <li><a href="#products" onclick="showHome()">Products</a></li>
 </ul>
-
 <div id="cartIcon">🛒 <span id="cartCount">0</span></div>
-
 </nav>
-
 <div id="homePage">
-
 <div class="hero">
 <h1>Cyber Tech Store</h1>
 <p>Professional penetration testing and digital security tools.</p>
 <a href="#products" class="btn">Explore Tools</a>
 </div>
-
 <section id="products">
-
 <h2 class="section-title">Our Tools</h2>
-
 <div class="search-box">
 <input type="text" id="searchInput" placeholder="Search product...">
 </div>
-
 <div class="grid" id="productGrid"></div>
-
 <div class="products-disclaimer">
 All products are sold strictly for educational and research purposes only.
 Cyber Tech Store does not promote or support illegal activities.
 </div>
-
 <div class="contact-box">
 <h3 style="color:#8a2be2;font-family:'Orbitron';margin-bottom:15px;">
 Contact
 </h3>
-
 <p>📞 01288833842</p>
 <p>📧 Cyber.tech7799@gmail.com</p>
 </div>
-
 </section>
-
 </div>
-
 <div id="productPage">
-
 <h2 id="pName"></h2>
-
 <img id="pImg">
-
 <p id="pDesc"></p>
-
 <h3 id="pPrice"></h3>
-
 <button id="pAdd" class="btn">Add To Cart</button>
-
 <br><br>
-
 <button onclick="showHome()" class="btn">Back</button>
-
 </div>
-
 <div id="cartPage">
-
 <h2 class="section-title">Your Cart</h2>
-
 <div id="cartItems"></div>
-
 <h3 id="cartTotal"></h3>
-
-<div id="discountContainer" style="display:none;margin-top:20px;">
-<input id="discountCode" placeholder="Discount Code"
-style="width:100%;padding:10px;border-radius:6px;border:none;margin-bottom:10px;">
+<div id="discountContainer" style="display:none; margin-top:20px;">
+<input id="discountCode" placeholder="Discount Code" style="width:100%;padding:10px;border-radius:6px;border:none;margin-bottom:10px;">
 <button onclick="applyDiscount()" class="btn" style="width:100%;">Apply Code</button>
 </div>
-
 <button onclick="orderWhatsApp()" class="btn" style="width:100%;margin-top:20px;">
 Checkout via WhatsApp
 </button>
-
 <button onclick="showHome()" class="btn" style="width:100%;margin-top:10px;background:#333;">
 Back
 </button>
-
 </div>
-
 <footer>
 ©️ 2026 Cyber Tech Store
 </footer>
-
 <div id="notification"></div>
-
 <script>
-
 // PRODUCTS
 const products=[
 {name:"Flipper Zero",price:24999,image:"https://image2url.com/r2/default/images/1772738184200-4f09180b-546f-47ae-94bd-4b7ba162f724.jpeg",desc:"Multi tool for testing RFID NFC and wireless systems."},
@@ -385,8 +294,6 @@ const products=[
 {name:"M5Stack Core2",price:2999,image:"https://image2url.com/r2/default/images/1772737954349-428ea98d-bc0f-4dfd-9cfb-ba1373c96684.jpeg",desc:"ESP32 based IoT development kit with display."},
 {name:"NFC Module",price:299,image:"https://image2url.com/r2/default/images/1772738309056-3b8c3b4c-6dfb-4ef3-bbd0-6e1a340ebb99.jpeg",desc:"NFC reader module for Arduino projects."}
 ]
-
-// GRID
 const grid=document.getElementById("productGrid")
 products.forEach((p,i)=>{
 grid.innerHTML+=`
@@ -399,17 +306,12 @@ grid.innerHTML+=`
 </div>
 `
 })
-
-// CART
 let cart=[]
 let discount=0
 let discountCodeUsed=""
-
-// Load cart from localStorage
 if(localStorage.getItem("cart")) cart=JSON.parse(localStorage.getItem("cart"))
 if(localStorage.getItem("discount")) discount= parseFloat(localStorage.getItem("discount"))
 if(localStorage.getItem("discountCodeUsed")) discountCodeUsed=localStorage.getItem("discountCodeUsed")
-
 function applyDiscount(){
 let code=document.getElementById("discountCode").value.trim().toUpperCase()
 if(code==="CYS15"){
@@ -421,9 +323,11 @@ showNotification("15% Discount Applied")
 updateCart()
 }else{
 showNotification("Invalid Code")
+discount=0
+discountCodeUsed=""
+updateCart()
 }
 }
-
 function addCart(i){
 let p=products[i]
 let item=cart.find(x=>x.name==p.name)
@@ -433,7 +337,6 @@ localStorage.setItem("cart",JSON.stringify(cart))
 updateCart()
 showNotification(p.name+" added")
 }
-
 function updateCart(){
 let items=document.getElementById("cartItems")
 items.innerHTML=""
@@ -458,7 +361,7 @@ ${i.qty}
 })
 let finalTotal=total
 let cartTotalEl=document.getElementById("cartTotal")
-if(discount>0){
+if(discountCodeUsed && discount>0){
 let d=total*discount
 finalTotal=total-d
 document.getElementById("discountContainer").style.display="block"
@@ -469,20 +372,24 @@ cartTotalEl.innerHTML=
 }else{
 document.getElementById("discountContainer").style.display="none"
 cartTotalEl.innerHTML=`<div>Total: ${total} EGP</div>`
+discount=0
+discountCodeUsed=""
+localStorage.removeItem("discount")
+localStorage.removeItem("discountCodeUsed")
 }
 document.getElementById("cartCount").innerText=count
 localStorage.setItem("cart",JSON.stringify(cart))
 }
-
 function changeQty(i,v){
 cart[i].qty+=v
 if(cart[i].qty<=0)cart.splice(i,1)
 localStorage.setItem("cart",JSON.stringify(cart))
 updateCart()
 }
-
 function openProduct(i){
 let p=products[i]
+localStorage.setItem("lastScroll", document.documentElement.scrollTop)
+localStorage.setItem("lastProduct", i)
 document.getElementById("homePage").style.display="none"
 document.getElementById("productPage").style.display="block"
 document.getElementById("pName").innerText=p.name
@@ -490,22 +397,22 @@ document.getElementById("pImg").src=p.image
 document.getElementById("pDesc").innerText=p.desc
 document.getElementById("pPrice").innerText=p.price+" EGP"
 document.getElementById("pAdd").onclick=function(){addCart(i)}
-// Scroll to product position
-let pos=document.getElementById("productGrid").children[i].offsetTop
-window.scrollTo({top:pos,behavior:"smooth"})
+window.scrollTo(0,document.getElementById("productGrid").children[i].offsetTop)
 }
-
 function showHome(){
 document.getElementById("productPage").style.display="none"
 document.getElementById("cartPage").style.display="none"
 document.getElementById("homePage").style.display="block"
+if(localStorage.getItem("lastScroll")){
+    window.scrollTo({top: parseInt(localStorage.getItem("lastScroll")), behavior:"smooth"})
+    localStorage.removeItem("lastScroll")
+    localStorage.removeItem("lastProduct")
 }
-
+}
 document.getElementById("cartIcon").onclick=function(){
 document.getElementById("homePage").style.display="none"
 document.getElementById("cartPage").style.display="block"
 }
-
 function orderWhatsApp(){
 if(cart.length==0){alert("Cart empty");return}
 let orderId="#"+Math.floor(Math.random()*90000+10000)
@@ -517,7 +424,7 @@ total+=t
 msg+=`${i.name} x${i.qty} = ${t} EGP%0A`
 })
 let finalTotal=total
-if(discount>0){
+if(discountCodeUsed && discount>0){
 let d=total*discount
 finalTotal=total-d
 msg+=`%0ADiscount Code: ${discountCodeUsed}%0A`
@@ -526,14 +433,12 @@ msg+=`Discount: ${d.toFixed(0)} EGP%0A`
 msg+=`%0ATotal: ${finalTotal.toFixed(0)} EGP`
 window.open(`https://wa.me/201288833842?text=${msg}`)
 }
-
 function showNotification(text){
 let n=document.getElementById("notification")
 n.innerText="✔ "+text
 n.classList.add("show")
 setTimeout(()=>{n.classList.remove("show")},2500)
 }
-
 document.getElementById("searchInput").addEventListener("keyup",function(){
 let v=this.value.toLowerCase()
 document.querySelectorAll(".card").forEach(c=>{
@@ -541,7 +446,6 @@ let n=c.innerText.toLowerCase()
 c.style.display=n.includes(v)?"block":"none"
 })
 })
-
 const canvas=document.getElementById("matrix")
 const ctx=canvas.getContext("2d")
 canvas.width=window.innerWidth
@@ -566,9 +470,7 @@ drops[i]++
 requestAnimationFrame(draw)
 }
 draw()
-updateCart() // Ensure cart shows correct values on refresh
-
+updateCart()
 </script>
-
 </body>
 </html>
