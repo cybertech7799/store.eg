@@ -350,7 +350,7 @@ Contact
 
 <h3 id="cartTotal"></h3>
 
-<div style="margin-top:20px;">
+<div id="discountContainer" style="display:none;margin-top:20px;">
 <input id="discountCode" placeholder="Discount Code"
 style="width:100%;padding:10px;border-radius:6px;border:none;margin-bottom:10px;">
 <button onclick="applyDiscount()" class="btn" style="width:100%;">Apply Code</button>
@@ -447,7 +447,11 @@ items.innerHTML+=`
 <div class="cart-row">
 <div><b>${i.name}</b></div>
 <div>Price: ${i.price} EGP</div>
-<div>Quantity: ${i.qty}</div>
+<div>
+<button onclick="changeQty(${x},-1)">-</button>
+${i.qty}
+<button onclick="changeQty(${x},1)">+</button>
+</div>
 <div>Subtotal: ${t} EGP</div>
 </div>
 `
@@ -457,11 +461,13 @@ let cartTotalEl=document.getElementById("cartTotal")
 if(discount>0){
 let d=total*discount
 finalTotal=total-d
+document.getElementById("discountContainer").style.display="block"
 cartTotalEl.innerHTML=
 `<div>Total: ${total} EGP</div>
 <div>Discount: ${d.toFixed(0)} EGP</div>
 <div>Final: ${finalTotal.toFixed(0)} EGP</div>`
 }else{
+document.getElementById("discountContainer").style.display="none"
 cartTotalEl.innerHTML=`<div>Total: ${total} EGP</div>`
 }
 document.getElementById("cartCount").innerText=count
@@ -485,7 +491,8 @@ document.getElementById("pDesc").innerText=p.desc
 document.getElementById("pPrice").innerText=p.price+" EGP"
 document.getElementById("pAdd").onclick=function(){addCart(i)}
 // Scroll to product position
-window.scrollTo(0,document.getElementById("productGrid").children[i].offsetTop)
+let pos=document.getElementById("productGrid").children[i].offsetTop
+window.scrollTo({top:pos,behavior:"smooth"})
 }
 
 function showHome(){
