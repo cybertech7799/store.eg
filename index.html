@@ -276,7 +276,6 @@ background:#111;
 
 </nav>
 
-
 <div id="homePage">
 
 <div class="hero">
@@ -284,7 +283,6 @@ background:#111;
 <p>Professional penetration testing and digital security tools.</p>
 <a href="#products" class="btn">Explore Tools</a>
 </div>
-
 
 <section id="products">
 
@@ -314,7 +312,6 @@ Contact
 
 </div>
 
-
 <div id="productPage">
 
 <h2 id="pName"></h2>
@@ -332,13 +329,20 @@ Contact
 <button onclick="showHome()" class="btn">Back</button>
 
 </div>
-  <div id="cartPage">
+
+<div id="cartPage">
 
 <h2 class="section-title">Your Cart</h2>
 
 <div id="cartItems"></div>
 
 <h3 id="cartTotal"></h3>
+
+<div style="margin-top:20px;">
+<input id="discountCode" placeholder="Discount Code"
+style="width:100%;padding:10px;border-radius:6px;border:none;margin-bottom:10px;">
+<button onclick="applyDiscount()" class="btn" style="width:100%;">Apply Code</button>
+</div>
 
 <button onclick="orderWhatsApp()" class="btn" style="width:100%;margin-top:20px;">
 Checkout via WhatsApp
@@ -403,6 +407,29 @@ grid.innerHTML+=`
 })
 
 let cart=[]
+let discount=0
+let discountCodeUsed=""
+
+function applyDiscount(){
+
+let code=document.getElementById("discountCode").value.trim().toUpperCase()
+
+if(code==="CYS15"){
+
+discount=0.15
+discountCodeUsed="CYS15"
+
+showNotification("15% Discount Applied")
+
+updateCart()
+
+}else{
+
+showNotification("Invalid Code")
+
+}
+
+}
 
 function addCart(i){
 
@@ -411,7 +438,6 @@ let p=products[i]
 let item=cart.find(x=>x.name==p.name)
 
 if(item){item.qty++}
-
 else{cart.push({name:p.name,price:p.price,qty:1})}
 
 updateCart()
@@ -427,15 +453,12 @@ let items=document.getElementById("cartItems")
 items.innerHTML=""
 
 let total=0
-
 let count=0
 
 cart.forEach((i,x)=>{
 
 let t=i.price*i.qty
-
 total+=t
-
 count+=i.qty
 
 items.innerHTML+=`
@@ -462,7 +485,21 @@ ${i.qty}
 
 })
 
+let finalTotal=total
+
+if(discount>0){
+
+let d=total*discount
+finalTotal=total-d
+
+document.getElementById("cartTotal").innerText=
+"Total: "+total+" EGP | Discount: "+d.toFixed(0)+" EGP | Final: "+finalTotal.toFixed(0)+" EGP"
+
+}else{
+
 document.getElementById("cartTotal").innerText="Total: "+total+" EGP"
+
+}
 
 document.getElementById("cartCount").innerText=count
 
@@ -483,15 +520,11 @@ function openProduct(i){
 let p=products[i]
 
 document.getElementById("homePage").style.display="none"
-
 document.getElementById("productPage").style.display="block"
 
 document.getElementById("pName").innerText=p.name
-
 document.getElementById("pImg").src=p.image
-
 document.getElementById("pDesc").innerText=p.desc
-
 document.getElementById("pPrice").innerText=p.price+" EGP"
 
 document.getElementById("pAdd").onclick=function(){addCart(i)}
@@ -501,9 +534,7 @@ document.getElementById("pAdd").onclick=function(){addCart(i)}
 function showHome(){
 
 document.getElementById("productPage").style.display="none"
-
 document.getElementById("cartPage").style.display="none"
-
 document.getElementById("homePage").style.display="block"
 
 }
@@ -511,7 +542,6 @@ document.getElementById("homePage").style.display="block"
 document.getElementById("cartIcon").onclick=function(){
 
 document.getElementById("homePage").style.display="none"
-
 document.getElementById("cartPage").style.display="block"
 
 }
@@ -529,14 +559,25 @@ let total=0
 cart.forEach(i=>{
 
 let t=i.price*i.qty
-
 total+=t
 
 msg+=`${i.name} x${i.qty} = ${t} EGP%0A`
 
 })
 
-msg+=`%0ATotal: ${total} EGP`
+let finalTotal=total
+
+if(discount>0){
+
+let d=total*discount
+finalTotal=total-d
+
+msg+=`%0ADiscount Code: ${discountCodeUsed}%0A`
+msg+=`Discount: ${d.toFixed(0)} EGP%0A`
+
+}
+
+msg+=`%0ATotal: ${finalTotal.toFixed(0)} EGP`
 
 window.open(`https://wa.me/201288833842?text=${msg}`)
 
@@ -554,8 +595,6 @@ setTimeout(()=>{n.classList.remove("show")},2500)
 
 }
 
-/* SEARCH */
-
 document.getElementById("searchInput").addEventListener("keyup",function(){
 
 let v=this.value.toLowerCase()
@@ -570,20 +609,14 @@ c.style.display=n.includes(v)?"block":"none"
 
 })
 
-/* MATRIX EFFECT */
-
 const canvas=document.getElementById("matrix")
-
 const ctx=canvas.getContext("2d")
 
 canvas.width=window.innerWidth
-
 canvas.height=window.innerHeight
 
 let letters="01"
-
 let fontSize=14
-
 let columns=canvas.width/fontSize
 
 let drops=[]
@@ -593,11 +626,9 @@ for(let x=0;x<columns;x++)drops[x]=1
 function draw(){
 
 ctx.fillStyle="rgba(0,0,0,0.05)"
-
 ctx.fillRect(0,0,canvas.width,canvas.height)
 
 ctx.fillStyle="#8a2be2"
-
 ctx.font=fontSize+"px monospace"
 
 for(let i=0;i<drops.length;i++){
