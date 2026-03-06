@@ -350,7 +350,7 @@ Contact
 
 <h3 id="cartTotal"></h3>
 
-<div id="discountContainer" style="display:none;margin-top:20px;">
+<div style="margin-top:20px;">
 <input id="discountCode" placeholder="Discount Code"
 style="width:100%;padding:10px;border-radius:6px;border:none;margin-bottom:10px;">
 <button onclick="applyDiscount()" class="btn" style="width:100%;">Apply Code</button>
@@ -422,9 +422,9 @@ updateCart()
 }else{
 discount=0
 discountCodeUsed=""
-localStorage.removeItem("discount")
-localStorage.removeItem("discountCodeUsed")
-showNotification("Invalid Code")
+localStorage.setItem("discount",discount)
+localStorage.setItem("discountCodeUsed",discountCodeUsed)
+showNotification("Invalid Code or No Discount Applied")
 updateCart()
 }
 }
@@ -463,21 +463,15 @@ ${i.qty}
 })
 let finalTotal=total
 let cartTotalEl=document.getElementById("cartTotal")
-if(discountCodeUsed && discount>0){
+if(discount>0){
 let d=total*discount
 finalTotal=total-d
 cartTotalEl.innerHTML=
 `<div>Total: ${total} EGP</div>
 <div>Discount: ${d.toFixed(0)} EGP</div>
 <div>Final: ${finalTotal.toFixed(0)} EGP</div>`
-document.getElementById("discountContainer").style.display="block"
 }else{
 cartTotalEl.innerHTML=`<div>Total: ${total} EGP</div>`
-document.getElementById("discountContainer").style.display="none"
-discount=0
-discountCodeUsed=""
-localStorage.removeItem("discount")
-localStorage.removeItem("discountCodeUsed")
 }
 document.getElementById("cartCount").innerText=count
 localStorage.setItem("cart",JSON.stringify(cart))
@@ -525,7 +519,7 @@ total+=t
 msg+=`${i.name} x${i.qty} = ${t} EGP%0A`
 })
 let finalTotal=total
-if(discountCodeUsed && discount>0){
+if(discount>0){
 let d=total*discount
 finalTotal=total-d
 msg+=`%0ADiscount Code: ${discountCodeUsed}%0A`
