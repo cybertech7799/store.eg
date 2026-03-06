@@ -44,7 +44,8 @@ display:flex;
 justify-content:space-between;
 align-items:center;
 padding:20px 8%;
-background:#000;
+backdrop-filter: blur(12px);
+background:rgba(0,0,0,0.4);
 position:fixed;
 width:100%;
 z-index:1000;
@@ -186,35 +187,41 @@ border-radius:10px;
 margin-bottom:20px;
 }
 
+#pName{
+color:var(--purple);
+}
+
 /* DISCLAIMER */
 
 .products-disclaimer {
 margin-top:60px;
 margin-bottom:60px;
 text-align:center;
-color:#aaa;
+color:#ddd;
 font-size:16px;
-max-width:700px;
+max-width:750px;
 margin-left:auto;
 margin-right:auto;
-line-height:1.6;
-padding:15px;
-background:#111;
-border-radius:10px;
+line-height:1.8;
+padding:25px;
+background:linear-gradient(145deg,#111,#1a1a1a);
+border-radius:15px;
+box-shadow:0 0 25px rgba(138,43,226,0.4);
 }
 
 /* CONTACT */
 
 .contact-box{
 margin-top:80px;
-background:#121212;
+background:linear-gradient(145deg,#111,#1a1a1a);
 border:1px solid #222;
 padding:25px;
-border-radius:10px;
+border-radius:15px;
 text-align:center;
 max-width:600px;
 margin-left:auto;
 margin-right:auto;
+box-shadow:0 0 25px rgba(138,43,226,0.4);
 }
 
 /* CART */
@@ -230,6 +237,11 @@ justify-content:space-between;
 margin-bottom:15px;
 border-bottom:1px solid #333;
 padding-bottom:10px;
+flex-wrap:wrap;
+}
+
+.cart-row div{
+margin-bottom:5px;
 }
 
 /* NOTIFICATION */
@@ -362,50 +374,33 @@ Back
 
 <script>
 
+// PRODUCTS
 const products=[
-
 {name:"Flipper Zero",price:24999,image:"https://image2url.com/r2/default/images/1772738184200-4f09180b-546f-47ae-94bd-4b7ba162f724.jpeg",desc:"Multi tool for testing RFID NFC and wireless systems."},
-
 {name:"NRF24L01",price:250,image:"https://image2url.com/r2/default/images/1772738244772-7ffeab84-7355-40f7-b459-8d528dec2b95.jpeg",desc:"Wireless transceiver module for Arduino and ESP32 projects."},
-
 {name:"ESP32 Bruce CYD24",price:1199,image:"https://image2url.com/r2/default/images/1772738204799-bf642669-610a-4d4c-8e96-9858acbfa383.jpeg",desc:"WiFi Bluetooth development board for advanced IoT projects."},
-
 {name:"Mobile IR Remote",price:299,image:"https://image2url.com/r2/default/images/1772738156638-ca629519-0d80-4bb7-9a8e-6d6abeea3f92.jpeg",desc:"Turn your smartphone into an infrared universal remote."},
-
 {name:"Premium Wires",price:150,image:"https://image2url.com/r2/default/images/1772738291988-375603c1-a999-43cf-b199-2e79efd32b91.jpeg",desc:"High quality wires for electronics and prototyping."},
-
 {name:"T-Embed",price:4999,image:"https://image2url.com/r2/default/images/1772738131322-bfefd54e-0f5a-4590-9b54-463921a14bc7.jpeg",desc:"NFC embedded device for smart hardware projects."},
-
 {name:"M5Stack Core2",price:2999,image:"https://image2url.com/r2/default/images/1772737954349-428ea98d-bc0f-4dfd-9cfb-ba1373c96684.jpeg",desc:"ESP32 based IoT development kit with display."},
-
 {name:"NFC Module",price:299,image:"https://image2url.com/r2/default/images/1772738309056-3b8c3b4c-6dfb-4ef3-bbd0-6e1a340ebb99.jpeg",desc:"NFC reader module for Arduino projects."}
-
 ]
 
+// GRID
 const grid=document.getElementById("productGrid")
-
 products.forEach((p,i)=>{
-
 grid.innerHTML+=`
-
 <div class="card" onclick="openProduct(${i})">
-
 <img src="${p.image}">
-
 <h3>${p.name}</h3>
-
 <p>${p.desc}</p>
-
 <p style="color:#b266ff;font-weight:bold;">${p.price} EGP</p>
-
 <button class="btn add" onclick="event.stopPropagation();addCart(${i})">Add To Cart</button>
-
 </div>
-
 `
-
 })
 
+// CART
 let cart=[]
 let discount=0
 let discountCodeUsed=""
@@ -450,24 +445,24 @@ total+=t
 count+=Number(i.qty)
 items.innerHTML+=`
 <div class="cart-row">
-<div><b>${i.name}</b><br>${i.price} EGP</div>
-<div>
-<button onclick="changeQty(${x},-1)">-</button>
-${i.qty}
-<button onclick="changeQty(${x},1)">+</button>
-</div>
-<div>${t} EGP</div>
+<div><b>${i.name}</b></div>
+<div>Price: ${i.price} EGP</div>
+<div>Quantity: ${i.qty}</div>
+<div>Subtotal: ${t} EGP</div>
 </div>
 `
 })
 let finalTotal=total
+let cartTotalEl=document.getElementById("cartTotal")
 if(discount>0){
 let d=total*discount
 finalTotal=total-d
-document.getElementById("cartTotal").innerText=
-"Total: "+total+" EGP | Discount: "+d.toFixed(0)+" EGP | Final: "+finalTotal.toFixed(0)+" EGP"
+cartTotalEl.innerHTML=
+`<div>Total: ${total} EGP</div>
+<div>Discount: ${d.toFixed(0)} EGP</div>
+<div>Final: ${finalTotal.toFixed(0)} EGP</div>`
 }else{
-document.getElementById("cartTotal").innerText="Total: "+total+" EGP"
+cartTotalEl.innerHTML=`<div>Total: ${total} EGP</div>`
 }
 document.getElementById("cartCount").innerText=count
 localStorage.setItem("cart",JSON.stringify(cart))
@@ -489,6 +484,8 @@ document.getElementById("pImg").src=p.image
 document.getElementById("pDesc").innerText=p.desc
 document.getElementById("pPrice").innerText=p.price+" EGP"
 document.getElementById("pAdd").onclick=function(){addCart(i)}
+// Scroll to product position
+window.scrollTo(0,document.getElementById("productGrid").children[i].offsetTop)
 }
 
 function showHome(){
