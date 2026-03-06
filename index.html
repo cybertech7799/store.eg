@@ -393,12 +393,14 @@ grid.innerHTML+=`
 <div class="card" onclick="openProduct(${i})">
 <img src="${p.image}">
 <h3>${p.name}</h3>
+<p style="color:#aaa; font-size:14px;">Stock: ${p.stock}</p>
 <p>${p.desc}</p>
 <p style="color:#b266ff;font-weight:bold;">${p.price} EGP</p>
 <button class="btn add" onclick="event.stopPropagation();addCart(${i})">Add To Cart</button>
 </div>
 `
 })
+
 
 // CART
 let cart=[]
@@ -624,4 +626,5 @@ updateCart() // Ensure cart shows correct values on refresh
 
 </body>
 </html>
+
 
