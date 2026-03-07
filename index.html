@@ -191,6 +191,16 @@ margin-bottom:20px;
 color:var(--purple);
 }
 
+/* PRODUCT ANIMATION */
+#productPage.animate {
+  animation: fadeInScale 0.5s forwards;
+}
+
+@keyframes fadeInScale {
+  0% {opacity:0; transform:scale(0.9);}
+  100% {opacity:1; transform:scale(1);}
+}
+
 /* DISCLAIMER */
 
 .products-disclaimer {
@@ -263,6 +273,48 @@ z-index:9999;
 right:30px;
 }
 
+/* POLICY PAGE */
+#policyPage{
+  display:none;
+  padding:120px 8%;
+  text-align:center;
+}
+
+#policyPage h2{
+  font-family:'Orbitron';
+  color:var(--purple);
+  margin-bottom:20px;
+}
+
+#policyPage p{
+  color:#ddd;
+  line-height:1.8;
+  max-width:700px;
+  margin:0 auto;
+}
+
+/* CATEGORY FILTER */
+.category-filter{
+  text-align:center;
+  margin-bottom:20px;
+}
+
+.category-filter button{
+  margin:5px;
+  padding:8px 15px;
+  border:none;
+  border-radius:6px;
+  background:#333;
+  color:white;
+  cursor:pointer;
+  transition:0.3s;
+}
+
+.category-filter button:hover,
+.category-filter button.active{
+  background:var(--purple);
+}
+
 footer{
 text-align:center;
 padding:30px;
@@ -296,14 +348,15 @@ background:#111;
 <p>Professional penetration testing and digital security tools.</p>
 <a href="#products" class="btn">Explore Tools</a>
 </div>
-    <div id="policyPage">
+
+<!-- POLICY PAGE -->
+<div id="policyPage">
   <h2>Return Policy</h2>
   <p>All products purchased from Cyber Tech Store cannot be returned unless they are defective.
   Please inspect your items upon receipt and contact us if you find any issues.</p>
   <br>
   <button onclick="showHome()" class="btn">Back</button>
 </div>
-
 
 <section id="products">
 
@@ -313,7 +366,7 @@ background:#111;
 <input type="text" id="searchInput" placeholder="Search product...">
 </div>
 
-    <div class="category-filter" id="categoryFilter"></div>
+<div class="category-filter" id="categoryFilter"></div>
 
 <div class="grid" id="productGrid"></div>
 
@@ -412,13 +465,11 @@ grid.innerHTML+=`
 `
 })
 
-
 // CART
 let cart=[]
 let discount=0
 let discountCodeUsed=""
 
-// Load cart from localStorage
 if(localStorage.getItem("cart")) cart=JSON.parse(localStorage.getItem("cart"))
 if(localStorage.getItem("discount")) discount= parseFloat(localStorage.getItem("discount"))
 if(localStorage.getItem("discountCodeUsed")) discountCodeUsed=localStorage.getItem("discountCodeUsed")
@@ -447,7 +498,7 @@ function addCart(i){
     let item = cart.find(x => x.name == p.name)
     
     if(item){
-        if(item.qty < p.stock){ // لو ما وصلش للـ stock
+        if(item.qty < p.stock){ 
             item.qty++
             showNotification(p.name + " added")
         } else {
@@ -465,7 +516,6 @@ function addCart(i){
     localStorage.setItem("cart", JSON.stringify(cart))
     updateCart()
 }
-
 
 function updateCart(){
 let items=document.getElementById("cartItems")
@@ -512,201 +562,21 @@ localStorage.setItem("cart",JSON.stringify(cart))
 updateCart()
 }
 
-function openProduct(i){
-let p=products[i]
-document.getElementById("homePage").style.display="none"
-document.getElementById("productPage").style.display="block"
-document.getElementById("pName").innerText=p.name
-document.getElementById("pImg").src=p.image
-document.getElementById("pDesc").innerText=p.desc
-document.getElementById("pPrice").innerText=p.price+" EGP"
-document.getElementById("pAdd").onclick=function(){addCart(i)}
-// Scroll to product position
-window.scrollTo(0,document.getElementById("productGrid").children[i].offsetTop)
-}
-
-function showHome(){
-document.getElementById("productPage").style.display="none"
-document.getElementById("cartPage").style.display="none"
-document.getElementById("homePage").style.display="block"
-}
-
-document.getElementById("cartIcon").onclick=function(){
-document.getElementById("homePage").style.display="none"
-document.getElementById("cartPage").style.display="block"
-}
-
-function orderWhatsApp(){
-
-if(cart.length==0){
-alert("Cart empty")
-return
-}
-
-// ORDER NUMBER SYSTEM
-let orderNumber = localStorage.getItem("orderNumber")
-
-if(!orderNumber){
-orderNumber = 1000
-}else{
-orderNumber = parseInt(orderNumber) + 1
-}
-
-localStorage.setItem("orderNumber",orderNumber)
-
-let msg = `Hello Cyber Tech Store
-Order ID: #${orderNumber}
-
-`
-
-let total=0
-
-cart.forEach(i=>{
-let t = Number(i.price) * Number(i.qty)
-total += t
-msg += `${i.name} x${i.qty} = ${t} EGP
-`
-})
-
-let finalTotal = total
-
-if(discount>0){
-let d = total * discount
-finalTotal = total - d
-
-msg += `
-Discount Code: ${discountCodeUsed}
-Discount: ${d.toFixed(0)} EGP
-`
-}
-
-msg += `
-Total: ${finalTotal.toFixed(0)} EGP
-`
-
-// IMPORTANT FIX
-let encodedMsg = encodeURIComponent(msg)
-
-window.open(`https://wa.me/201288833842?text=${encodedMsg}`)
-
-}
-
-
-function showNotification(text){
-let n=document.getElementById("notification")
-n.innerText="✔ "+text
-n.classList.add("show")
-setTimeout(()=>{n.classList.remove("show")},2500)
-}
-
-document.getElementById("searchInput").addEventListener("keyup",function(){
-let v=this.value.toLowerCase()
-document.querySelectorAll(".card").forEach(c=>{
-let n=c.innerText.toLowerCase()
-c.style.display=n.includes(v)?"block":"none"
-})
-})
-
-const canvas=document.getElementById("matrix")
-const ctx=canvas.getContext("2d")
-canvas.width=window.innerWidth
-canvas.height=window.innerHeight
-let letters="01"
-let fontSize=14
-let columns=canvas.width/fontSize
-let drops=[]
-for(let x=0;x<columns;x++)drops[x]=1
-function draw(){
-ctx.fillStyle="rgba(0,0,0,0.05)"
-ctx.fillRect(0,0,canvas.width,canvas.height)
-ctx.fillStyle="#8a2be2"
-ctx.font=fontSize+"px monospace"
-for(let i=0;i<drops.length;i++){
-let text=letters[Math.floor(Math.random()*letters.length)]
-ctx.fillText(text,i*fontSize,drops[i]*fontSize)
-if(drops[i]*fontSize>canvas.height && Math.random()>0.975)
-drops[i]=0
-drops[i]++
-}
-requestAnimationFrame(draw)
-}
-draw()
-updateCart() // Ensure cart shows correct values on refresh
-
-    /* --- بداية الإضافات --- */
-
-/* PRODUCT ANIMATION */
-#productPage.animate {
-  animation: fadeInScale 0.5s forwards;
-}
-
-@keyframes fadeInScale {
-  0% {opacity:0; transform:scale(0.9);}
-  100% {opacity:1; transform:scale(1);}
-}
-
-/* CATEGORIES FILTER */
-.category-filter{
-  text-align:center;
-  margin-bottom:20px;
-}
-
-.category-filter button{
-  margin:5px;
-  padding:8px 15px;
-  border:none;
-  border-radius:6px;
-  background:#333;
-  color:white;
-  cursor:pointer;
-  transition:0.3s;
-}
-
-.category-filter button:hover,
-.category-filter button.active{
-  background:var(--purple);
-}
-
-/* POLICY PAGE */
-#policyPage{
-  display:none;
-  padding:120px 8%;
-  text-align:center;
-}
-
-#policyPage h2{
-  font-family:'Orbitron';
-  color:var(--purple);
-  margin-bottom:20px;
-}
-
-#policyPage p{
-  color:#ddd;
-  line-height:1.8;
-  max-width:700px;
-  margin:0 auto;
-}
-
-/* --- نهاية الإضافات --- */
-// --- بداية الإضافات ---
-
-// CATEGORIES
+// --- CATEGORIES ---
 const categories=["All","Multi-tools","Modules","Development Boards","Accessories"];
 const categoryFilterEl=document.getElementById("categoryFilter");
 
-// إنشاء أزرار الفئات
 categories.forEach(cat=>{
   const btn=document.createElement("button");
   btn.innerText=cat;
-  btn.onclick=()=>filterCategory(cat);
+  btn.onclick=(e)=>filterCategory(cat,e);
   if(cat==="All") btn.classList.add("active");
   categoryFilterEl.appendChild(btn);
 });
 
-// دالة الفلترة
-function filterCategory(cat){
+function filterCategory(cat, e){
   document.querySelectorAll(".category-filter button").forEach(b=>b.classList.remove("active"));
-  event.target.classList.add("active");
+  e.target.classList.add("active");
   document.querySelectorAll(".card").forEach((c,i)=>{
     let productCat="";
     if(products[i].name.includes("Flipper") || products[i].name.includes("T-Embed")){
@@ -731,8 +601,7 @@ function openProduct(i){
   let pp=document.getElementById("productPage")
   pp.style.display="block"
   pp.classList.remove("animate")
-  void pp.offsetWidth // لتفعيل الأنيميشن مرة أخرى
-  pp.classList.add("animate")
+  setTimeout(()=>{ pp.classList.add("animate"); },10)
 
   document.getElementById("pName").innerText=p.name
   document.getElementById("pImg").src=p.image
@@ -743,18 +612,15 @@ function openProduct(i){
   window.scrollTo(0,document.getElementById("productGrid").children[i].offsetTop)
 }
 
-// SHOW POLICY
+// SHOW PAGES
+function showHome(){
+  document.getElementById("productPage").style.display="none"
+  document.getElementById("cartPage").style.display="none"
+  document.getElementById("policyPage").style.display="none"
+  document.getElementById("homePage").style.display="block"
+}
+
 function showPolicy(){
   document.getElementById("homePage").style.display="none"
   document.getElementById("productPage").style.display="none"
-  document.getElementById("cartPage").style.display="none"
-  document.getElementById("policyPage").style.display="block"
-}
-
-// --- نهاية الإضافات ---
-
-</script>
-
-</body>
-</html>
-
+  document.getElementById("cartPage").style
