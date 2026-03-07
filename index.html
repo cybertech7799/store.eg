@@ -282,6 +282,7 @@ background:#111;
 <ul>
 <li><a href="#" onclick="showHome()">Home</a></li>
 <li><a href="#products" onclick="showHome()">Products</a></li>
+<li><a href="#policy" onclick="showPolicy()">Policy</a></li>
 </ul>
 
 <div id="cartIcon">🛒 <span id="cartCount">0</span></div>
@@ -295,6 +296,14 @@ background:#111;
 <p>Professional penetration testing and digital security tools.</p>
 <a href="#products" class="btn">Explore Tools</a>
 </div>
+    <div id="policyPage">
+  <h2>Return Policy</h2>
+  <p>All products purchased from Cyber Tech Store cannot be returned unless they are defective.
+  Please inspect your items upon receipt and contact us if you find any issues.</p>
+  <br>
+  <button onclick="showHome()" class="btn">Back</button>
+</div>
+
 
 <section id="products">
 
@@ -303,6 +312,8 @@ background:#111;
 <div class="search-box">
 <input type="text" id="searchInput" placeholder="Search product...">
 </div>
+
+    <div class="category-filter" id="categoryFilter"></div>
 
 <div class="grid" id="productGrid"></div>
 
@@ -622,7 +633,128 @@ requestAnimationFrame(draw)
 draw()
 updateCart() // Ensure cart shows correct values on refresh
 
+    /* --- بداية الإضافات --- */
+
+/* PRODUCT ANIMATION */
+#productPage.animate {
+  animation: fadeInScale 0.5s forwards;
+}
+
+@keyframes fadeInScale {
+  0% {opacity:0; transform:scale(0.9);}
+  100% {opacity:1; transform:scale(1);}
+}
+
+/* CATEGORIES FILTER */
+.category-filter{
+  text-align:center;
+  margin-bottom:20px;
+}
+
+.category-filter button{
+  margin:5px;
+  padding:8px 15px;
+  border:none;
+  border-radius:6px;
+  background:#333;
+  color:white;
+  cursor:pointer;
+  transition:0.3s;
+}
+
+.category-filter button:hover,
+.category-filter button.active{
+  background:var(--purple);
+}
+
+/* POLICY PAGE */
+#policyPage{
+  display:none;
+  padding:120px 8%;
+  text-align:center;
+}
+
+#policyPage h2{
+  font-family:'Orbitron';
+  color:var(--purple);
+  margin-bottom:20px;
+}
+
+#policyPage p{
+  color:#ddd;
+  line-height:1.8;
+  max-width:700px;
+  margin:0 auto;
+}
+
+/* --- نهاية الإضافات --- */
+// --- بداية الإضافات ---
+
+// CATEGORIES
+const categories=["All","Multi-tools","Modules","Development Boards","Accessories"];
+const categoryFilterEl=document.getElementById("categoryFilter");
+
+// إنشاء أزرار الفئات
+categories.forEach(cat=>{
+  const btn=document.createElement("button");
+  btn.innerText=cat;
+  btn.onclick=()=>filterCategory(cat);
+  if(cat==="All") btn.classList.add("active");
+  categoryFilterEl.appendChild(btn);
+});
+
+// دالة الفلترة
+function filterCategory(cat){
+  document.querySelectorAll(".category-filter button").forEach(b=>b.classList.remove("active"));
+  event.target.classList.add("active");
+  document.querySelectorAll(".card").forEach((c,i)=>{
+    let productCat="";
+    if(products[i].name.includes("Flipper") || products[i].name.includes("T-Embed")){
+      productCat="Multi-tools";
+    } else if(products[i].name.includes("NRF") || products[i].name.includes("NFC")){
+      productCat="Modules";
+    } else if(products[i].name.includes("ESP32") || products[i].name.includes("M5Stack")){
+      productCat="Development Boards";
+    } else {
+      productCat="Accessories";
+    }
+    c.style.display=(cat==="All" || cat===productCat)?"block":"none";
+  });
+}
+
+// PRODUCT ANIMATION
+function openProduct(i){
+  let p=products[i]
+  document.getElementById("homePage").style.display="none"
+  document.getElementById("policyPage").style.display="none"
+  document.getElementById("cartPage").style.display="none"
+  let pp=document.getElementById("productPage")
+  pp.style.display="block"
+  pp.classList.remove("animate")
+  void pp.offsetWidth // لتفعيل الأنيميشن مرة أخرى
+  pp.classList.add("animate")
+
+  document.getElementById("pName").innerText=p.name
+  document.getElementById("pImg").src=p.image
+  document.getElementById("pDesc").innerText=p.desc
+  document.getElementById("pPrice").innerText=p.price+" EGP"
+  document.getElementById("pAdd").onclick=function(){addCart(i)}
+
+  window.scrollTo(0,document.getElementById("productGrid").children[i].offsetTop)
+}
+
+// SHOW POLICY
+function showPolicy(){
+  document.getElementById("homePage").style.display="none"
+  document.getElementById("productPage").style.display="none"
+  document.getElementById("cartPage").style.display="none"
+  document.getElementById("policyPage").style.display="block"
+}
+
+// --- نهاية الإضافات ---
+
 </script>
 
 </body>
 </html>
+
