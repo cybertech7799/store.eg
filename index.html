@@ -3,20 +3,16 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Cyber Tech Store | Professional Security Tools</title>
+<title>Cyber Tech Store</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;900&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Poppins:wght@300;400;500&display=swap" rel="stylesheet">
 
 <style>
 
 :root{
---bg-dark: #050505;
---card-bg: #121212;
---primary: #8a2be2;
---primary-glow: #b266ff;
---text-main: #ffffff;
---text-muted: #a0a0a0;
---border: #2a2a2a;
+--black:#0a0a0a;
+--purple:#8a2be2;
+--glow:#b266ff;
 }
 
 *{
@@ -24,16 +20,14 @@ margin:0;
 padding:0;
 box-sizing:border-box;
 font-family:'Poppins',sans-serif;
-scroll-behavior: smooth;
 }
 
 body{
-background:var(--bg-dark);
-color:var(--text-main);
+background:var(--black);
+color:white;
 overflow-x:hidden;
 }
 
-/* --- MATRIX BACKGROUND --- */
 canvas{
 position:fixed;
 top:0;
@@ -41,90 +35,57 @@ left:0;
 width:100%;
 height:100%;
 z-index:-1;
-opacity: 0.4; /* Slightly dimmed to make text readable */
 }
 
-/* --- NAVIGATION --- */
+/* NAV */
+
 nav{
 display:flex;
 justify-content:space-between;
 align-items:center;
-padding:15px 8%;
-backdrop-filter: blur(15px);
-background:rgba(5, 5, 5, 0.7);
-border-bottom: 1px solid rgba(138, 43, 226, 0.2);
+padding:20px 8%;
+backdrop-filter: blur(12px);
+background:rgba(0,0,0,0.4);
 position:fixed;
 width:100%;
 z-index:1000;
-transition: 0.3s;
 }
 
 .logo{
 font-family:'Orbitron';
-color:var(--primary);
-font-size:24px;
-font-weight: 700;
-letter-spacing: 1px;
-text-shadow: 0 0 10px rgba(138, 43, 226, 0.5);
+color:var(--purple);
+font-size:22px;
 }
 
 nav ul{
 display:flex;
-gap:30px;
+gap:25px;
 list-style:none;
 }
 
 nav a{
-color:var(--text-main);
+color:white;
 text-decoration:none;
-font-weight: 500;
-transition: 0.3s;
-position: relative;
-}
-
-nav a:hover{
-color:var(--primary-glow);
-}
-
-nav a::after{
-content:'';
-position:absolute;
-width:0;
-height:2px;
-bottom:-5px;
-left:0;
-background:var(--primary);
-transition: 0.3s;
-}
-
-nav a:hover::after{
-width:100%;
 }
 
 #cartIcon{
 cursor:pointer;
-font-size:24px;
+font-size:22px;
 position:relative;
-transition: transform 0.2s;
-}
-
-#cartIcon:hover{
-transform: scale(1.1);
 }
 
 #cartCount{
 position:absolute;
-top:-8px;
-right:-10px;
-background:var(--primary);
+top:-10px;
+right:-15px;
+background:var(--purple);
 border-radius:50%;
-padding:2px 6px;
-font-size:11px;
-font-weight:bold;
-box-shadow: 0 0 10px var(--primary);
+padding:2px 7px;
+font-size:12px;
 }
 
-/* --- HERO SECTION --- */
+/* HERO */
+
 .hero{
 height:100vh;
 display:flex;
@@ -132,352 +93,253 @@ flex-direction:column;
 justify-content:center;
 align-items:center;
 text-align:center;
-padding: 0 20px;
-position: relative;
-}
-
-.hero::before {
-    content: '';
-    position: absolute;
-    top: 0; left: 0; right: 0; bottom: 0;
-    background: radial-gradient(circle at center, transparent 0%, var(--bg-dark) 90%);
-    pointer-events: none;
 }
 
 .hero h1{
 font-family:'Orbitron';
-font-size:60px;
-background: linear-gradient(to right, #fff, var(--primary-glow));
--webkit-background-clip: text;
--webkit-text-fill-color: transparent;
-margin-bottom: 20px;
-line-height: 1.2;
+font-size:55px;
+color:var(--glow);
 }
 
 .hero p{
 margin-top:15px;
 max-width:600px;
-opacity:0.9;
-font-size: 18px;
-margin-bottom: 30px;
+opacity:0.8;
 }
 
 .btn{
-padding:12px 30px;
-background:linear-gradient(45deg, var(--primary), #6a1b9a);
+margin-top:15px;
+padding:10px 20px;
+background:var(--purple);
 border:none;
-border-radius:30px;
+border-radius:6px;
 color:white;
 cursor:pointer;
 text-decoration:none;
-font-weight: 600;
-transition: 0.3s;
-box-shadow: 0 0 15px rgba(138, 43, 226, 0.4);
 }
 
-.btn:hover{
-transform: translateY(-3px);
-box-shadow: 0 0 25px rgba(138, 43, 226, 0.6);
-}
+/* PRODUCTS */
 
-/* --- PRODUCTS SECTION --- */
 section{
 padding:100px 8%;
 }
 
 .section-title{
 font-family:'Orbitron';
-color:var(--primary);
+color:var(--purple);
 text-align:center;
-margin-bottom:50px;
-font-size:32px;
-text-transform: uppercase;
-letter-spacing: 2px;
+margin-bottom:40px;
+font-size:36px;
 }
 
 .search-box{
 text-align:center;
-margin-bottom:50px;
+margin-bottom:30px;
 }
 
 .search-box input{
-width:100%;
-max-width:400px;
-padding:12px 20px;
-border-radius:30px;
-border:1px solid var(--border);
-background:rgba(20, 20, 20, 0.8);
+width:300px;
+padding:10px;
+border-radius:6px;
+border:1px solid #333;
+background:#111;
 color:white;
-font-size:16px;
-outline:none;
-transition: 0.3s;
-box-shadow: 0 4px 6px rgba(0,0,0,0.3);
 }
 
-.search-box input:focus{
-border-color: var(--primary);
-box-shadow: 0 0 15px rgba(138, 43, 226, 0.2);
+/* CATEGORIES */
+.category-container {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-bottom: 40px;
+    flex-wrap: wrap;
+}
+
+.cat-btn {
+    background: #1a1a1a;
+    border: 1px solid #333;
+    color: #ccc;
+    padding: 8px 20px;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: 0.3s;
+    font-size: 14px;
+}
+
+.cat-btn:hover, .cat-btn.active {
+    background: var(--purple);
+    color: white;
+    border-color: var(--purple);
+    box-shadow: 0 0 15px rgba(138, 43, 226, 0.5);
 }
 
 .grid{
 display:grid;
-grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
-gap:30px;
+grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+gap:25px;
 }
 
 .card{
-background:var(--card-bg);
-border:1px solid var(--border);
-padding:20px;
-border-radius:15px;
+background:#121212;
+padding:15px;
+border-radius:10px;
 transition:0.3s;
 cursor:pointer;
-position: relative;
-overflow: hidden;
 }
 
 .card:hover{
-transform:translateY(-10px);
-border-color: var(--primary);
-box-shadow:0 0 30px rgba(138,43,226,0.15);
+transform:translateY(-8px);
+box-shadow:0 0 20px var(--purple);
 }
 
 .card img{
 width:100%;
-height:200px;
+height:180px;
 object-fit:cover;
-border-radius:10px;
-margin-bottom:15px;
-transition: 0.3s;
-}
-
-.card:hover img{
-transform: scale(1.05);
-}
-
-.card h3{
-font-size:18px;
-margin-bottom:5px;
-color:white;
-}
-
-.card .stock{
-font-size:13px;
-color:var(--text-muted);
+border-radius:8px;
 margin-bottom:10px;
-display: block;
 }
 
-.card .desc{
-font-size:14px;
-color:#ccc;
-margin-bottom:15px;
-line-height: 1.5;
-}
+/* PRODUCT PAGE */
 
-.card .price-row{
-display: flex;
-justify-content: space-between;
-align-items: center;
-margin-top: 15px;
-}
-
-.price{
-color:var(--primary-glow);
-font-weight: bold;
-font-size: 18px;
-}
-
-.add-btn{
-background:transparent;
-border:1px solid var(--primary);
-color:white;
-padding:8px 15px;
-border-radius:20px;
-cursor:pointer;
-transition: 0.3s;
-font-size: 14px;
-}
-
-.add-btn:hover{
-background:var(--primary);
-box-shadow: 0 0 10px var(--primary);
-}
-
-/* --- PRODUCT PAGE --- */
 #productPage{
 display:none;
-padding:150px 8% 100px;
+padding:120px 8%;
 text-align:center;
-background: rgba(0,0,0,0.5);
-backdrop-filter: blur(10px);
 }
 
-#productPage img{
-width:100%;
-max-width:400px;
-border-radius:15px;
-margin-bottom:30px;
-box-shadow: 0 0 30px rgba(138, 43, 226, 0.2);
-border: 1px solid var(--border);
+/* ANIMATION STYLES */
+.product-anim-img {
+    width: 300px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    opacity: 0;
+    transform: scale(0.8);
+    transition: all 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.product-anim-text {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: all 0.6s ease-out 0.3s; /* 0.3s delay */
+}
+
+/* Trigger animation when page is active */
+#productPage:target .product-anim-img,
+#productPage:target .product-anim-text {
+    opacity: 1;
+    transform: scale(1) translateY(0);
 }
 
 #pName{
-color:var(--primary);
-font-family:'Orbitron';
-font-size:36px;
-margin-bottom: 10px;
+color:var(--purple);
 }
 
-#pDesc{
-max-width:700px;
-margin: 0 auto 20px;
-line-height: 1.6;
-color: #ddd;
-}
+/* DISCLAIMER */
 
-#pPrice{
-font-size:28px;
-color:white;
-margin-bottom: 30px;
-}
-
-/* --- DISCLAIMER & CONTACT --- */
 .products-disclaimer {
-margin-top:80px;
-padding:30px;
-background:linear-gradient(145deg, #111, #151515);
-border:1px solid var(--border);
-border-radius:15px;
+margin-top:60px;
+margin-bottom:60px;
 text-align:center;
-color:#aaa;
-font-size:14px;
-max-width:800px;
+color:#ddd;
+font-size:16px;
+max-width:750px;
 margin-left:auto;
 margin-right:auto;
-line-height:1.6;
+line-height:1.8;
+padding:25px;
+background:linear-gradient(145deg,#111,#1a1a1a);
+border-radius:15px;
+box-shadow:0 0 25px rgba(138,43,226,0.4);
 }
+
+/* CONTACT */
 
 .contact-box{
-margin-top:60px;
-background:linear-gradient(145deg, #111, #151515);
-border:1px solid var(--border);
-padding:30px;
+margin-top:80px;
+background:linear-gradient(145deg,#111,#1a1a1a);
+border:1px solid #222;
+padding:25px;
 border-radius:15px;
 text-align:center;
-max-width:500px;
+max-width:600px;
 margin-left:auto;
 margin-right:auto;
-box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+box-shadow:0 0 25px rgba(138,43,226,0.4);
 }
 
-.contact-box h3{
-color:var(--primary);
-font-family:'Orbitron';
-margin-bottom:20px;
-}
+/* CART */
 
-.contact-box p{
-margin-bottom:10px;
-font-size: 16px;
-}
-
-/* --- CART PAGE --- */
 #cartPage{
 display:none;
-padding:150px 8% 100px;
-background: rgba(0,0,0,0.5);
-backdrop-filter: blur(10px);
+padding:120px 8%;
 }
 
 .cart-row{
 display:flex;
 justify-content:space-between;
-align-items:center;
-margin-bottom:20px;
-padding:20px;
-background:var(--card-bg);
-border-radius:10px;
-border:1px solid var(--border);
+margin-bottom:15px;
+border-bottom:1px solid #333;
+padding-bottom:10px;
 flex-wrap:wrap;
-gap: 10px;
 }
 
-.qty-controls button{
-background: #222;
-border: 1px solid #444;
-color: white;
-width: 30px;
-height: 30px;
-border-radius: 5px;
-cursor: pointer;
+.cart-row div{
+margin-bottom:5px;
 }
 
-.qty-controls span{
-margin: 0 10px;
-font-weight: bold;
-}
+/* NOTIFICATION */
 
-#cartTotal{
-margin-top: 30px;
-text-align: right;
-font-size: 20px;
-background: var(--card-bg);
-padding: 20px;
-border-radius: 10px;
-border: 1px solid var(--border);
-}
-
-#cartTotal div{
-margin-bottom: 5px;
-}
-
-#cartTotal .final-price{
-color: var(--primary-glow);
-font-size: 24px;
-font-weight: bold;
-border-top: 1px solid #333;
-padding-top: 10px;
-margin-top: 10px;
-}
-
-/* --- NOTIFICATION --- */
 #notification{
 position:fixed;
 bottom:30px;
 right:-400px;
-background:linear-gradient(45deg,#8a2be2,#6a1b9a);
+background:linear-gradient(45deg,#8a2be2,#b266ff);
 padding:15px 25px;
 border-radius:10px;
 font-weight:bold;
 box-shadow:0 0 20px rgba(178,102,255,0.6);
-transition:0.5s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+transition:0.5s;
 z-index:9999;
-border: 1px solid rgba(255,255,255,0.2);
 }
 
 #notification.show{
 right:30px;
 }
 
-/* --- FOOTER --- */
+/* POLICY PAGE */
+#policyPage {
+    display: none;
+    padding: 120px 8%;
+    text-align: center;
+}
+
+.policy-content {
+    background: linear-gradient(145deg, #111, #1a1a1a);
+    border: 1px solid #333;
+    padding: 40px;
+    border-radius: 15px;
+    max-width: 800px;
+    margin: 0 auto;
+    box-shadow: 0 0 20px rgba(138, 43, 226, 0.2);
+}
+
+.policy-content h2 {
+    color: var(--purple);
+    font-family: 'Orbitron';
+    margin-bottom: 20px;
+}
+
+.policy-content p {
+    margin-bottom: 15px;
+    line-height: 1.6;
+    color: #ddd;
+}
+
 footer{
 text-align:center;
 padding:30px;
-background:#080808;
-border-top: 1px solid #222;
-color: #666;
-font-size: 14px;
-}
-
-/* --- RESPONSIVE --- */
-@media (max-width: 768px) {
-    .hero h1 { font-size: 36px; }
-    nav { padding: 15px 5%; }
-    nav ul { display: none; } /* Simplified for mobile */
-    section { padding: 80px 5%; }
-    .cart-row { flex-direction: column; text-align: center; }
-    .cart-row div { margin-bottom: 5px; }
+background:#111;
 }
 
 </style>
@@ -493,6 +355,7 @@ font-size: 14px;
 <ul>
 <li><a href="#" onclick="showHome()">Home</a></li>
 <li><a href="#products" onclick="showHome()">Products</a></li>
+<li><a href="#" onclick="showPolicy()">Policy</a></li>
 </ul>
 
 <div id="cartIcon">🛒 <span id="cartCount">0</span></div>
@@ -502,19 +365,111 @@ font-size: 14px;
 <div id="homePage">
 
 <div class="hero">
-<h1>Next Gen Security Tools</h1>
-<p>Professional penetration testing and digital security equipment for researchers and enthusiasts.</p>
+<h1>Cyber Tech Store</h1>
+<p>Professional penetration testing and digital security tools.</p>
 <a href="#products" class="btn">Explore Tools</a>
 </div>
 
 <section id="products">
 
-<h2 class="section-title">Our Inventory</h2>
+<h2 class="section-title">Our Tools</h2>
+
+<!-- CATEGORIES SYSTEM -->
+<div class="category-container" id="categoryContainer">
+    <button class="cat-btn active" onclick="filterCategory('All')">All</button>
+    <!-- Categories will be injected here by JS -->
+</div>
 
 <div class="search-box">
-<input type="text" id="searchInput" placeholder="Search for Flipper, ESP32, NFC...">
+<input type="text" id="searchInput" placeholder="Search product...">
 </div>
 
 <div class="grid" id="productGrid"></div>
 
-<div class
+<div class="products-disclaimer">
+All products are sold strictly for educational and research purposes only.
+Cyber Tech Store does not promote or support illegal activities.
+</div>
+
+<div class="contact-box">
+<h3 style="color:#8a2be2;font-family:'Orbitron';margin-bottom:15px;">
+Contact
+</h3>
+
+<p>📞 01288833842</p>
+<p>📧 Cyber.tech7799@gmail.com</p>
+</div>
+
+</section>
+
+</div>
+
+<!-- POLICY PAGE -->
+<div id="policyPage">
+    <div class="policy-content">
+        <h2>Return Policy</h2>
+        <p><strong>1. General Policy:</strong> All sales are final. We do not accept returns for change of mind or buyer's remorse.</p>
+        <p><strong>2. Defective Items:</strong> The only exception to our return policy is if the product arrives defective or damaged. In this case, please contact us within 48 hours of delivery with photos of the defect.</p>
+        <p><strong>3. Refunds:</strong> If a return is approved due to a defect, a full refund or replacement will be issued at our discretion.</p>
+        <p><strong>4. Shipping:</strong> The customer is responsible for shipping costs unless the item is confirmed defective.</p>
+        <br>
+        <button onclick="showHome()" class="btn">Back to Store</button>
+    </div>
+</div>
+
+<div id="productPage">
+
+<h2 id="pName" class="product-anim-text"></h2>
+
+<img id="pImg" class="product-anim-img">
+
+<p id="pDesc" class="product-anim-text"></p>
+
+<h3 id="pPrice" class="product-anim-text"></h3>
+
+<button id="pAdd" class="btn">Add To Cart</button>
+
+<br><br>
+
+<button onclick="showHome()" class="btn">Back</button>
+
+</div>
+
+<div id="cartPage">
+
+<h2 class="section-title">Your Cart</h2>
+
+<div id="cartItems"></div>
+
+<h3 id="cartTotal"></h3>
+
+<div style="margin-top:20px;">
+<input id="discountCode" placeholder="Discount Code"
+style="width:100%;padding:10px;border-radius:6px;border:none;margin-bottom:10px;">
+<button onclick="applyDiscount()" class="btn" style="width:100%;">Apply Code</button>
+</div>
+
+<button onclick="orderWhatsApp()" class="btn" style="width:100%;margin-top:20px;">
+Checkout via WhatsApp
+</button>
+
+<button onclick="showHome()" class="btn" style="width:100%;margin-top:10px;background:#333;">
+Back
+</button>
+
+</div>
+
+<footer>
+©️ 2026 Cyber Tech Store
+</footer>
+
+<div id="notification"></div>
+
+<script>
+
+// PRODUCTS
+const products=[
+{name:"Flipper Zero",price:24999,stock:6,image:"https://image2url.com/r2/default/images/1772738184200-4f09180b-546f-47ae-94bd-4b7ba162f724.jpeg",desc:"Multi tool for testing RFID NFC and wireless systems.",category:"Hacking Tools"},
+{name:"NRF24L01",price:250,stock:53,image:"https://image2url.com/r2/default/images/1772738244772-7ffeab84-7355-40f7-b459-8d528dec2b95.jpeg",desc:"Wireless transceiver module for Arduino and ESP32 projects.",category:"IoT Modules"},
+{name:"ESP32 Bruce CYD24",price:1199,stock:10,image:"https://image2url.com/r2/default/images/1772738204799-bf642669-610a-4d4c-8e96-9858acbfa383.jpeg",desc:"WiFi Bluetooth development board for advanced IoT projects.",category:"IoT Modules"},
+{name:"Mobile IR Remote",price:299,stock:20,image:"https://image2url.com/r2/default/images/1772738156638-ca629519-0d80-4bb7-9a8e-6d6abeea3f
