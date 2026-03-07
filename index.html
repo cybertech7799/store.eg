@@ -282,7 +282,9 @@ background:#111;
 <ul>
 <li><a href="#" onclick="showHome()">Home</a></li>
 <li><a href="#products" onclick="showHome()">Products</a></li>
+<li><a href="#" onclick="showPolicy()">Policy</a></li>
 </ul>
+  
 
 <div id="cartIcon">🛒 <span id="cartCount">0</span></div>
 
@@ -366,9 +368,67 @@ Back
 
 </div>
 
+
+<!-- POLICY PAGE -->
+
+<div id="policyPage" style="display:none;padding:120px 8%;">
+
+<h2 class="section-title">Store Policy</h2>
+
+<div class="products-disclaimer">
+
+<h3 style="color:#8a2be2;font-family:'Orbitron';margin-bottom:15px;">
+Educational Use Only
+</h3>
+
+<p>
+All products sold on Cyber Tech Store are strictly for educational,
+research, and cybersecurity learning purposes only.
+</p>
+
+<br>
+
+<h3 style="color:#8a2be2;font-family:'Orbitron';margin-bottom:15px;">
+Legal Responsibility
+</h3>
+
+<p>
+The customer is fully responsible for how the products are used.
+Cyber Tech Store does not support illegal activities.
+</p>
+
+<br>
+
+<h3 style="color:#8a2be2;font-family:'Orbitron';margin-bottom:15px;">
+No Refund Policy
+</h3>
+
+<p>
+Due to the nature of electronic tools, all sales are final.
+</p>
+
+<br>
+
+<h3 style="color:#8a2be2;font-family:'Orbitron';margin-bottom:15px;">
+Contact
+</h3>
+
+<p>📞 01288833842</p>
+<p>📧 Cyber.tech7799@gmail.com</p>
+
+</div>
+
+<button onclick="showHome()" class="btn" style="margin-top:30px;">
+Back
+</button>
+
+</div>
+
+
 <footer>
 ©️ 2026 Cyber Tech Store
 </footer>
+
 
 <div id="notification"></div>
 
@@ -525,6 +585,13 @@ document.getElementById("homePage").style.display="none"
 document.getElementById("cartPage").style.display="block"
 }
 
+function showPolicy(){
+document.getElementById("homePage").style.display="none"
+document.getElementById("productPage").style.display="none"
+document.getElementById("cartPage").style.display="none"
+document.getElementById("policyPage").style.display="block"
+}
+
 function orderWhatsApp(){
 
 if(cart.length==0){
@@ -626,3 +693,4 @@ updateCart() // Ensure cart shows correct values on refresh
 
 </body>
 </html>
+
