@@ -343,6 +343,85 @@ background:#111;
 }
 
 </style>
+<style id="addon-styles">
+/* === Add-ons: Policy page, Animations, Categories === */
+
+/* Policy Page */
+#policyPage{
+  display:none;
+  padding:120px 8%;
+  max-width:900px;
+  margin:0 auto;
+}
+.policy-card{
+  background:linear-gradient(145deg,#111,#1a1a1a);
+  border:1px solid #222;
+  padding:25px;
+  border-radius:15px;
+  box-shadow:0 0 25px rgba(138,43,226,0.4);
+  text-align:center;
+}
+.policy-card h2{
+  font-family:'Orbitron';
+  color:var(--purple);
+  margin-bottom:10px;
+}
+.policy-card p{
+  color:#ddd;
+  line-height:1.9;
+  font-size:16px;
+}
+
+/* Categories chips */
+#categoryBar{
+  display:flex;
+  flex-wrap:wrap;
+  gap:10px;
+  justify-content:center;
+  margin: 10px 0 25px;
+}
+.category-chip{
+  background:#1a1a1a;
+  border:1px solid #333;
+  color:#ddd;
+  padding:8px 12px;
+  border-radius:999px;
+  cursor:pointer;
+  transition:0.2s ease;
+  font-size:14px;
+}
+.category-chip:hover{
+  transform:translateY(-2px);
+  box-shadow:0 0 10px rgba(138,43,226,0.5);
+  border-color:var(--purple);
+}
+.category-chip.active{
+  background:var(--purple);
+  color:#fff;
+  border-color:var(--purple);
+}
+
+/* Page transition + product image animation */
+#productPage.page-animate{
+  animation:pageIn .5s ease both;
+}
+@keyframes pageIn{
+  from{ opacity:0; transform: translateY(16px) scale(0.98); }
+  to  { opacity:1; transform: none; }
+}
+#pImg.pop-in{
+  animation: pop .5s ease both, float 4s ease-in-out 0.5s infinite alternate;
+}
+@keyframes pop{
+  from{ opacity:0; transform: scale(0.9) translateY(6px); }
+  to  { opacity:1; transform: none; }
+}
+@keyframes float{
+  0%  { transform: translateY(0); }
+  100%{ transform: translateY(-6px); }
+}
+</style>
+    
 </head>
 
 <body>
@@ -458,7 +537,25 @@ Back
 </button>
 
 </div>
+<!-- === Policy Page (Add-on) === -->
+<div id="policyPage">
+  <div class="policy-card">
+    <h2>Store Policy</h2>
+    <p>
+      We care about transparency and customer satisfaction.<br>
+      <b style="color:#b266ff;">Products cannot be returned unless they are defective.</b><br>
+      If you receive a defective item, please contact us within 7 days of delivery with your order ID
+      so we can assist you promptly.
+    </p>
+    <div style="margin-top:20px;color:#aaa;font-size:14px;">
+      This policy applies to all items listed in our store and all orders placed through our checkout channels.
+    </div>
+  </div>
 
+  <div style="margin-top:25px; text-align:center;">
+    <button onclick="showHome()" class="btn" style="background:#333;">Back</button>
+  </div>
+</div>
 <footer>
 ©️ 2026 Cyber Tech Store
 </footer>
@@ -473,3 +570,181 @@ const products=[
 {name:"NRF24L01",price:250,stock:53,image:"https://image2url.com/r2/default/images/1772738244772-7ffeab84-7355-40f7-b459-8d528dec2b95.jpeg",desc:"Wireless transceiver module for Arduino and ESP32 projects.",category:"IoT Modules"},
 {name:"ESP32 Bruce CYD24",price:1199,stock:10,image:"https://image2url.com/r2/default/images/1772738204799-bf642669-610a-4d4c-8e96-9858acbfa383.jpeg",desc:"WiFi Bluetooth development board for advanced IoT projects.",category:"IoT Modules"},
 {name:"Mobile IR Remote",price:299,stock:20,image:"https://image2url.com/r2/default/images/1772738156638-ca629519-0d80-4bb7-9a8e-6d6abeea3f
+
+<script>
+/* =======================================================
+   Add-ons: Policy nav, Product animations, Categories
+   — implemented without modifying existing code.
+   ======================================================= */
+
+/* -------- 1) Policy Page + Nav Link -------- */
+
+// Add "Policy" link to the existing nav
+(function(){
+  const navList = document.querySelector('nav ul');
+  if (navList && !navList.querySelector('a[href="#policy"]')) {
+    const li = document.createElement('li');
+    const a  = document.createElement('a');
+    a.href = '#policy';
+    a.textContent = 'Policy';
+    a.addEventListener('click', function(e){
+      e.preventDefault();
+      showPolicy();
+    });
+    li.appendChild(a);
+    navList.appendChild(li);
+  }
+})();
+
+// Show Policy page (non-destructively)
+function showPolicy(){
+  document.getElementById("homePage").style.display = "none";
+  document.getElementById("productPage").style.display = "none";
+  document.getElementById("cartPage").style.display = "none";
+  document.getElementById("policyPage").style.display = "block";
+  // Set hash for deep-link
+  window.location.hash = "policy";
+}
+
+// Deep-link support for #policy
+window.addEventListener('load', function(){
+  if (location.hash === '#policy') showPolicy();
+});
+
+
+/* -------- 2) Page + Image Animations on Product Open -------- */
+
+// Wrap the original openProduct to add animations
+(function(){
+  const originalOpenProduct = window.openProduct;
+  if (typeof originalOpenProduct === 'function') {
+    window.openProduct = function(i){
+      // call original behavior first
+      originalOpenProduct(i);
+
+      // Animate the product page container
+      const pp = document.getElementById('productPage');
+      if (pp){
+        pp.classList.remove('page-animate');
+        void pp.offsetWidth; // reflow to restart animation
+        pp.classList.add('page-animate');
+      }
+
+      // Animate the product image
+      const img = document.getElementById('pImg');
+      if (img){
+        img.classList.remove('pop-in');
+        void img.offsetWidth;
+        img.classList.add('pop-in');
+      }
+
+      // Smoothly scroll to top for a clean transition
+      try{
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }catch(_){
+        window.scrollTo(0,0);
+      }
+    }
+  }
+})();
+
+
+/* -------- 3) Categories System (filter chips) -------- */
+/* Works with the existing grid; no rerendering needed. */
+
+(function(){
+  // Map product names to categories (edit as you like)
+  const categoriesMap = {
+    "Flipper Zero": "Pentest Devices",
+    "NRF24L01": "RF Modules",
+    "ESP32 Bruce CYD24": "Development Boards",
+    "Mobile IR Remote": "Accessories",
+    "Premium Wires": "Accessories",
+    "T-Embed": "NFC",
+    "M5Stack Core2": "Development Boards",
+    "NFC Module": "NFC"
+  };
+
+  const chipsOrder = ["All","Pentest Devices","Development Boards","RF Modules","NFC","Accessories"];
+
+  // Insert a categories bar right under the search box
+  const searchBox = document.querySelector('.search-box');
+  if (searchBox && !document.getElementById('categoryBar')) {
+    const bar = document.createElement('div');
+    bar.id = 'categoryBar';
+    chipsOrder.forEach(cat=>{
+      const chip = document.createElement('button');
+      chip.className = 'category-chip';
+      chip.dataset.cat = cat;
+      chip.textContent = cat;
+      bar.appendChild(chip);
+    });
+    searchBox.insertAdjacentElement('afterend', bar);
+  }
+
+  // Tag each card with data-category by reading the product name
+  const cards = document.querySelectorAll('#productGrid .card');
+  cards.forEach(card=>{
+    const name = card.querySelector('h3')?.textContent?.trim() || '';
+    const cat  = categoriesMap[name] || 'Other';
+    card.dataset.category = cat;
+  });
+
+  // Filtering logic that respects BOTH search and category
+  let currentCat = 'All';
+  function applyFilters(){
+    const searchEl = document.getElementById('searchInput');
+    const q = (searchEl?.value || '').trim().toLowerCase();
+
+    document.querySelectorAll('#productGrid .card').forEach(card=>{
+      const matchesCat = (currentCat === 'All') || (card.dataset.category === currentCat);
+      const text = card.innerText.toLowerCase();
+      const matchesSearch = text.includes(q);
+      card.style.display = (matchesCat && matchesSearch) ? 'block' : 'none';
+    });
+  }
+
+  // Activate chips (event delegation)
+  document.getElementById('categoryBar')?.addEventListener('click', (e)=>{
+    if (e.target.matches('.category-chip')){
+      currentCat = e.target.dataset.cat;
+      document.querySelectorAll('.category-chip').forEach(c=>{
+        c.classList.toggle('active', c === e.target);
+      });
+      applyFilters();
+
+      // Update hash for deep linking
+      if (currentCat !== 'All'){
+        window.location.hash = 'category=' + encodeURIComponent(currentCat);
+      } else if (location.hash.startsWith('#category=')){
+        history.replaceState(null,'',' ');
+      }
+    }
+  });
+
+  // Keep categories in sync when user types in search
+  // (runs AFTER your original keyup handler, overriding display)
+  const searchInput = document.getElementById('searchInput');
+  if (searchInput){
+    searchInput.addEventListener('keyup', applyFilters);
+    searchInput.addEventListener('input', applyFilters);
+  }
+
+  // Deep-link support for categories: #category=XYZ
+  if (location.hash.startsWith('#category=')){
+    const cat = decodeURIComponent(location.hash.split('=').slice(1).join('=')) || 'All';
+    const btn = Array.from(document.querySelectorAll('.category-chip'))
+                     .find(b=>b.dataset.cat === cat);
+    if (btn) btn.click();
+    else {
+      // Highlight All if not found
+      document.querySelector('.category-chip[data-cat="All"]')?.classList.add('active');
+      applyFilters();
+    }
+  } else {
+    // Default: All active
+    document.querySelector('.category-chip[data-cat="All"]')?.classList.add('active');
+    applyFilters();
+  }
+})();
+</script>
